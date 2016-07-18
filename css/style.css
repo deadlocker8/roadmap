@@ -34,6 +34,20 @@
 	text-transform: none;
 }
 
+.no-shadow{
+	box-shadow: none;
+}
+
+.margin-left-and-right {
+	margin-left: 1rem;
+	margin-right: 1rem;
+}
+
+.margin-top-and-bottom{
+	margin-top: 0.5rem !important;
+	margin-bottom:  0.5rem !important;
+}
+
 #headline{
 	margin-top: 2.5rem;
 	margin-bottom: 2.2rem;

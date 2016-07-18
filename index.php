@@ -31,7 +31,7 @@
 								</div>
 								<div class="white progress-container">
 									<div class="progress grey lighten-2 high-progress margin-bottom">
-										<div class="determinate green" style="width: 66%"></div>
+										<div class="determinate green" style="width: 40%"></div>
 									</div>
 								</div>
 								<div class="row">
@@ -39,13 +39,30 @@
 										<i class="material-icons valign">event</i><span class="valign margin-left">Due by 25.06.16</span>
 									</div>
 									<div class="col s6 valign-wrapper">
-										<i class="material-icons valign">settings</i><span class="valign margin-left">66% Done</span>
+										<i class="material-icons valign">settings</i><span class="valign margin-left">40% Done</span>
 									</div>
 								</div>
 								<ul class="collapsible white" data-collapsible="accordion">
 									<li>
-										<div class="collapsible-header bold"><i class="material-icons green-text">check</i>Layout</div>
-										<div class="collapsible-body"><p>In dieser Version, besteht die Möglichkeit zwischen einem neuen Layout und dem alten Layout für die Kacheln zu wählen.</p></div>
+										<div class="collapsible-header bold"><i class="material-icons red-text">build</i>Layout<span class="right">1/3</span></div>
+										<div class="collapsible-body">
+
+											<ul class="collapsible white margin-left-and-right no-shadow margin-top-and-bottom" data-collapsible="accordion">
+												<li>
+													<div class="collapsible-header bold"><span class="left">1</span><i class="material-icons green-text margin-left">check</i>Layout Einstellungen</div>
+													<div class="collapsible-body"><p>PlayWall ermöglicht es nun Audio und andere Medien im Hintergrund wiederzugeben, während eine andere Seite offen ist.</p></div>
+												</li>
+												<li>
+													<div class="collapsible-header bold"><span class="left">2</span><i class="material-icons red-text margin-left">build</i>Layout Cards</div>
+													<div class="collapsible-body"><p>PlayWall ermöglicht es nun Audio und andere Medien im Hintergrund wiederzugeben, während eine andere Seite offen ist.</p></div>
+												</li>
+												<li>
+													<div class="collapsible-header bold"><span class="left">3</span><i class="material-icons red-text margin-left">build</i>Layout Equalizer</div>
+													<div class="collapsible-body"><p>PlayWall ermöglicht es nun Audio und andere Medien im Hintergrund wiederzugeben, während eine andere Seite offen ist.</p></div>
+												</li>
+											</ul>
+
+										</div>
 									</li>
 									<li>
 										<div class="collapsible-header bold"><i class="material-icons green-text">check</i>Play in Background</div>
