@@ -104,6 +104,19 @@
 						</div>
 					</div>
 				</div>
+
+				<div class="hide-on-med-and-up center-align">
+					<a class="btn-flat no-transform blue-text margin-bottom" id="button-previousVersions1">Show Previous Versions</a>
+				</div>
+
+				<div class="hide-on-small-only">
+					<a class="btn-flat no-transform blue-text margin-bottom" id="button-previousVersions2">Show Previous Versions</a>
+				</div>
+
+				<div class="hide" id="previousVersions">
+					<?php include('history.php'); ?>
+				</div>
+
 			</div>
 		</div>
 	</body>
