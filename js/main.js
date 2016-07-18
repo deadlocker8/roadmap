@@ -1,12 +1,22 @@
-$(document).ready(function(){
+$(document).ready(function()
+{
 	$('.collapsible').collapsible({
-		accordion : false // A setting that changes the collapsible behavior to expandable instead of the default accordion style
+		accordion: false // A setting that changes the collapsible behavior to expandable instead of the default accordion style
 	});
 
 	$('.version-entry-title').click(function()
 	{
 		toggleDetail($(this).get(0));
 		createTrainMap();
+	});
+
+	$('.collapsible-header').click(function()
+	{
+		setTimeout(function()
+		{
+			createTrainMap();
+		}, 300);
+
 	});
 
 	createTrainMap();
@@ -43,9 +53,10 @@ function fadeIn(element)
 {
 	element.style.opacity = 0;
 	var op = 0;
-	var timer = setInterval(function ()
+	var timer = setInterval(function()
 	{
-		if (op >= 0.9){
+		if(op >= 0.9)
+		{
 			clearInterval(timer);
 			element.style.opacity = 1.0;
 		}
