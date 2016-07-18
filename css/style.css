@@ -1,0 +1,36 @@
+.bold {
+	font-weight: 500 !important;
+}
+
+.no-margin-bottom{
+	margin-bottom: 0 !important;;
+}
+
+.margin-left {
+	margin-left: 1rem;
+}
+
+.high-progress {
+	height: 10px !important;
+}
+
+.no-padding-right{
+	padding-right: 0 !important;
+}
+
+.padding{
+	padding: 10px;
+}
+
+.margin-bottom{
+	margin-bottom: 20px !important;
+}
+
+.border{
+	border: 1px solid red;
+}
+
+#headline{
+	margin-top: 2.5rem;
+	margin-bottom: 2.2rem;
+}
