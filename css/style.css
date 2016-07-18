@@ -48,6 +48,35 @@
 	margin-bottom:  0.5rem !important;
 }
 
+.trainmap {
+	margin-top: 50px;
+}
+
+.train-circle{
+	margin: auto;
+	width: 30px !important;
+	height: 30px !important;
+	border-radius: 50%;
+}
+
+.train-circle-light{
+	background-color: #64b5f6 !important;
+}
+
+.train-line{
+	margin: auto;
+	width: 8px !important;
+	border-left: 8px solid #2196f3;
+}
+
+.dotted{
+	border-left: 8px dashed #64b5f6 !important;
+}
+
+.version-entry-title:hover{
+	cursor: pointer;
+}
+
 #headline{
 	margin-top: 2.5rem;
 	margin-bottom: 2.2rem;

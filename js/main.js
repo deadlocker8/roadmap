@@ -3,40 +3,14 @@ $(document).ready(function(){
 		accordion : false // A setting that changes the collapsible behavior to expandable instead of the default accordion style
 	});
 
-	$('#button-previousVersions1').click(function()
+	$('.version-entry-title').click(function()
 	{
-		togglePreviousVersions();
+		toggleDetail($(this).get(0));
+		createTrainMap();
 	});
 
-	$('#button-previousVersions2').click(function()
-	{
-		togglePreviousVersions();
-	});
+	createTrainMap();
 });
-
-var hidden = true;
-var buttonPreviousVersionShow = "Show Previous Versions";
-var buttonPreviousVersionHide = "Hide Previous Versions";
-
-function togglePreviousVersions()
-{
-	var element = document.getElementById('previousVersions');
-
-	if(hidden)
-	{
-		hideElement(element, false);
-		document.getElementById('button-previousVersions1').innerHTML = buttonPreviousVersionHide;
-		document.getElementById('button-previousVersions2').innerHTML = buttonPreviousVersionHide;
-		hidden = false;
-	}
-	else
-	{
-		hideElement(element, true);
-		document.getElementById('button-previousVersions1').innerHTML = buttonPreviousVersionShow;
-		document.getElementById('button-previousVersions2').innerHTML = buttonPreviousVersionShow;
-		hidden = true;
-	}
-}
 
 function isNull(object)
 {
@@ -78,4 +52,43 @@ function fadeIn(element)
 		element.style.opacity = op;
 		op += 0.1;
 	}, 50);
+}
+
+function createTrainMap()
+{
+	var entries = document.getElementsByClassName('version-entry');
+	var lines = document.getElementsByClassName('train-line');
+
+	for(var i = 0; i < entries.length - 1; i++)
+	{
+		var height = entries[i].offsetHeight - 16;
+		lines[i].style.height = height + "px";
+	}
+}
+
+function toggleDetail(element)
+{
+	var container = element.parentElement.parentElement.childNodes[3];
+	var cardHeader = element.parentElement;
+
+	if(container.classList.contains("hide"))
+	{
+		hideElement(container, false);
+
+		fadeIn(container);
+
+		if(!cardHeader.classList.contains("margin-bottom"))
+		{
+			cardHeader.classList.add("margin-bottom");
+		}
+	}
+	else
+	{
+		hideElement(container, true);
+
+		if(cardHeader.classList.contains("margin-bottom"))
+		{
+			cardHeader.classList.remove("margin-bottom");
+		}
+	}
 }

@@ -23,117 +23,239 @@
 			<div class="container">
 				<h2 class="center-align" id="headline">PlayWall Roadmap</h2>
 				<div class="row">
-					<div class="col s12 m6">
-						<div class="card padding white">
-							<div class="card-content">
-								<div class="amber lighten-2 center-align margin-bottom">
-									<span class="card-title bold">Current Version (v1.5.7)</span>
-								</div>
-								<div class="white progress-container">
-									<div class="progress grey lighten-2 high-progress margin-bottom">
-										<div class="determinate green" style="width: 40%"></div>
+					<div class="col s12">
+						<div class="row">
+							<div class="col s2 m2 l2 offset-m1 offset-l1 trainmap">
+								<div class="train-circle train-circle-light"></div>
+								<div class="train-line dotted"></div>
+								<div class="train-circle blue"></div>
+								<div class="train-line"></div>
+								<div class="train-circle blue"></div>
+								<div class="train-line"></div>
+								<div class="train-circle blue"></div>
+								<div class="train-line"></div>
+								<div class="train-circle blue"></div>
+							</div>
+						<div class="col s10 m7 l6">
+							<div class="card padding white version-entry">
+								<div class="card-content">
+									<div class="blue lighten-2 center-align margin-bottom">
+										<span class="card-title bold version-entry-title truncate">v1.6.0 - Next Version</span>
 									</div>
-								</div>
-								<div class="row">
-									<div class="col s6 valign-wrapper">
-										<i class="material-icons valign">event</i><span class="valign margin-left">Due by 25.06.16</span>
-									</div>
-									<div class="col s6 valign-wrapper">
-										<i class="material-icons valign">settings</i><span class="valign margin-left">40% Done</span>
-									</div>
-								</div>
-								<ul class="collapsible white" data-collapsible="accordion">
-									<li>
-										<div class="collapsible-header bold"><i class="material-icons red-text">build</i>Layout<span class="right">1/3</span></div>
-										<div class="collapsible-body">
-
-											<ul class="collapsible white margin-left-and-right no-shadow margin-top-and-bottom" data-collapsible="accordion">
-												<li>
-													<div class="collapsible-header bold"><span class="left">1</span><i class="material-icons green-text margin-left">check</i>Layout Einstellungen</div>
-													<div class="collapsible-body"><p>PlayWall ermöglicht es nun Audio und andere Medien im Hintergrund wiederzugeben, während eine andere Seite offen ist.</p></div>
-												</li>
-												<li>
-													<div class="collapsible-header bold"><span class="left">2</span><i class="material-icons red-text margin-left">build</i>Layout Cards</div>
-													<div class="collapsible-body"><p>PlayWall ermöglicht es nun Audio und andere Medien im Hintergrund wiederzugeben, während eine andere Seite offen ist.</p></div>
-												</li>
-												<li>
-													<div class="collapsible-header bold"><span class="left">3</span><i class="material-icons red-text margin-left">build</i>Layout Equalizer</div>
-													<div class="collapsible-body"><p>PlayWall ermöglicht es nun Audio und andere Medien im Hintergrund wiederzugeben, während eine andere Seite offen ist.</p></div>
-												</li>
-											</ul>
-
+									<div class="version-entry-content">
+										<div class="white progress-container">
+											<div class="progress grey lighten-2 high-progress margin-bottom">
+												<div class="determinate green" style="width: 40%"></div>
+											</div>
 										</div>
-									</li>
-									<li>
-										<div class="collapsible-header bold"><i class="material-icons green-text">check</i>Play in Background</div>
-										<div class="collapsible-body"><p>PlayWall ermöglicht es nun Audio und andere Medien im Hintergrund wiederzugeben, während eine andere Seite offen ist.</p></div>
-									</li>
-									<li>
-										<div class="collapsible-header bold"><i class="material-icons red-text">build</i>Live Mode</div>
-										<div class="collapsible-body"><p>Mit dem neuen Livemode ist ein noch einfach die Kontrolle während Veranstaltungen zu behalten.</p></div>
-									</li>
-								</ul>
+										<div class="row">
+											<div class="col s6 valign-wrapper">
+												<i class="material-icons valign">event</i><span class="valign margin-left">Due by 25.06.16</span>
+											</div>
+											<div class="col s6 valign-wrapper">
+												<i class="material-icons valign">settings</i><span class="valign margin-left">40% Done</span>
+											</div>
+										</div>
+										<ul class="collapsible white" data-collapsible="accordion">
+											<li>
+												<div class="collapsible-header bold"><i class="material-icons red-text">build</i>Layout<span class="right">1/3</span></div>
+												<div class="collapsible-body">
+
+													<ul class="collapsible white margin-left-and-right no-shadow margin-top-and-bottom" data-collapsible="accordion">
+														<li>
+															<div class="collapsible-header bold"><span class="left">1</span><i class="material-icons green-text margin-left">check</i>Layout Einstellungen</div>
+															<div class="collapsible-body"><p>PlayWall ermöglicht es nun Audio und andere Medien im Hintergrund wiederzugeben, während eine andere Seite offen ist.</p></div>
+														</li>
+														<li>
+															<div class="collapsible-header bold"><span class="left">2</span><i class="material-icons red-text margin-left">build</i>Layout Cards</div>
+															<div class="collapsible-body"><p>PlayWall ermöglicht es nun Audio und andere Medien im Hintergrund wiederzugeben, während eine andere Seite offen ist.</p></div>
+														</li>
+														<li>
+															<div class="collapsible-header bold"><span class="left">3</span><i class="material-icons red-text margin-left">build</i>Layout Equalizer</div>
+															<div class="collapsible-body"><p>PlayWall ermöglicht es nun Audio und andere Medien im Hintergrund wiederzugeben, während eine andere Seite offen ist.</p></div>
+														</li>
+													</ul>
+
+												</div>
+											</li>
+											<li>
+												<div class="collapsible-header bold"><i class="material-icons green-text">check</i>Live Mode</div>
+												<div class="collapsible-body"><p>Mit dem neuen Livemode ist ein noch einfach die Kontrolle während Veranstaltungen zu behalten.</p></div>
+											</li>
+											<li>
+												<div class="collapsible-header bold"><i class="material-icons red-text">build</i>Trigger</div>
+												<div class="collapsible-body"><p>Mit dem neuen Livemode ist ein noch einfach die Kontrolle während Veranstaltungen zu behalten.</p></div>
+											</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+
+
+							<div class="card padding white version-entry">
+								<div class="card-content">
+									<div class="amber lighten-2 center-align margin-bottom">
+										<span class="card-title bold  version-entry-title truncate">v1.5.7 - Current Version</span>
+									</div>
+									<div class="version-entry-content">
+										<div class="row">
+											<div class="col s6 valign-wrapper">
+												<i class="material-icons valign">event</i><span class="valign margin-left">Due by 25.06.16</span>
+											</div>
+											<div class="col s6 valign-wrapper">
+												<i class="material-icons valign">event</i><span class="valign margin-left">Done at 25.06.16</span>
+											</div>
+										</div>
+										<ul class="collapsible white" data-collapsible="accordion">
+											<li>
+												<div class="collapsible-header bold"><i class="material-icons green-text">check</i>Play in Background</div>
+												<div class="collapsible-body"><p>PlayWall ermöglicht es nun Audio und andere Medien im Hintergrund wiederzugeben, während eine andere Seite offen ist.</p></div>
+											</li>
+											<li>
+												<div class="collapsible-header bold"><i class="material-icons green-text">check</i>Live Mode</div>
+												<div class="collapsible-body"><p>Mit dem neuen Livemode ist ein noch einfach die Kontrolle während Veranstaltungen zu behalten.</p></div>
+											</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+
+							<div class="card padding white version-entry">
+								<div class="card-content">
+									<div class="grey lighten-2 center-align">
+										<span class="card-title bold  version-entry-title truncate">v1.3.0 - Third Version</span>
+									</div>
+									<div class="version-entry-content hide">
+										<div class="row">
+											<div class="col s6 valign-wrapper">
+												<i class="material-icons valign">event</i><span class="valign margin-left">Due by 25.06.16</span>
+											</div>
+											<div class="col s6 valign-wrapper">
+												<i class="material-icons valign">event</i><span class="valign margin-left">Done at 25.06.16</span>
+											</div>
+										</div>
+										<ul class="collapsible white" data-collapsible="accordion">
+											<li>
+												<div class="collapsible-header bold"><i class="material-icons green-text">check</i>Play in Background</div>
+												<div class="collapsible-body"><p>PlayWall ermöglicht es nun Audio und andere Medien im Hintergrund wiederzugeben, während eine andere Seite offen ist.</p></div>
+											</li>
+											<li>
+												<div class="collapsible-header bold"><i class="material-icons green-text">check</i>Live Mode</div>
+												<div class="collapsible-body"><p>Mit dem neuen Livemode ist ein noch einfach die Kontrolle während Veranstaltungen zu behalten.</p></div>
+											</li>
+											<li>
+												<div class="collapsible-header bold"><i class="material-icons green-text">check</i>Live Mode</div>
+												<div class="collapsible-body"><p>Mit dem neuen Livemode ist ein noch einfach die Kontrolle während Veranstaltungen zu behalten.</p></div>
+											</li>
+											<li>
+												<div class="collapsible-header bold"><i class="material-icons green-text">check</i>Live Mode</div>
+												<div class="collapsible-body"><p>Mit dem neuen Livemode ist ein noch einfach die Kontrolle während Veranstaltungen zu behalten.</p></div>
+											</li>
+											<li>
+												<div class="collapsible-header bold"><i class="material-icons green-text">check</i>Live Mode</div>
+												<div class="collapsible-body"><p>Mit dem neuen Livemode ist ein noch einfach die Kontrolle während Veranstaltungen zu behalten.</p></div>
+											</li>
+											<li>
+												<div class="collapsible-header bold"><i class="material-icons green-text">check</i>Live Mode</div>
+												<div class="collapsible-body"><p>Mit dem neuen Livemode ist ein noch einfach die Kontrolle während Veranstaltungen zu behalten.</p></div>
+											</li>
+
+										</ul>
+									</div>
+								</div>
+							</div>
+
+							<div class="card padding white version-entry">
+								<div class="card-content">
+									<div class="grey lighten-2 center-align">
+										<span class="card-title bold  version-entry-title truncate">v1.1.0 - Second Version</span>
+									</div>
+									<div class="version-entry-content hide">
+										<div class="row">
+											<div class="col s6 valign-wrapper">
+												<i class="material-icons valign">event</i><span class="valign margin-left">Due by 25.06.16</span>
+											</div>
+											<div class="col s6 valign-wrapper">
+												<i class="material-icons valign">event</i><span class="valign margin-left">Done at 25.06.16</span>
+											</div>
+										</div>
+										<ul class="collapsible white" data-collapsible="accordion">
+											<li>
+												<div class="collapsible-header bold"><i class="material-icons green-text">check</i>Play in Background</div>
+												<div class="collapsible-body"><p>PlayWall ermöglicht es nun Audio und andere Medien im Hintergrund wiederzugeben, während eine andere Seite offen ist.</p></div>
+											</li>
+											<li>
+												<div class="collapsible-header bold"><i class="material-icons green-text">check</i>Live Mode</div>
+												<div class="collapsible-body"><p>Mit dem neuen Livemode ist ein noch einfach die Kontrolle während Veranstaltungen zu behalten.</p></div>
+											</li>
+											<li>
+												<div class="collapsible-header bold"><i class="material-icons green-text">check</i>Live Mode</div>
+												<div class="collapsible-body"><p>Mit dem neuen Livemode ist ein noch einfach die Kontrolle während Veranstaltungen zu behalten.</p></div>
+											</li>
+											<li>
+												<div class="collapsible-header bold"><i class="material-icons green-text">check</i>Live Mode</div>
+												<div class="collapsible-body"><p>Mit dem neuen Livemode ist ein noch einfach die Kontrolle während Veranstaltungen zu behalten.</p></div>
+											</li>
+											<li>
+												<div class="collapsible-header bold"><i class="material-icons green-text">check</i>Live Mode</div>
+												<div class="collapsible-body"><p>Mit dem neuen Livemode ist ein noch einfach die Kontrolle während Veranstaltungen zu behalten.</p></div>
+											</li>
+											<li>
+												<div class="collapsible-header bold"><i class="material-icons green-text">check</i>Live Mode</div>
+												<div class="collapsible-body"><p>Mit dem neuen Livemode ist ein noch einfach die Kontrolle während Veranstaltungen zu behalten.</p></div>
+											</li>
+
+										</ul>
+									</div>
+								</div>
+							</div>
+
+							<div class="card padding white version-entry">
+								<div class="card-content">
+									<div class="grey lighten-2 center-align">
+										<span class="card-title bold  version-entry-title truncate">v1.0.0 - First Version</span>
+									</div>
+									<div class="version-entry-content hide">
+										<div class="row">
+											<div class="col s6 valign-wrapper">
+												<i class="material-icons valign">event</i><span class="valign margin-left">Due by 25.06.16</span>
+											</div>
+											<div class="col s6 valign-wrapper">
+												<i class="material-icons valign">event</i><span class="valign margin-left">Done at 25.06.16</span>
+											</div>
+										</div>
+										<ul class="collapsible white" data-collapsible="accordion">
+											<li>
+												<div class="collapsible-header bold"><i class="material-icons green-text">check</i>Play in Background</div>
+												<div class="collapsible-body"><p>PlayWall ermöglicht es nun Audio und andere Medien im Hintergrund wiederzugeben, während eine andere Seite offen ist.</p></div>
+											</li>
+											<li>
+												<div class="collapsible-header bold"><i class="material-icons green-text">check</i>Live Mode</div>
+												<div class="collapsible-body"><p>Mit dem neuen Livemode ist ein noch einfach die Kontrolle während Veranstaltungen zu behalten.</p></div>
+											</li>
+											<li>
+												<div class="collapsible-header bold"><i class="material-icons green-text">check</i>Live Mode</div>
+												<div class="collapsible-body"><p>Mit dem neuen Livemode ist ein noch einfach die Kontrolle während Veranstaltungen zu behalten.</p></div>
+											</li>
+											<li>
+												<div class="collapsible-header bold"><i class="material-icons green-text">check</i>Live Mode</div>
+												<div class="collapsible-body"><p>Mit dem neuen Livemode ist ein noch einfach die Kontrolle während Veranstaltungen zu behalten.</p></div>
+											</li>
+											<li>
+												<div class="collapsible-header bold"><i class="material-icons green-text">check</i>Live Mode</div>
+												<div class="collapsible-body"><p>Mit dem neuen Livemode ist ein noch einfach die Kontrolle während Veranstaltungen zu behalten.</p></div>
+											</li>
+											<li>
+												<div class="collapsible-header bold"><i class="material-icons green-text">check</i>Live Mode</div>
+												<div class="collapsible-body"><p>Mit dem neuen Livemode ist ein noch einfach die Kontrolle während Veranstaltungen zu behalten.</p></div>
+											</li>
+										</ul>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
-					<div class="col s12 m6">
-						<div class="card padding white">
-							<div class="card-content">
-								<div class="grey lighten-2 center-align margin-bottom">
-									<span class="card-title bold">Next Version (v1.6.0)</span>
-								</div>
-								<div class="white progress-container">
-									<div class="progress grey lighten-2 high-progress margin-bottom">
-										<div class="determinate green" style="width: 0%"></div>
-									</div>
-								</div>
-								<div class="row">
-									<div class="col s6 valign-wrapper">
-										<i class="material-icons valign">event</i><span class="valign margin-left">&lt;No Due Date&gt;</span>
-									</div>
-									<div class="col s6 valign-wrapper">
-										<i class="material-icons valign">settings</i><span class="valign margin-left">0% Done</span>
-									</div>
-								</div>
-								<ul class="collapsible white" data-collapsible="accordion">
-									<li>
-										<div class="collapsible-header bold"><i class="material-icons red-text">build</i>Trigger</div>
-										<div class="collapsible-body"><p>PlayWall bietet nur die Möglichkeit Kacheln und anderen Einstellungen eventbasiert zu steuern. </p></div>
-									</li>
-									<li>
-										<div class="collapsible-header bold"><i class="material-icons red-text">build</i>Updates</div>
-										<div class="collapsible-body"><p>Noch nie war es so einfach Updates zu erhalten. Mit dem neuen Updater können Plugins und das Programm im handumdrehen aktualisiert werden. </p></div>
-									</li>
-									<li>
-										<div class="collapsible-header bold"><i class="material-icons red-text">build</i>Lock</div>
-										<div class="collapsible-body"><p>Sichere deine Einstellungen ganz einfach mit nur einem Klick.</p></div>
-									</li>
-									<li>
-										<div class="collapsible-header bold"><i class="material-icons red-text">build</i>Beta Update Kanal</div>
-										<div class="collapsible-body"><p>Es ist jetzt möglich, direkt Beta Versionen zu installieren und zu aktualisieren.</p></div>
-									</li>
-									<li>
-										<div class="collapsible-header bold"><i class="material-icons red-text">build</i>Neues Logo</div>
-										<div class="collapsible-body"><p>Das Programm hat ein neues Logo erhalten.</p></div>
-									</li>
-								</ul>
-							</div>
-						</div>
-					</div>
 				</div>
-
-				<div class="hide-on-med-and-up center-align">
-					<a class="btn-flat no-transform blue-text margin-bottom" id="button-previousVersions1">Show Previous Versions</a>
-				</div>
-
-				<div class="hide-on-small-only">
-					<a class="btn-flat no-transform blue-text margin-bottom" id="button-previousVersions2">Show Previous Versions</a>
-				</div>
-
-				<div class="hide" id="previousVersions">
-					<?php include('history.php'); ?>
-				</div>
-
 			</div>
 		</div>
 	</body>
