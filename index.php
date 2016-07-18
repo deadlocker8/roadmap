@@ -36,7 +36,7 @@
 								</div>
 								<div class="row">
 									<div class="col s6 valign-wrapper">
-										<i class="material-icons valign">insert_invitation</i><span class="valign margin-left">Due by 25.06.16</span>
+										<i class="material-icons valign">event</i><span class="valign margin-left">Due by 25.06.16</span>
 									</div>
 									<div class="col s6 valign-wrapper">
 										<i class="material-icons valign">settings</i><span class="valign margin-left">66% Done</span>
@@ -72,7 +72,7 @@
 								</div>
 								<div class="row">
 									<div class="col s6 valign-wrapper">
-										<i class="material-icons valign">insert_invitation</i><span class="valign margin-left">&lt;No Due Date&gt;</span>
+										<i class="material-icons valign">event</i><span class="valign margin-left">&lt;No Due Date&gt;</span>
 									</div>
 									<div class="col s6 valign-wrapper">
 										<i class="material-icons valign">settings</i><span class="valign margin-left">0% Done</span>
