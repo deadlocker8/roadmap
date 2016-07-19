@@ -13,6 +13,8 @@
 		<script type="text/javascript" src="js/jquery-2.2.4.min.js"></script>
 		<script type="text/javascript" src="materialize/js/materialize.min.js"></script>
 		<script type="text/javascript" src="js/main.js"></script>
+		<script type="text/javascript" src="js/ResizeSensor.js"></script>
+		<script type="text/javascript" src="js/ElementQueries.js"></script>
 
 		<!--Let browser know website is optimized for mobile-->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -37,7 +39,7 @@
 								<div class="train-circle blue"></div>
 							</div>
 						<div class="col s10 m7 l6">
-							<div class="card padding white version-entry">
+							<div class="card padding white version-entry" id="version-entry-1">
 								<div class="card-content">
 									<div class="blue lighten-2 center-align margin-bottom">
 										<span class="card-title bold version-entry-title truncate">v1.6.0 - Next Version</span>

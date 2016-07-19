@@ -7,17 +7,18 @@ $(document).ready(function()
 	$('.version-entry-title').click(function()
 	{
 		toggleDetail($(this).get(0));
-		createTrainMap();
 	});
 
-	$('.collapsible-header').click(function()
+	//reacts to resize event of card and calls createTrainMap to adjust circles
+	//https://github.com/marcj/css-element-queries
+	var entries = document.getElementsByClassName('version-entry');
+	for(var i = 0; i < entries.length - 1; i++)
 	{
-		setTimeout(function()
+		new ResizeSensor(entries[i], function()
 		{
 			createTrainMap();
-		}, 300);
-
-	});
+		});
+	}
 
 	createTrainMap();
 });
