@@ -1,4 +1,8 @@
 <!DOCTYPE html>
+
+<?php
+include_once('php/getLanguageJSON.php');
+?>
 <html xmlns="http://www.w3.org/1999/html">
 	<head>
 		<meta charset="UTF-8"/>
@@ -52,10 +56,10 @@
 										</div>
 										<div class="row">
 											<div class="col s6 valign-wrapper">
-												<i class="material-icons valign">event</i><span class="valign margin-left">Due by 25.06.16</span>
+												<i class="material-icons valign">event</i><span class="valign margin-left"><?php echo $languageJSON->due_by?> 25.06.16</span>
 											</div>
 											<div class="col s6 valign-wrapper">
-												<i class="material-icons valign">settings</i><span class="valign margin-left">40% Done</span>
+												<i class="material-icons valign">settings</i><span class="valign margin-left">40% <?php echo $languageJSON->done?></span>
 											</div>
 										</div>
 										<ul class="collapsible white" data-collapsible="accordion">
@@ -102,10 +106,10 @@
 									<div class="version-entry-content">
 										<div class="row">
 											<div class="col s6 valign-wrapper">
-												<i class="material-icons valign">event</i><span class="valign margin-left">Due by 25.06.16</span>
+												<i class="material-icons valign">event</i><span class="valign margin-left"><?php echo $languageJSON->due_by?> 25.06.16</span>
 											</div>
 											<div class="col s6 valign-wrapper">
-												<i class="material-icons valign">event</i><span class="valign margin-left">Done at 25.06.16</span>
+												<i class="material-icons valign">event</i><span class="valign margin-left"><?php echo $languageJSON->done_at?> 25.06.16</span>
 											</div>
 										</div>
 										<ul class="collapsible white" data-collapsible="accordion">
@@ -130,10 +134,10 @@
 									<div class="version-entry-content hide">
 										<div class="row">
 											<div class="col s6 valign-wrapper">
-												<i class="material-icons valign">event</i><span class="valign margin-left">Due by 25.06.16</span>
+												<i class="material-icons valign">event</i><span class="valign margin-left"><?php echo $languageJSON->due_by?> 25.06.16</span>
 											</div>
 											<div class="col s6 valign-wrapper">
-												<i class="material-icons valign">event</i><span class="valign margin-left">Done at 25.06.16</span>
+												<i class="material-icons valign">event</i><span class="valign margin-left"><?php echo $languageJSON->done_at?> 25.06.16</span>
 											</div>
 										</div>
 										<ul class="collapsible white" data-collapsible="accordion">
@@ -175,10 +179,10 @@
 									<div class="version-entry-content hide">
 										<div class="row">
 											<div class="col s6 valign-wrapper">
-												<i class="material-icons valign">event</i><span class="valign margin-left">Due by 25.06.16</span>
+												<i class="material-icons valign">event</i><span class="valign margin-left"><?php echo $languageJSON->due_by?> 25.06.16</span>
 											</div>
 											<div class="col s6 valign-wrapper">
-												<i class="material-icons valign">event</i><span class="valign margin-left">Done at 25.06.16</span>
+												<i class="material-icons valign">event</i><span class="valign margin-left"><?php echo $languageJSON->done_at?> 25.06.16</span>
 											</div>
 										</div>
 										<ul class="collapsible white" data-collapsible="accordion">
@@ -220,10 +224,10 @@
 									<div class="version-entry-content hide">
 										<div class="row">
 											<div class="col s6 valign-wrapper">
-												<i class="material-icons valign">event</i><span class="valign margin-left">Due by 25.06.16</span>
+												<i class="material-icons valign">event</i><span class="valign margin-left"><?php echo $languageJSON->due_by?> 25.06.16</span>
 											</div>
 											<div class="col s6 valign-wrapper">
-												<i class="material-icons valign">event</i><span class="valign margin-left">Done at 25.06.16</span>
+												<i class="material-icons valign">event</i><span class="valign margin-left"><?php echo $languageJSON->done_at?> 25.06.16</span>
 											</div>
 										</div>
 										<ul class="collapsible white" data-collapsible="accordion">
