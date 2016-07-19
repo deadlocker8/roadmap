@@ -1,0 +1,28 @@
+Roadmaps
+========
+
+ID	ProjectName
+
+
+Status
+======
+
+INDEV, FINISHED
+
+
+Entries
+=======
+
+ID	ProjectID	VersionCode		VersionName		DueDate		Status		DoneDate
+
+
+Tasks
+=====
+
+ID 	EntryID		Title	Description		Status
+
+
+SubTasks
+========
+
+ID	TaskID		Title	Description		Status
