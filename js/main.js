@@ -70,11 +70,13 @@ function createTrainMap()
 {
 	var entries = document.getElementsByClassName('version-entry');
 	var lines = document.getElementsByClassName('train-line');
+	var smallLines = document.getElementsByClassName('train-line-small');
 
 	for(var i = 0; i < entries.length - 1; i++)
 	{
-		var height = entries[i].offsetHeight - 16;
-		lines[i].style.height = height + "px";
+		var height = entries[i].offsetHeight;
+		lines[i].style.height = (height-15) + "px";
+		smallLines[i].style.height = (height-2) + "px";
 	}
 }
 

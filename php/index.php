@@ -31,22 +31,35 @@ include_once('getLanguageJSON.php');
 				<div class="row">
 					<div class="col s12">
 						<div class="row">
-							<div class="col s2 m2 l2 offset-m1 offset-l1 trainmap">
-								<div class="train-circle train-circle-light"></div>
-								<div class="train-line dotted"></div>
-								<div class="train-circle blue"></div>
-								<div class="train-line"></div>
-								<div class="train-circle blue"></div>
-								<div class="train-line"></div>
-								<div class="train-circle blue"></div>
-								<div class="train-line"></div>
-								<div class="train-circle blue"></div>
+							<div class="col s1 m2 l2 offset-m1 offset-l1 no-padding">
+								<div class="hide-on-small-only trainmap">
+									<div class="train-circle train-circle-light"></div>
+									<div class="train-line dotted"></div>
+									<div class="train-circle blue"></div>
+									<div class="train-line"></div>
+									<div class="train-circle blue"></div>
+									<div class="train-line"></div>
+									<div class="train-circle blue"></div>
+									<div class="train-line"></div>
+									<div class="train-circle blue"></div>
+								</div>
+								<div class="hide-on-med-and-up trainmap-small">
+									<div class="train-circle train-circle-light train-circle-small"></div>
+									<div class="train-line dotted-small train-line-small"></div>
+									<div class="train-circle blue train-circle-small"></div>
+									<div class="train-line train-line-small"></div>
+									<div class="train-circle blue train-circle-small"></div>
+									<div class="train-line train-line-small"></div>
+									<div class="train-circle blue train-circle-small"></div>
+									<div class="train-line train-line-small"></div>
+									<div class="train-circle blue train-circle-small"></div>
+								</div>
 							</div>
-						<div class="col s10 m7 l6">
+						<div class="col s11 m7 l6">
 							<div class="card padding white version-entry" id="version-entry-1">
 								<div class="card-content">
 									<div class="blue lighten-2 center-align margin-bottom">
-										<span class="card-title bold version-entry-title truncate">v1.6.0 - Next Version</span>
+										<span class="card-title bold version-entry-title padding-left-and-right truncate">v1.6.0 - Next Version</span>
 									</div>
 									<div class="version-entry-content">
 										<div class="white progress-container">
@@ -101,7 +114,7 @@ include_once('getLanguageJSON.php');
 							<div class="card padding white version-entry">
 								<div class="card-content">
 									<div class="amber lighten-2 center-align margin-bottom">
-										<span class="card-title bold  version-entry-title truncate">v1.5.7 - Current Version</span>
+										<span class="card-title bold  version-entry-title padding-left-and-right truncate">v1.5.7 - Current Version</span>
 									</div>
 									<div class="version-entry-content">
 										<div class="row">
@@ -129,7 +142,7 @@ include_once('getLanguageJSON.php');
 							<div class="card padding white version-entry">
 								<div class="card-content">
 									<div class="grey lighten-2 center-align">
-										<span class="card-title bold  version-entry-title truncate">v1.3.0 - Third Version</span>
+										<span class="card-title bold version-entry-title padding-left-and-right truncate">v1.3.0 - Third Version</span>
 									</div>
 									<div class="version-entry-content hide">
 										<div class="row">
@@ -174,7 +187,7 @@ include_once('getLanguageJSON.php');
 							<div class="card padding white version-entry">
 								<div class="card-content">
 									<div class="grey lighten-2 center-align">
-										<span class="card-title bold  version-entry-title truncate">v1.1.0 - Second Version</span>
+										<span class="card-title bold version-entry-title padding-left-and-right truncate">v1.1.0 - Second Version</span>
 									</div>
 									<div class="version-entry-content hide">
 										<div class="row">
@@ -219,7 +232,7 @@ include_once('getLanguageJSON.php');
 							<div class="card padding white version-entry">
 								<div class="card-content">
 									<div class="grey lighten-2 center-align">
-										<span class="card-title bold  version-entry-title truncate">v1.0.0 - First Version</span>
+										<span class="card-title bold version-entry-title padding-left-and-right truncate">v1.0.0 - First Version</span>
 									</div>
 									<div class="version-entry-content hide">
 										<div class="row">

@@ -18,8 +18,17 @@
 	padding-right: 0 !important;
 }
 
+.no-padding{
+	padding: 0 !important;
+}
+
 .padding{
 	padding: 10px;
+}
+
+.padding-left-and-right{
+	padding-left: 10px;
+	padding-right: 10px;
 }
 
 .margin-bottom{
@@ -48,15 +57,24 @@
 	margin-bottom:  0.5rem !important;
 }
 
-.trainmap {
+.trainmap{
 	margin-top: 50px;
+}
+
+.trainmap-small{
+	margin-top: 57px;
 }
 
 .train-circle{
 	margin: auto;
-	width: 30px !important;
-	height: 30px !important;
+	width: 30px;
+	height: 30px;
 	border-radius: 50%;
+}
+
+.train-circle-small{
+	width: 15px !important;
+	height: 15px !important;
 }
 
 .train-circle-light{
@@ -69,9 +87,18 @@
 	border-left: 8px solid #2196f3;
 }
 
+.train-line-small{
+	width: 4px !important;
+	border-left: 4px solid #2196f3 !important;
+}
+
 .dotted{
 	border-left: 8px dashed #64b5f6 !important;
 }
+
+.dotted-small{
+	 border-left: 4px dashed #64b5f6 !important;
+ }
 
 .version-entry-title:hover{
 	cursor: pointer;
