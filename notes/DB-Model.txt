@@ -13,7 +13,7 @@ INDEV, FINISHED
 Entries
 =======
 
-ID	ProjectID	VersionCode		VersionName		DueDate		Status		DoneDate
+ID	ProjectID	VersionCode		VersionName	Title		DueDate		Status		DoneDate
 
 
 Tasks
