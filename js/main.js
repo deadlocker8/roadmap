@@ -4,14 +4,27 @@ $(document).ready(function()
 		accordion: false // A setting that changes the collapsible behavior to expandable instead of the default accordion style
 	});
 
-	$('.version-entry-title').click(function()
+	$('.milestone-title').click(function()
 	{
-		toggleDetail($(this).get(0));
+		var $header = $(this);
+
+		//getting the next element
+		var $content = $header.next();
+
+		//open up the content needed - toggle the slide- if visible, slide up, if not slidedown.
+		$content.slideToggle(200);
 	});
+
+	//expand specific milestones on first load
+	var initialExpandedMilestones = document.getElementsByClassName('init-as-expanded');
+	for(var i = 0; i < initialExpandedMilestones.length; i++)
+	{
+		$(initialExpandedMilestones[i]).slideToggle(200);
+	}
 
 	//reacts to resize event of card and calls createTrainMap to adjust circles
 	//https://github.com/marcj/css-element-queries
-	var entries = document.getElementsByClassName('version-entry');
+	var entries = document.getElementsByClassName('milestone');
 	for(var i = 0; i < entries.length - 1; i++)
 	{
 		new ResizeSensor(entries[i], function()
@@ -50,25 +63,9 @@ function hideElement(element, value)
 	}
 }
 
-function fadeIn(element)
-{
-	element.style.opacity = 0;
-	var op = 0;
-	var timer = setInterval(function()
-	{
-		if(op >= 0.9)
-		{
-			clearInterval(timer);
-			element.style.opacity = 1.0;
-		}
-		element.style.opacity = op;
-		op += 0.1;
-	}, 50);
-}
-
 function createTrainMap()
 {
-	var entries = document.getElementsByClassName('version-entry');
+	var entries = document.getElementsByClassName('milestone');
 	var lines = document.getElementsByClassName('train-line');
 	var smallLines = document.getElementsByClassName('train-line-small');
 
@@ -77,32 +74,5 @@ function createTrainMap()
 		var height = entries[i].offsetHeight;
 		lines[i].style.height = (height-15) + "px";
 		smallLines[i].style.height = (height-2) + "px";
-	}
-}
-
-function toggleDetail(element)
-{
-	var container = element.parentElement.parentElement.childNodes[3];
-	var cardHeader = element.parentElement;
-
-	if(container.classList.contains("hide"))
-	{
-		hideElement(container, false);
-
-		fadeIn(container);
-
-		if(!cardHeader.classList.contains("margin-bottom"))
-		{
-			cardHeader.classList.add("margin-bottom");
-		}
-	}
-	else
-	{
-		hideElement(container, true);
-
-		if(cardHeader.classList.contains("margin-bottom"))
-		{
-			cardHeader.classList.remove("margin-bottom");
-		}
 	}
 }

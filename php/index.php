@@ -56,12 +56,12 @@ include_once('getLanguageJSON.php');
 								</div>
 							</div>
 						<div class="col s11 m7 l6">
-							<div class="card padding white version-entry" id="version-entry-1">
+							<div class="card padding white milestone">
 								<div class="card-content">
-									<div class="blue lighten-2 center-align margin-bottom">
-										<span class="card-title bold version-entry-title padding-left-and-right truncate">v1.6.0 - Next Version</span>
+									<div class="blue lighten-2 center-align milestone-title">
+										<span class="card-title bold padding-left-and-right truncate">v1.6.0 - Next Version</span>
 									</div>
-									<div class="version-entry-content">
+									<div class="milestone-content margin-top init-as-expanded">
 										<div class="white progress-container">
 											<div class="progress grey lighten-2 high-progress margin-bottom">
 												<div class="determinate green" style="width: 40%"></div>
@@ -111,12 +111,12 @@ include_once('getLanguageJSON.php');
 							</div>
 
 
-							<div class="card padding white version-entry">
+							<div class="card padding white milestone">
 								<div class="card-content">
-									<div class="amber lighten-2 center-align margin-bottom">
-										<span class="card-title bold  version-entry-title padding-left-and-right truncate">v1.5.7 - Current Version</span>
+									<div class="amber lighten-2 center-align milestone-title">
+										<span class="card-title bold padding-left-and-right truncate">v1.5.7 - Current Version</span>
 									</div>
-									<div class="version-entry-content">
+									<div class="milestone-content margin-top init-as-expanded">
 										<div class="row">
 											<div class="col s6 valign-wrapper">
 												<i class="material-icons valign">event</i><span class="valign margin-left"><?php echo $languageJSON->due_by?> 25.06.16</span>
@@ -139,57 +139,12 @@ include_once('getLanguageJSON.php');
 								</div>
 							</div>
 
-							<div class="card padding white version-entry">
+							<div class="card padding white milestone">
 								<div class="card-content">
-									<div class="grey lighten-2 center-align">
-										<span class="card-title bold version-entry-title padding-left-and-right truncate">v1.3.0 - Third Version</span>
+									<div class="grey lighten-2 center-align milestone-title">
+										<span class="card-title bold padding-left-and-right truncate">v1.3.0 - Third Version</span>
 									</div>
-									<div class="version-entry-content hide">
-										<div class="row">
-											<div class="col s6 valign-wrapper">
-												<i class="material-icons valign">event</i><span class="valign margin-left"><?php echo $languageJSON->due_by?> 25.06.16</span>
-											</div>
-											<div class="col s6 valign-wrapper">
-												<i class="material-icons valign">event</i><span class="valign margin-left"><?php echo $languageJSON->done_at?> 25.06.16</span>
-											</div>
-										</div>
-										<ul class="collapsible white" data-collapsible="accordion">
-											<li>
-												<div class="collapsible-header bold"><i class="material-icons green-text">check</i>Play in Background</div>
-												<div class="collapsible-body"><p>PlayWall ermöglicht es nun Audio und andere Medien im Hintergrund wiederzugeben, während eine andere Seite offen ist.</p></div>
-											</li>
-											<li>
-												<div class="collapsible-header bold"><i class="material-icons green-text">check</i>Live Mode</div>
-												<div class="collapsible-body"><p>Mit dem neuen Livemode ist ein noch einfach die Kontrolle während Veranstaltungen zu behalten.</p></div>
-											</li>
-											<li>
-												<div class="collapsible-header bold"><i class="material-icons green-text">check</i>Live Mode</div>
-												<div class="collapsible-body"><p>Mit dem neuen Livemode ist ein noch einfach die Kontrolle während Veranstaltungen zu behalten.</p></div>
-											</li>
-											<li>
-												<div class="collapsible-header bold"><i class="material-icons green-text">check</i>Live Mode</div>
-												<div class="collapsible-body"><p>Mit dem neuen Livemode ist ein noch einfach die Kontrolle während Veranstaltungen zu behalten.</p></div>
-											</li>
-											<li>
-												<div class="collapsible-header bold"><i class="material-icons green-text">check</i>Live Mode</div>
-												<div class="collapsible-body"><p>Mit dem neuen Livemode ist ein noch einfach die Kontrolle während Veranstaltungen zu behalten.</p></div>
-											</li>
-											<li>
-												<div class="collapsible-header bold"><i class="material-icons green-text">check</i>Live Mode</div>
-												<div class="collapsible-body"><p>Mit dem neuen Livemode ist ein noch einfach die Kontrolle während Veranstaltungen zu behalten.</p></div>
-											</li>
-
-										</ul>
-									</div>
-								</div>
-							</div>
-
-							<div class="card padding white version-entry">
-								<div class="card-content">
-									<div class="grey lighten-2 center-align">
-										<span class="card-title bold version-entry-title padding-left-and-right truncate">v1.1.0 - Second Version</span>
-									</div>
-									<div class="version-entry-content hide">
+									<div class="milestone-content margin-top">
 										<div class="row">
 											<div class="col s6 valign-wrapper">
 												<i class="material-icons valign">event</i><span class="valign margin-left"><?php echo $languageJSON->due_by?> 25.06.16</span>
@@ -229,15 +184,60 @@ include_once('getLanguageJSON.php');
 								</div>
 							</div>
 
-							<div class="card padding white version-entry">
+							<div class="card padding white milestone">
 								<div class="card-content">
-									<div class="grey lighten-2 center-align">
-										<span class="card-title bold version-entry-title padding-left-and-right truncate">v1.0.0 - First Version</span>
+									<div class="grey lighten-2 center-align milestone-title">
+										<span class="card-title bold padding-left-and-right truncate">v1.1.0 - Second Version</span>
 									</div>
-									<div class="version-entry-content hide">
+									<div class="milestone-content margin-top">
 										<div class="row">
 											<div class="col s6 valign-wrapper">
-												<i class="material-icons valign">event</i><span class="valign margin-left"><?php echo $languageJSON->duey?> 25.06.16</span>
+												<i class="material-icons valign">event</i><span class="valign margin-left"><?php echo $languageJSON->due_by?> 25.06.16</span>
+											</div>
+											<div class="col s6 valign-wrapper">
+												<i class="material-icons valign">event</i><span class="valign margin-left"><?php echo $languageJSON->done_at?> 25.06.16</span>
+											</div>
+										</div>
+										<ul class="collapsible white" data-collapsible="accordion">
+											<li>
+												<div class="collapsible-header bold"><i class="material-icons green-text">check</i>Play in Background</div>
+												<div class="collapsible-body"><p>PlayWall ermöglicht es nun Audio und andere Medien im Hintergrund wiederzugeben, während eine andere Seite offen ist.</p></div>
+											</li>
+											<li>
+												<div class="collapsible-header bold"><i class="material-icons green-text">check</i>Live Mode</div>
+												<div class="collapsible-body"><p>Mit dem neuen Livemode ist ein noch einfach die Kontrolle während Veranstaltungen zu behalten.</p></div>
+											</li>
+											<li>
+												<div class="collapsible-header bold"><i class="material-icons green-text">check</i>Live Mode</div>
+												<div class="collapsible-body"><p>Mit dem neuen Livemode ist ein noch einfach die Kontrolle während Veranstaltungen zu behalten.</p></div>
+											</li>
+											<li>
+												<div class="collapsible-header bold"><i class="material-icons green-text">check</i>Live Mode</div>
+												<div class="collapsible-body"><p>Mit dem neuen Livemode ist ein noch einfach die Kontrolle während Veranstaltungen zu behalten.</p></div>
+											</li>
+											<li>
+												<div class="collapsible-header bold"><i class="material-icons green-text">check</i>Live Mode</div>
+												<div class="collapsible-body"><p>Mit dem neuen Livemode ist ein noch einfach die Kontrolle während Veranstaltungen zu behalten.</p></div>
+											</li>
+											<li>
+												<div class="collapsible-header bold"><i class="material-icons green-text">check</i>Live Mode</div>
+												<div class="collapsible-body"><p>Mit dem neuen Livemode ist ein noch einfach die Kontrolle während Veranstaltungen zu behalten.</p></div>
+											</li>
+
+										</ul>
+									</div>
+								</div>
+							</div>
+
+							<div class="card padding white milestone">
+								<div class="card-content">
+									<div class="grey lighten-2 center-align milestone-title">
+										<span class="card-title bold padding-left-and-right truncate">v1.0.0 - First Version</span>
+									</div>
+									<div class="milestone-content margin-top">
+										<div class="row">
+											<div class="col s6 valign-wrapper">
+												<i class="material-icons valign">event</i><span class="valign margin-left"><?php echo $languageJSON->due_by?> 25.06.16</span>
 											</div>
 											<div class="col s6 valign-wrapper">
 												<i class="material-icons valign">event</i><span class="valign margin-left"><?php echo $languageJSON->done_at?> 25.06.16</span>
