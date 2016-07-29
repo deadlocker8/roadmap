@@ -209,11 +209,20 @@ class DB
 
 	function getMilestones($roadmapID)
 	{
-		$statement = self::$db->prepare("SELECT * FROM milestones WHERE milestones.roadmapID=:roadmapID;");
+		$statement = self::$db->prepare("SELECT * FROM milestones WHERE milestones.roadmapID=:roadmapID ORDER BY VersionCode DESC;");
 		$statement->bindParam("roadmapID", $roadmapID);
 		$statement->execute();
 
 		return $statement->fetchAll();
+	}
+
+	function getNumberOfOpenMilestones($roadmapID)
+	{
+		$statement = self::$db->prepare("SELECT COUNT(*) AS 'count' FROM milestones WHERE milestones.roadmapID=:roadmapID AND status = '0';");
+		$statement->bindParam("roadmapID", $roadmapID);
+		$statement->execute();
+
+		return $statement->fetch();
 	}
 
 	function getTasks($milestoneID)
@@ -225,6 +234,15 @@ class DB
 		return $statement->fetchAll();
 	}
 
+	function getNumberOfOpenTasks($milestoneID)
+	{
+		$statement = self::$db->prepare("SELECT COUNT(*) AS 'count' FROM tasks WHERE tasks.MilestoneID=:milestoneID AND status = '0';");
+		$statement->bindParam("milestoneID", $milestoneID);
+		$statement->execute();
+
+		return $statement->fetch();
+	}
+
 	function getSubtasks($taskID)
 	{
 		$statement = self::$db->prepare("SELECT * FROM subtasks WHERE subtasks.taskID=:taskID;");
@@ -233,13 +251,13 @@ class DB
 
 		return $statement->fetchAll();
 	}
-}
 
-$db = new DB();
-$db->createTables();
-$objects = $db->getMilestones(1);
-foreach ($objects as $object)
-{
-	var_dump($object);
-	echo "<br> <br>";
+	function getNumberOfOpenSubtasks($taskID)
+	{
+		$statement = self::$db->prepare("SELECT COUNT(*) AS 'count' FROM subtasks WHERE subtasks.TaskID=:taskID AND status = '0';");
+		$statement->bindParam("taskID", $taskID);
+		$statement->execute();
+
+		return $statement->fetch();
+	}
 }
