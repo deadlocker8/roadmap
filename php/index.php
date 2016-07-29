@@ -402,11 +402,7 @@ $numberofOpenMilestones = $numberofOpenMilestones['count'];
 												else
 												{
 													$numberOfOpenSubtasks = $db->getNumberOfOpenSubtasks($currentTask['ID']);
-													if($numberOfOpenSubtasks == false)
-													{
-
-													}
-													else
+													if($numberOfOpenSubtasks != false)
 													{
 														$numberOfOpenSubtasks = $numberOfOpenSubtasks['count'];
 														if($numberOfOpenSubtasks == sizeof($subtasks))
