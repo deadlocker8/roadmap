@@ -1,5 +1,11 @@
 {
   "due_by": "Due by",
   "done": "Done",
-  "done_at": "Done at"
+  "done_at": "Done at",
+  "error_general": "An error occured",
+  "error_param_missing": "ERROR: parameter missing",
+  "error_param_invalid": "ERROR: parameter is not numeric or less than 1",
+  "error_roadmap_not_existing": "ERROR: no roadmap with this ID existing",
+  "error_no_milestones": "ERROR: no milestones for this roadmap",
+  "error_database_connection" : "An error occurred while getting data from the server."
 }
