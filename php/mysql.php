@@ -207,6 +207,15 @@ class DB
 		return $statement->fetch();
 	}
 
+	function getRoadmaps()
+	{
+		$statement = self::$db->prepare("SELECT * FROM roadmaps ORDER BY ID;");
+		$statement->bindParam("roadmapID", $roadmapID);
+		$statement->execute();
+
+		return $statement->fetchAll();
+	}
+
 	function getMilestones($roadmapID)
 	{
 		$statement = self::$db->prepare("SELECT * FROM milestones WHERE milestones.roadmapID=:roadmapID ORDER BY VersionCode DESC;");
@@ -259,5 +268,45 @@ class DB
 		$statement->execute();
 
 		return $statement->fetch();
+	}
+
+	//========================================
+	//--------------- delete -----------------
+	//========================================
+
+	function deleteRoadmap($roadmapID)
+	{
+		$statement = self::$db->prepare("DELETE FROM roadmaps WHERE roadmaps.ID=:roadmapID;");
+		$statement->bindParam("roadmapID", $roadmapID);
+		$statement->execute();
+
+		return $statement->execute();
+	}
+
+	function deleteMilestone($milestoneID)
+	{
+		$statement = self::$db->prepare("DELETE FROM milestones WHERE milestones.ID=:milestoneID;");
+		$statement->bindParam("milestoneID", $milestoneID);
+		$statement->execute();
+
+		return $statement->execute();
+	}
+
+	function deleteTask($taskID)
+	{
+		$statement = self::$db->prepare("DELETE FROM tasks WHERE tasks.ID=:taskID;");
+		$statement->bindParam("taskID", $taskID);
+		$statement->execute();
+
+		return $statement->execute();
+	}
+
+	function deleteSubtask($subtaskID)
+	{
+		$statement = self::$db->prepare("DELETE FROM subtasks WHERE subtasks.ID=:subtaskID;");
+		$statement->bindParam("subtaskID", $subtaskID);
+		$statement->execute();
+
+		return $statement->execute();
 	}
 }

@@ -120,3 +120,7 @@
 .milestone-content {
 	display: none;
 }
+
+.tiny-button:hover{
+	cursor: pointer;
+}
