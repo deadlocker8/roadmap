@@ -63,7 +63,7 @@ $db->createTables();
 									{
 										echo '<tr>'.
 												'<td>'.$roadmaps[$i]['ID'].'</td>'.
-												'<td>'.$roadmaps[$i]['Projectname'].'</td>'.
+												'<td><a class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Open Roadmap" href="../index.php?id='.$roadmaps[$i]['ID'].'">'.$roadmaps[$i]['Projectname'].'</a></td>'.
 												'<td class="right-align">'.
 													'<a class="btn-flat no-padding tooltipped" href="admin-edit-roadmap.php?id='.$roadmaps[$i]['ID'].'&edit=true" data-position="bottom" data-delay="50" data-tooltip="Rename"><i class="material-icons left">edit</i></a>'.
 													'<a class="btn-flat button-delete-roadmap no-padding tooltipped" data-id="'.$roadmaps[$i]['ID'].'" data-position="bottom" data-delay="50" data-tooltip="Delete"><i class="material-icons left">delete</i></a>'.
