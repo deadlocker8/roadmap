@@ -87,9 +87,8 @@ class DB
 		return $statement->execute();
 	}
 
-	function insertTask($milestoneID, $title, $description)
+	function insertTask($milestoneID, $title, $description, $status)
 	{
-		$status = "0";
 		$statement = self::$db->prepare("INSERT INTO tasks VALUES('', :milestoneID, :title, :description, :status);");
 		$statement->bindParam("milestoneID", $milestoneID);
 		$statement->bindParam("title", $title);
@@ -247,6 +246,15 @@ class DB
 		$statement->execute();
 
 		return $statement->fetchAll();
+	}
+
+	function getTask($taskID)
+	{
+		$statement = self::$db->prepare("SELECT * FROM tasks WHERE tasks.ID=:taskID;");
+		$statement->bindParam("taskID", $taskID);
+		$statement->execute();
+
+		return $statement->fetch();
 	}
 
 	function getNumberOfOpenTasks($milestoneID)

@@ -43,6 +43,11 @@ $(document).ready(function()
 		editMilestone(this.dataset.id, this.dataset.roadmapid);
 	});
 
+	$('.button-save-task').click(function()
+	{
+		editTask(this.dataset.id, this.dataset.milestoneid);
+	});
+
 	$('.button-delete-roadmap').click(function()
 	{
 		var r = confirm("Do you really want to delete this roadmap?");
@@ -58,6 +63,15 @@ $(document).ready(function()
 		if(r == true)
 		{
 			deleteMilestone(this.dataset.id, this.dataset.roadmapid);
+		}
+	});
+
+	$('.button-delete-task').click(function()
+	{
+		var r = confirm("Do you really want to delete this task?");
+		if(r == true)
+		{
+			deleteTask(this.dataset.id, this.dataset.milestoneid);
 		}
 	});
 
@@ -317,6 +331,79 @@ function deleteMilestone(milestone_ID, roadmap_ID)
 			else
 			{
 				alert('An error occurred while deleting the milestone with the ID ' + milestone_ID);
+			}
+		});
+}
+
+function editTask(task_ID, milestone_ID)
+{
+	var edit = document.getElementById('edit').innerHTML;
+	var title = $('#title').val();
+	var description = $('#description').val();;
+	var done = document.getElementById("checkbox-done").checked;
+
+	if(isNull(title))
+	{
+		alert("Title shouldn't be empty!");
+		return;
+	}
+
+	if(done)
+	{
+		done = 1;
+	}
+	else
+	{
+		done = 0;
+	}
+
+	$.post('../admin/helper/edit-task.php',
+		{
+			"title": title,
+			"description": description,
+			"done": done,
+			"edit": edit,
+			"ID": task_ID,
+			"milestone-ID": milestone_ID
+
+		}, function(data, error)
+		{
+			data = data.toString().trim();
+			switch(data)
+			{
+				case "error":
+					alert('An error occurred');
+					break;
+				case "error-edit":
+					alert('An error occurred while editing the task with the ID ' + task_ID);
+					break;
+				case "error-insert":
+					alert('An error occurred while inserting the new task');
+					break;
+				default:
+					window.location.href = "../admin/admin-tasks.php?id=" + milestone_ID;
+					break;
+			}
+		});
+}
+
+function deleteTask(task_ID, milestone_ID)
+{
+	$.post('../admin/helper/delete-task.php',
+		{
+			"task_ID": task_ID,
+
+		}, function(data, error)
+		{
+			data = data.toString().trim();
+
+			if(data != "error")
+			{
+				window.location.href = "../admin/admin-tasks.php?id=" + milestone_ID;
+			}
+			else
+			{
+				alert('An error occurred while deleting the task with the ID ' + task_ID);
 			}
 		});
 }
