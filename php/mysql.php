@@ -73,11 +73,9 @@ class DB
 		return $statement->execute();
 	}
 
-	function insertMilestone($roadmapID, $versionCode, $versionName, $title, $dueDate)
+	function insertMilestone($roadmapID, $versionCode, $versionName, $title, $dueDate, $completionDate, $status)
 	{
-		$completionDate = "2000-01-01";
-		$status = "0";
-		$statement = self::$db->prepare("INSERT INTO milestones VALUES('', :roadmapID, :versionCode, :versionName, :title, :dueDate, :completionDate, :status);");
+		$statement = self::$db->prepare("INSERT INTO milestones VALUES('', :roadmapID, :versionCode, :versionName, :title, STR_TO_DATE(:dueDate, '%d.%m.%Y'), STR_TO_DATE(:completionDate, '%d.%m.%Y'), :status);");
 		$statement->bindParam("roadmapID", $roadmapID);
 		$statement->bindParam("versionCode", $versionCode);
 		$statement->bindParam("versionName", $versionName);
@@ -154,11 +152,10 @@ class DB
 		return $statement->execute();
 	}
 
-	function updateMilestone($milestoneID, $roadmapID, $versionCode, $versionName, $title, $dueDate, $completionDate, $status)
+	function updateMilestone($milestoneID, $versionCode, $versionName, $title, $dueDate, $completionDate, $status)
 	{
-		$statement = self::$db->prepare("UPDATE milestones SET RoadmapID = :roadmapID, VersionCode = :versionCode, VersionName = :versionName, Title = :title, DueDate = :dueDate, CompletionDate = :completionDate, Status = :status WHERE ID = :milestoneID;");
+		$statement = self::$db->prepare("UPDATE milestones SET VersionCode = :versionCode, VersionName = :versionName, Title = :title, DueDate = STR_TO_DATE(:dueDate, '%d.%m.%Y'), CompletionDate = STR_TO_DATE(:completionDate, '%d.%m.%Y'), Status = :status WHERE ID = :milestoneID;");
 		$statement->bindParam("milestoneID", $milestoneID);
-		$statement->bindParam("roadmapID", $roadmapID);
 		$statement->bindParam("versionCode", $versionCode);
 		$statement->bindParam("versionName", $versionName);
 		$statement->bindParam("title", $title);
@@ -223,6 +220,15 @@ class DB
 		$statement->execute();
 
 		return $statement->fetchAll();
+	}
+
+	function getMilestone($milestoneID)
+	{
+		$statement = self::$db->prepare("SELECT * FROM milestones WHERE milestones.ID=:milestoneID;");
+		$statement->bindParam("milestoneID", $milestoneID);
+		$statement->execute();
+
+		return $statement->fetch();
 	}
 
 	function getNumberOfOpenMilestones($roadmapID)

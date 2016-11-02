@@ -19,14 +19,14 @@ else
 {
 	if(!isset($_GET['id']))
 	{
-		header('Location: error.php?message=error_param_missing');
+		header('Location: ../error.php?message=error_param_missing');
 		exit;
 	}
 
 	$ID = $_GET['id'];
 	if(!is_numeric($ID) || $ID < 1)
 	{
-		header('Location: error.php?message=error_param_invalid');
+		header('Location: ../error.php?message=error_param_invalid');
 		exit;
 	}
 
@@ -36,14 +36,11 @@ else
 	$projectName = $db->getRoadmap($ID);
 	if($projectName == false)
 	{
-		header('Location: error.php?message=error_roadmap_not_existing');
+		header('Location: ../error.php?message=error_roadmap_not_existing');
 		exit;
 	}
 	$projectName = $projectName["Projectname"];
 }
-
-
-
 ?>
 <html xmlns="http://www.w3.org/1999/html">
 	<head>

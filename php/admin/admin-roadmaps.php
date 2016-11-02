@@ -39,7 +39,7 @@ $db->createTables();
 					</div>
 				</div>
 				<div class="row">
-					<div class="col s12 m8 offset-m2 l6 offset-l3">
+					<div class="col s12 m10 offset-m1 l6 offset-l3">
 						<table class="bordered">
 							<thead>
 							<tr>
@@ -54,7 +54,7 @@ $db->createTables();
 
 								if($roadmaps == false)
 								{
-									header('Location: error.php?message=error_database_connection');
+									header('Location: ../error.php?message=error_database_connection');
 									exit;
 								}
 								else
@@ -65,8 +65,9 @@ $db->createTables();
 												'<td>'.$roadmaps[$i]['ID'].'</td>'.
 												'<td>'.$roadmaps[$i]['Projectname'].'</td>'.
 												'<td class="right-align">'.
-													'<a class="btn-flat" href="admin-edit-roadmap.php?id='.$roadmaps[$i]['ID'].'&edit=true"><i class="material-icons left">edit</i></a>'.
-													'<a class="btn-flat button-delete-roadmap" data-id="'.$roadmaps[$i]['ID'].'"><i class="material-icons left">delete</i></a>'.
+													'<a class="btn-flat no-padding tooltipped" href="admin-edit-roadmap.php?id='.$roadmaps[$i]['ID'].'&edit=true" data-position="bottom" data-delay="50" data-tooltip="Rename"><i class="material-icons left">edit</i></a>'.
+													'<a class="btn-flat button-delete-roadmap no-padding tooltipped" data-id="'.$roadmaps[$i]['ID'].'" data-position="bottom" data-delay="50" data-tooltip="Delete"><i class="material-icons left">delete</i></a>'.
+													'<a class="btn-flat no-padding tooltipped" href="admin-milestones.php?id='.$roadmaps[$i]['ID'].'" data-position="bottom" data-delay="50" data-tooltip="Edit Milestones"><i class="material-icons left">assignment</i></a>'.
 												'</td>'.
 											'</tr>';
 									}

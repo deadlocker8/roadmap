@@ -38,6 +38,11 @@ $(document).ready(function()
 		editRoadmap(this.dataset.id, $('#project-name').val());
 	});
 
+	$('.button-save-milestone').click(function()
+	{
+		editMilestone(this.dataset.id, this.dataset.roadmapid);
+	});
+
 	$('.button-delete-roadmap').click(function()
 	{
 		var r = confirm("Do you really want to delete this roadmap?");
@@ -45,6 +50,39 @@ $(document).ready(function()
 		{
 			deleteRoadmap(this.dataset.id);
 		}
+	});
+
+	$('.button-delete-milestone').click(function()
+	{
+		var r = confirm("Do you really want to delete this milestone?");
+		if(r == true)
+		{
+			deleteMilestone(this.dataset.id, this.dataset.roadmapid);
+		}
+	});
+
+	$('#checkbox-done').click(function()
+	{
+		var checked = document.getElementById("checkbox-done").checked;
+		if(checked)
+		{
+			hideElement(document.getElementById("row-done-date"), false);
+
+			var $input = $('#done-date').pickadate();
+			var picker = $input.pickadate('picker');
+			picker.set('select', new Date());
+		}
+		else
+		{
+			hideElement(document.getElementById("row-done-date"), true);
+		}
+	});
+
+	$('.datepicker').pickadate({
+		selectMonths: true, // Creates a dropdown to control month
+		selectYears: 15, // Creates a dropdown of 15 years to control year
+		format: 'dd.mm.yyyy',
+		formatSubmit: 'yyyy-mm-dd'
 	});
 
 	createTrainMap();
@@ -177,6 +215,108 @@ function deleteRoadmap(roadmap_ID)
 			else
 			{
 				alert('An error occurred while deleting the roadmap with the ID ' + roadmap_ID);
+			}
+		});
+}
+
+function editMilestone(milestone_ID, roadmap_ID)
+{
+	var edit = document.getElementById('edit').innerHTML;
+	var versionCode = $('#version-code').val();
+	var versionName = $('#version-name').val();
+	var title = $('#title').val();
+	var dueDate = $('#due-date').val();
+	var doneDate = $('#done-date').val();
+	var done = document.getElementById("checkbox-done").checked;
+
+	if(isNull(versionCode))
+	{
+		alert("Version Code shouldn't be empty!");
+		return;
+	}
+
+	if(isNull(versionName))
+	{
+		alert("Version Name shouldn't be empty!");
+		return;
+	}
+
+	if(isNull(title))
+	{
+		alert("Title shouldn't be empty!");
+		return;
+	}
+
+	if(isNull(dueDate))
+	{
+		dueDate = "01.01.2001";
+	}
+
+	if(isNull(doneDate))
+	{
+		doneDate = "01.01.2001";
+	}
+
+	if(done)
+	{
+		done = 1;
+	}
+	else
+	{
+		done = 0;
+		doneDate = doneDate = "01.01.2001";
+	}
+
+	$.post('../admin/helper/edit-milestone.php',
+		{
+			"version-code": versionCode,
+			"version-name": versionName,
+			"title": title,
+			"due-date": dueDate,
+			"done-date": doneDate,
+			"done": done,
+			"edit": edit,
+			"ID": milestone_ID,
+			"roadmap-ID": roadmap_ID
+
+		}, function(data, error)
+		{
+			data = data.toString().trim();
+			switch(data)
+			{
+				case "error":
+					alert('An error occurred');
+					break;
+				case "error-edit":
+					alert('An error occurred while editing the roadmap with the ID ' + roadmap_ID);
+					break;
+				case "error-insert":
+					alert('An error occurred while inserting the new milestone');
+					break;
+				default:
+					window.location.href = "../admin/admin-milestones.php?id=" + roadmap_ID;
+					break;
+			}
+		});
+}
+
+function deleteMilestone(milestone_ID, roadmap_ID)
+{
+	$.post('../admin/helper/delete-milestone.php',
+		{
+			"milestone_ID": milestone_ID,
+
+		}, function(data, error)
+		{
+			data = data.toString().trim();
+
+			if(data != "error")
+			{
+				window.location.href = "../admin/admin-milestones.php?id=" + roadmap_ID;
+			}
+			else
+			{
+				alert('An error occurred while deleting the milestone with the ID ' + milestone_ID);
 			}
 		});
 }
