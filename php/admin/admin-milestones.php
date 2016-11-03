@@ -103,14 +103,14 @@ $projectName = $projectName["Projectname"];
 							$status = $milestones[$i]['Status'];
 							$dueDate = $milestones[$i]['DueDate'];
 							$dueDate = date('d.m.Y', strtotime($dueDate));
-							if($dueDate == "01.01.2001")
+							if($dueDate == "01.01.2000")
 							{
 								$dueDate = "";
 							}
 
 							$doneDate = $milestones[$i]['CompletionDate'];
 							$doneDate = date('d.m.Y', strtotime($doneDate));
-							if($doneDate == "01.01.2001")
+							if($doneDate == "01.01.2000")
 							{
 								$doneDate = "";
 							}

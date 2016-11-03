@@ -138,7 +138,7 @@ else
 								{
 									$dueDate = $milestone['DueDate'];
 									$dueDate = date('d.m.Y', strtotime($dueDate));
-									if($dueDate == "01.01.2001")
+									if($dueDate == "01.01.2000")
 									{
 										$dueDate = "";
 									}
@@ -148,7 +148,7 @@ else
 									$dueDate = "";
 								}
 							?>
-							<input type="date" class="datepicker" id="due-date" data-value="<?php echo $dueDate;?>">
+							<input type="date" class="datepicker" id="due-date" value="<?php echo $dueDate;?>">
 						</div>
 					</div>
 				</div>
@@ -194,7 +194,7 @@ else
 							{
 								$doneDate = $milestone['CompletionDate'];
 								$doneDate = date('d.m.Y', strtotime($doneDate));
-								if($doneDate == "01.01.2001")
+								if($doneDate == "01.01.2000")
 								{
 									$doneDate = "";
 								}
@@ -204,7 +204,7 @@ else
 								$doneDate = "";
 							}
 							?>
-							<input type="date" class="datepicker" id="done-date" data-value="<?php echo $doneDate;?>">
+							<input type="date" class="datepicker" id="done-date" value="<?php echo $doneDate;?>">
 						</div>
 					</div>
 				</div>

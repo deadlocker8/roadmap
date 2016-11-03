@@ -290,12 +290,12 @@ function editMilestone(milestone_ID, roadmap_ID)
 
 	if(isNull(dueDate))
 	{
-		dueDate = "01.01.2001";
+		dueDate = "01.01.2000";
 	}
 
 	if(isNull(doneDate))
 	{
-		doneDate = "01.01.2001";
+		doneDate = "01.01.2000";
 	}
 
 	if(done)
@@ -305,7 +305,7 @@ function editMilestone(milestone_ID, roadmap_ID)
 	else
 	{
 		done = 0;
-		doneDate =  "01.01.2001";
+		doneDate =  "01.01.2000";
 	}
 
 	$.post('../admin/helper/edit-milestone.php',
