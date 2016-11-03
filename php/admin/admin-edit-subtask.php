@@ -1,9 +1,17 @@
 <!DOCTYPE html>
 
 <?php
+if(!isset($_SESSION))
+{
+	session_start();
+}
+if(!isset($_SESSION['loggedIn']))
+{
+	header('Location: login.php');
+}
+
 include_once('../getLanguageJSON.php');
 include_once('../mysql.php');
-
 
 if(!isset($_GET['taskID']))
 {

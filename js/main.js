@@ -113,6 +113,19 @@ $(document).ready(function()
 		formatSubmit: 'yyyy-mm-dd'
 	});
 
+	$('.button-login').click(function()
+	{
+		login();
+	});
+
+	$('#password').keyup(function(e)
+	{
+		if(e.keyCode === 13)    //Enter
+		{
+			login();
+		}
+	});
+
 	createTrainMap();
 });
 
@@ -447,7 +460,7 @@ function editSubtask(subtask_ID, task_ID)
 	$.post('../admin/helper/edit-subtask.php',
 		{
 			"title": title,
-			"description": description,
+			"de6scription": description,
 			"done": done,
 			"edit": edit,
 			"ID": subtask_ID,
@@ -492,6 +505,35 @@ function deleteSubtask(subtask_ID, task_ID)
 			else
 			{
 				alert('An error occurred while deleting the subtask with the ID ' + subtask_ID);
+			}
+		});
+}
+
+function login()
+{
+	var password = $('#password').val();
+
+	if(isNull(password))
+	{
+		alert("Please enter your password.");
+		return;
+	}
+
+	$.post('../admin/helper/checkLogin.php',
+		{
+			"password": password,
+
+		}, function(data, error)
+		{
+			data = data.toString().trim();
+
+			if(data != "error" && data != "bad_login")
+			{
+				window.location.href = "../admin/admin-roadmaps.php";
+			}
+			else
+			{
+				alert('Wrong password!');
 			}
 		});
 }

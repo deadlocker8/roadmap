@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 
 <?php
+if(!isset($_SESSION))
+{
+	session_start();
+}
+if(!isset($_SESSION['loggedIn']))
+{
+	header('Location: login.php');
+}
+
 include_once('../getLanguageJSON.php');
 include_once('../mysql.php');
 
@@ -51,6 +60,7 @@ if($task == false)
 
 <body class="grey lighten-3">
 <a class="waves-effect waves-light btn blue darken-3" href="admin-tasks.php?id=<?php echo $task['MilestoneID'];?>"><i class="material-icons left">arrow_back</i>Back</a>
+<a class="waves-effect waves-light btn blue darken-3 right" href="logout.php"><i class="material-icons left">lock</i>Logout</a>
 <div id="main">
 	<div class="container">
 		<h2 class="center-align" id="headline"><?php echo $task['Title'];?></h2>
