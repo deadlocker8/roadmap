@@ -305,7 +305,7 @@ function editMilestone(milestone_ID, roadmap_ID)
 	else
 	{
 		done = 0;
-		doneDate = doneDate = "01.01.2001";
+		doneDate =  "01.01.2001";
 	}
 
 	$.post('../admin/helper/edit-milestone.php',

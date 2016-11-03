@@ -133,7 +133,22 @@ else
 					<div class="col s6 m8 offset-m2 l6 offset-l3">
 						<div class="col s12 left-align">
 							<label for="due-date" style="font-size: 1rem;">Due Date</label>
-							<input type="date" class="datepicker" id="due-date" data-value="<?php if(isset($milestone)){echo $milestone['DueDate'];}?>">
+							<?php
+								if(isset($milestone))
+								{
+									$dueDate = $milestone['DueDate'];
+									$dueDate = date('d.m.Y', strtotime($dueDate));
+									if($dueDate == "01.01.2001")
+									{
+										$dueDate = "";
+									}
+								}
+								else
+								{
+									$dueDate = "";
+								}
+							?>
+							<input type="date" class="datepicker" id="due-date" data-value="<?php echo $dueDate;?>">
 						</div>
 					</div>
 				</div>
@@ -174,7 +189,22 @@ else
 					<div class="col s6 m8 offset-m2 l6 offset-l3">
 						<div class="col s12 left-align">
 							<label for="done-date" style="font-size: 1rem;">Completion Date</label>
-							<input type="date" class="datepicker" id="done-date" data-value="<?php if(isset($milestone)){echo $milestone['CompletionDate'];}?>">
+							<?php
+							if(isset($milestone))
+							{
+								$doneDate = $milestone['CompletionDate'];
+								$doneDate = date('d.m.Y', strtotime($doneDate));
+								if($doneDate == "01.01.2001")
+								{
+									$doneDate = "";
+								}
+							}
+							else
+							{
+								$doneDate = "";
+							}
+							?>
+							<input type="date" class="datepicker" id="done-date" data-value="<?php echo $doneDate;?>">
 						</div>
 					</div>
 				</div>
