@@ -6,7 +6,7 @@ include_once('mysql.php');
 
 if(!isset($_GET['id']))
 {
-	header('Location: error.php?message=error_param_missing');
+	header('Location: overview.php');
 	exit;
 }
 
@@ -68,6 +68,8 @@ $numberofOpenMilestones = $numberofOpenMilestones['count'];
 	</head>
 
 	<body class="grey lighten-3">
+		<a class="btn-flat right" href="admin/login.php">Login</a>
+		<div style="clear: both;"></div>
 		<div id="main">
 			<div class="container">
 				<h2 class="center-align" id="headline"><?php echo $projectName;?> Roadmap</h2>

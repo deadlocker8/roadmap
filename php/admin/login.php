@@ -41,7 +41,7 @@ include_once('../mysql.php');
 				</div>
 				<div class="row center-align margin-top">
 					<div class="col s12 m8 offset-m2 l6 offset-l3">
-						<a class="waves-effect waves-light btn blue darken-3" href="../index.php"><i class="material-icons left">arrow_back</i>Back</a>
+						<a class="waves-effect waves-light btn blue darken-3" href="../index.php"><i class="material-icons left">home</i>Home</a>
 						<a class="waves-effect waves-light btn blue darken-3 margin-left button-login"><i class="material-icons left">exit_to_app</i>Login</a>
 					</div>
 				</div>
