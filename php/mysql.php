@@ -98,9 +98,8 @@ class DB
 		return $statement->execute();
 	}
 
-	function insertSubtask($taskID, $title, $description)
+	function insertSubtask($taskID, $title, $description, $status)
 	{
-		$status = "0";
 		$statement = self::$db->prepare("INSERT INTO subtasks VALUES('', :taskID, :title, :description, :status);");
 		$statement->bindParam("taskID", $taskID);
 		$statement->bindParam("title", $title);
@@ -182,7 +181,6 @@ class DB
 		$statement = self::$db->prepare("UPDATE subtasks SET TaskID = :taskID, Title = :title, Description = :description, Status = :status WHERE ID = :subtaskID;");
 		$statement->bindParam("subtaskID", $subtaskID);
 		$statement->bindParam("taskID", $taskID);
-		$statement->bindParam("milestoneID", $milestoneID);
 		$statement->bindParam("title", $title);
 		$statement->bindParam("description", $description);
 		$statement->bindParam("status", $status);
@@ -273,6 +271,15 @@ class DB
 		$statement->execute();
 
 		return $statement->fetchAll();
+	}
+
+	function getSubtask($taskID)
+	{
+		$statement = self::$db->prepare("SELECT * FROM subtasks WHERE subtasks.ID=:taskID;");
+		$statement->bindParam("taskID", $taskID);
+		$statement->execute();
+
+		return $statement->fetch();
 	}
 
 	function getNumberOfOpenSubtasks($taskID)

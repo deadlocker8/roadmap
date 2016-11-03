@@ -20,10 +20,10 @@ if(!is_numeric($ID) || $ID < 1)
 $db = new DB();
 $db->createTables();
 
-$milestone = $db->getMilestone($ID);
-if($milestone == false)
+$task = $db->getTask($ID);
+if($task == false)
 {
-	header('Location: ../error.php?message=error_task_not_existing');
+	header('Location: ../error.php?message=error_subtask_not_existing');
 	exit;
 }
 
@@ -31,7 +31,7 @@ if($milestone == false)
 <html xmlns="http://www.w3.org/1999/html">
 <head>
 	<meta charset="UTF-8"/>
-	<title>Tasks - Adminarea</title>
+	<title>Subtasks - Adminarea</title>
 	<!--Import Google Icon Font-->
 	<link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<!--Import materialize.css-->
@@ -50,15 +50,15 @@ if($milestone == false)
 </head>
 
 <body class="grey lighten-3">
-<a class="waves-effect waves-light btn blue darken-3" href="admin-milestones.php?id=<?php echo $milestone['RoadmapID'];?>"><i class="material-icons left">arrow_back</i>Back</a>
+<a class="waves-effect waves-light btn blue darken-3" href="admin-tasks.php?id=<?php echo $task['MilestoneID'];?>"><i class="material-icons left">arrow_back</i>Back</a>
 <div id="main">
 	<div class="container">
-		<h2 class="center-align" id="headline"><?php echo $milestone['Title'];?></h2>
-		<h4 class="center-align" id="headline">Tasks</h4>
+		<h2 class="center-align" id="headline"><?php echo $task['Title'];?></h2>
+		<h4 class="center-align" id="headline">Subtasks</h4>
 
 		<div class="row">
 			<div class="col s12 m8 offset-m2 l6 offset-l3 center-align">
-				<a class="waves-effect waves-light btn blue darken-3" href="admin-edit-task.php?milestoneID=<?php echo $ID;?>"><i
+				<a class="waves-effect waves-light btn blue darken-3" href="admin-edit-subtask.php?taskID=<?php echo $ID;?>"><i
 						class="material-icons left">add</i>New</a>
 			</div>
 		</div>
@@ -75,11 +75,11 @@ if($milestone == false)
 
 					<tbody>
 					<?php
-					$tasks = $db->getTasks($ID);
+					$tasks = $db->getSubtasks($ID);
 
 					if($tasks == false)
 					{
-						echo '<td colspan="6" class="center-align">No Tasks</td>';
+						echo '<td colspan="6" class="center-align">No Subtasks</td>';
 						exit;
 					}
 					else
@@ -101,9 +101,8 @@ if($milestone == false)
 							}
 
 							echo '<td class="right-align">' .
-								'<a class="btn-flat no-padding tooltipped" href="admin-edit-task.php?id=' . $tasks[$i]['ID'] . '&milestoneID='. $ID .'&edit=true" data-position="bottom" data-delay="50" data-tooltip="Edit"><i class="material-icons left">edit</i></a>' .
-								'<a class="btn-flat button-delete-task no-padding tooltipped" data-id="' . $tasks[$i]['ID'] . '" data-milestoneid="' . $ID . '" data-position="bottom" data-delay="50" data-tooltip="Delete"><i class="material-icons left">delete</i></a>' .
-								'<a class="btn-flat no-padding tooltipped" href="admin-subtasks.php?id=' . $tasks[$i]['ID'] . '" data-position="bottom" data-delay="50" data-tooltip="Edit Subtasks"><i class="material-icons left">assignment</i></a>' .
+								'<a class="btn-flat no-padding tooltipped" href="admin-edit-subtask.php?id=' . $tasks[$i]['ID'] . '&taskID='. $ID .'&edit=true" data-position="bottom" data-delay="50" data-tooltip="Edit"><i class="material-icons left">edit</i></a>' .
+								'<a class="btn-flat button-delete-subtask no-padding tooltipped" data-id="' . $tasks[$i]['ID'] . '" data-taskid="' . $ID . '" data-position="bottom" data-delay="50" data-tooltip="Delete"><i class="material-icons left">delete</i></a>' .
 								'</td>' .
 								'</tr>';
 						}
