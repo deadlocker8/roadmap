@@ -37,24 +37,23 @@ $db->createTables();
 
 				<div class="row">
 					<div class="col s12 m10 offset-m1 l6 offset-l3">
-						<div class="collection center-align">
-							<?php
-								$roadmaps = $db->getRoadmaps();
+						<?php
+							$roadmaps = $db->getRoadmaps();
 
-								if($roadmaps == false)
+							if($roadmaps == false)
+							{
+								echo '<h5 class="center-align">no roadmaps available</h5>';
+							}
+							else
+							{
+								echo '<div class="collection center-align">';
+								for($i = 0; $i < sizeof($roadmaps); $i++)
 								{
-									header('Location: ../error.php?message=error_database_connection');
-									exit;
+									echo '<a class="collection-item blue-text" href="index.php?id='.$roadmaps[$i]['ID'].'">'.$roadmaps[$i]['Projectname'].'</a>';
 								}
-								else
-								{
-									for($i = 0; $i < sizeof($roadmaps); $i++)
-									{
-										echo '<a class="collection-item blue-text" href="index.php?id='.$roadmaps[$i]['ID'].'">'.$roadmaps[$i]['Projectname'].'</a>';
-									}
-								}
-								?>
-						</div>
+								echo '</div>';
+							}
+							?>
 					 </div>
 				</div>
 			</div>
