@@ -460,7 +460,7 @@ function editSubtask(subtask_ID, task_ID)
 	$.post('../admin/helper/edit-subtask.php',
 		{
 			"title": title,
-			"de6scription": description,
+			"description": description,
 			"done": done,
 			"edit": edit,
 			"ID": subtask_ID,

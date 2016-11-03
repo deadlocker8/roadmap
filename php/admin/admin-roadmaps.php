@@ -65,8 +65,7 @@ $db->createTables();
 
 								if($roadmaps == false)
 								{
-									header('Location: ../error.php?message=error_database_connection');
-									exit;
+									echo '<td colspan="2" class="center-align">No Roadmaps</td>';
 								}
 								else
 								{

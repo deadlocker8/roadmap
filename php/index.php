@@ -271,7 +271,7 @@ function printMilestoneIndevWithTasks($currentMilestone, $db, $tasks, $color, $l
 	else
 	{
 		$numberOfOpenTasks = $numberOfOpenTasks['count'];
-		$percentage = ($numberOfOpenTasks / sizeof($tasks))*100;
+		$percentage = ((sizeof($tasks) - $numberOfOpenTasks) / sizeof($tasks))*100;
 		$percentage = round($percentage);
 
 		echo '<div class="card padding white milestone">' .
@@ -342,17 +342,17 @@ function printSubTasksDone($currentTask, $subtasks, $db)
 	else
 	{
 		$numberOfOpenSubtasks = $numberOfOpenSubtasks['count'];
-		if($numberOfOpenSubtasks == sizeof($subtasks))
+		if($numberOfOpenSubtasks == 0)
 		{
 			echo '<li>' .
-				'<div class="collapsible-header bold"><i class="material-icons green-text">check</i>Layout<span class="right">' . $numberOfOpenSubtasks . '/' . sizeof($subtasks) . '</span></div>' .
+				'<div class="collapsible-header bold"><i class="material-icons green-text">check</i>'.$currentTask['Title'].'<span class="right">' . (sizeof($subtasks) - $numberOfOpenSubtasks) . '/' . sizeof($subtasks) . '</span></div>' .
 				'<div class="collapsible-body">' .
 				'<ul class="collapsible white margin-left-and-right no-shadow margin-top-and-bottom" data-collapsible="accordion">';
 		}
 		else
 		{
 			echo '<li>' .
-				'<div class="collapsible-header bold"><i class="material-icons red-text">build</i>Layout<span class="right">' . $numberOfOpenSubtasks . '/' . sizeof($subtasks) . '</span></div>' .
+				'<div class="collapsible-header bold"><i class="material-icons red-text">build</i>'.$currentTask['Title'].'<span class="right">' . (sizeof($subtasks) - $numberOfOpenSubtasks) . '/' . sizeof($subtasks) . '</span></div>' .
 				'<div class="collapsible-body">' .
 				'<ul class="collapsible white margin-left-and-right no-shadow margin-top-and-bottom" data-collapsible="accordion">';
 		}
