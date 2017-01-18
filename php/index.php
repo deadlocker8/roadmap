@@ -321,7 +321,7 @@ function printMilestoneIndevWithTasks($currentMilestone, $db, $tasks, $color, $l
 				if($currentTask['Status'] == 0)
 				{
 					echo '<li>' .
-						'<div class="collapsible-header bold"><i class="material-icons red-text">build</i>' . $currentTask['Title'] . '</div>' .
+						'<div class="collapsible-header bold truncate"><i class="material-icons red-text">build</i>' . $currentTask['Title'] . '</div>' .
 						'<div class="collapsible-body"><p>' . $currentTask['Description'] . '</p></div>' .
 						'</li>';
 				}
@@ -329,7 +329,7 @@ function printMilestoneIndevWithTasks($currentMilestone, $db, $tasks, $color, $l
 				else
 				{
 					echo '<li>' .
-						'<div class="collapsible-header bold"><i class="material-icons green-text">check</i>' . $currentTask['Title'] . '</div>' .
+						'<div class="collapsible-header bold truncate"><i class="material-icons green-text">check</i>' . $currentTask['Title'] . '</div>' .
 						'<div class="collapsible-body"><p>' . $currentTask['Description'] . '</p></div>' .
 						'</li>';
 				}
@@ -480,7 +480,7 @@ function printMilestoneDoneWithTasks($color, $currentMilestone, $isFirstMileston
 		if($subtasks == false)
 		{
 			echo '<li>' .
-				'<div class="collapsible-header bold"><i class="material-icons green-text">check</i>' . $currentTask['Title'] . '</div>' .
+				'<div class="collapsible-header bold truncate"><i class="material-icons green-text">check</i>' . $currentTask['Title'] . '</div>' .
 				'<div class="collapsible-body"><p>' . $currentTask['Description'] . '</p></div>' .
 				'</li>';
 		}
@@ -512,7 +512,7 @@ function printMilestoneDoneWithTasks($color, $currentMilestone, $isFirstMileston
 					if($currentSubTask['Status'] == 0)
 					{
 						echo '<li>' .
-							'<div class="collapsible-header bold"><span class="left">' . ($m + 1) . '</span><i class="material-icons red-text margin-left">build</i>' . $currentSubTask['Title'] . '</div>' .
+							'<div class="collapsible-header bold truncate"><span class="left">' . ($m + 1) . '</span><i class="material-icons red-text margin-left">build</i>' . $currentSubTask['Title'] . '</div>' .
 							'<div class="collapsible-body"><p>' . $currentSubTask['Description'] . '</p></div>' .
 							'</li>';
 					}
@@ -520,7 +520,7 @@ function printMilestoneDoneWithTasks($color, $currentMilestone, $isFirstMileston
 					else
 					{
 						echo '<li>' .
-							'<div class="collapsible-header bold"><span class="left">' . ($m + 1) . '</span><i class="material-icons green-text margin-left">check</i>' . $currentSubTask['Title'] . '</div>' .
+							'<div class="collapsible-header bold truncate"><span class="left">' . ($m + 1) . '</span><i class="material-icons green-text margin-left">check</i>' . $currentSubTask['Title'] . '</div>' .
 							'<div class="collapsible-body"><p>' . $currentSubTask['Description'] . '</p></div>' .
 							'</li>';
 					}
