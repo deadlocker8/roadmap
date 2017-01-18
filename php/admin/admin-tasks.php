@@ -63,7 +63,7 @@ if($milestone == false)
 <a class="waves-effect waves-light btn blue darken-3 right" href="logout.php"><i class="material-icons left">lock</i>Logout</a>
 <div id="main">
 	<div class="container">
-		<h2 class="center-align" id="headline"><?php echo $milestone['Title'];?></h2>
+		<h2 class="center-align truncate" id="headline"><?php echo $milestone['Title'];?></h2>
 		<h4 class="center-align" id="headline">Tasks</h4>
 
 		<div class="row">

@@ -63,7 +63,7 @@ if($task == false)
 <a class="waves-effect waves-light btn blue darken-3 right" href="logout.php"><i class="material-icons left">lock</i>Logout</a>
 <div id="main">
 	<div class="container">
-		<h2 class="center-align" id="headline"><?php echo $task['Title'];?></h2>
+		<h2 class="center-align truncate" id="headline"><?php echo $task['Title'];?></h2>
 		<h4 class="center-align" id="headline">Subtasks</h4>
 
 		<div class="row">
