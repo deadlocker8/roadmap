@@ -8,7 +8,7 @@ include_once('getLanguageJSON.php');
 		<meta charset="UTF-8"/>
 		<title>Roadmap</title>
 		<!--Import Google Icon Font-->
-		<link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 		<!--Import materialize.css-->
 		<link type="text/css" rel="stylesheet" href="../materialize/css/materialize.min.css" media="screen,projection"/>
 		<link type="text/css" rel="stylesheet" href="../css/style.css"/>
