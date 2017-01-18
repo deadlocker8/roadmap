@@ -328,6 +328,15 @@ class DB
 		return $statement->fetch();
 	}
 
+    function getLatestFinishedMilestone($roadmapID)
+    {
+        $statement = self::$db->prepare("SELECT * FROM milestones WHERE RoadmapID=:roadmapID AND status = '1'; ORDER BY VersionCode DESC");
+        $statement->bindParam("roadmapID", $roadmapID);
+        $statement->execute();
+
+        return $statement->fetchAll();
+    }
+
 	//========================================
 	//--------------- delete -----------------
 	//========================================
