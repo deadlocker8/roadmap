@@ -493,14 +493,14 @@ function printMilestoneDoneWithTasks($color, $currentMilestone, $isFirstMileston
 				if($numberOfOpenSubtasks == 0)
 				{
 					echo '<li>' .
-						'<div class="collapsible-header bold"><i class="material-icons green-text">check</i>Layout<span class="right">' . sizeof($subtasks) . '/' . sizeof($subtasks) . '</span></div>' .
+						'<div class="collapsible-header bold"><i class="material-icons green-text">check</i>'.$currentTask['Title'].'<span class="right">' . sizeof($subtasks) . '/' . sizeof($subtasks) . '</span></div>' .
 						'<div class="collapsible-body">' .
 						'<ul class="collapsible white margin-left-and-right no-shadow margin-top-and-bottom" data-collapsible="accordion">';
 				}
 				else
 				{
 					echo '<li>' .
-						'<div class="collapsible-header bold"><i class="material-icons red-text">build</i>Layout<span class="right">' . (sizeof($subtasks) - $numberOfOpenSubtasks) . '/' . sizeof($subtasks) . '</span></div>' .
+						'<div class="collapsible-header bold"><i class="material-icons red-text">build</i>'.$currentTask['Title'].'<span class="right">' . (sizeof($subtasks) - $numberOfOpenSubtasks) . '/' . sizeof($subtasks) . '</span></div>' .
 						'<div class="collapsible-body">' .
 						'<ul class="collapsible white margin-left-and-right no-shadow margin-top-and-bottom" data-collapsible="accordion">';
 				}
