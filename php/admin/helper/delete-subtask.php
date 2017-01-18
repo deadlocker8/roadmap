@@ -9,10 +9,16 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
 		exit;
 	}
 
+    if(!isset($_POST['task_ID']))
+    {
+        echo "error";
+        exit;
+    }
+
 	$db = new DB();
 	$db->createTables();
 
-	if($db->deleteSubtask($_POST['subtask_ID']) == false)
+	if($db->deleteSubtask($_POST['subtask_ID'], $_POST['task_ID']) == false)
 	{
 		echo "error";
 		exit;

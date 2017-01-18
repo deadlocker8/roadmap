@@ -105,8 +105,11 @@ class DB
 		$statement->bindParam("title", $title);
 		$statement->bindParam("description", $description);
 		$statement->bindParam("status", $status);
+        $success = $statement->execute();
 
-		return $statement->execute();
+        $this->checkParentTask($taskID);
+
+		return $success;
 	}
 
 	//========================================
@@ -128,6 +131,14 @@ class DB
 
 		return $statement->execute();
 	}
+
+    function reopenTask($taskID)
+    {
+        $statement = self::$db->prepare("UPDATE tasks SET status='0' WHERE ID = :taskID;");
+        $statement->bindParam("taskID", $taskID);
+
+        return $statement->execute();
+    }
 
 	function finishSubTask($subtaskID)
 	{
@@ -185,8 +196,34 @@ class DB
 		$statement->bindParam("description", $description);
 		$statement->bindParam("status", $status);
 
-		return $statement->execute();
+        $success = $statement->execute();
+        $this->checkParentTask($taskID);
+
+		return $success;
 	}
+
+	function checkParentTask($taskID)
+    {
+        $subTasks = $this->getSubtasks($taskID);
+        $counter = 0;
+        for($m = 0; $m < sizeof($subTasks); $m++)
+        {
+            $currentSubTask = $subTasks[$m];
+            if ($currentSubTask['Status'] == 1)
+            {
+                $counter = $counter + 1;
+            }
+        }
+
+        if($counter == sizeof($subTasks))
+        {
+            $this->finishTask($taskID);
+        }
+        else
+        {
+            $this->reopenTask($taskID);
+        }
+    }
 
 	//========================================
 	//----------------- get ------------------
@@ -295,13 +332,13 @@ class DB
 	//--------------- delete -----------------
 	//========================================
 
-	function deleteRoadmap($roadmapID)
-	{
-		$statement = self::$db->prepare("DELETE FROM roadmaps WHERE roadmaps.ID=:roadmapID;");
-		$statement->bindParam("roadmapID", $roadmapID);
-		$statement->execute();
+    function deleteRoadmap($roadmapID)
+    {
+        $statement = self::$db->prepare("DELETE FROM roadmaps WHERE roadmaps.ID=:roadmapID;");
+        $statement->bindParam("roadmapID", $roadmapID);
+        $statement->execute();
 
-		return $statement->execute();
+        return $statement->execute();
 	}
 
 	function deleteMilestone($milestoneID)
@@ -322,12 +359,14 @@ class DB
 		return $statement->execute();
 	}
 
-	function deleteSubtask($subtaskID)
+	function deleteSubtask($subtaskID, $taskID)
 	{
 		$statement = self::$db->prepare("DELETE FROM subtasks WHERE subtasks.ID=:subtaskID;");
 		$statement->bindParam("subtaskID", $subtaskID);
-		$statement->execute();
+		$success = $statement->execute();
 
-		return $statement->execute();
+        $this->checkParentTask($taskID);
+
+		return $success;
 	}
 }

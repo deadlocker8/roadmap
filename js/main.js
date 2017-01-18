@@ -493,6 +493,7 @@ function deleteSubtask(subtask_ID, task_ID)
 	$.post('../admin/helper/delete-subtask.php',
 		{
 			"subtask_ID": subtask_ID,
+            "task_ID": task_ID
 
 		}, function(data, error)
 		{
