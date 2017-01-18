@@ -227,9 +227,17 @@ function printMilestoneIndevAndNoTasks($color, $currentMilestone, $dueDate, $lan
 {
 	echo '<div class="card padding white milestone">' .
 		'<div class="card-content">' .
-		'<div class="'.$color.' center-align milestone-title">' .
-		'<span class="card-title bold padding-left-and-right truncate">' . $currentMilestone['VersionName'] . ' - ' . $currentMilestone['Title'] . '</span>' .
-		'</div>' .
+		'<div class="'.$color.' center-align milestone-title">';
+    if($currentMilestone['VersionName'] == $currentMilestone['Title'])
+    {
+        echo '<span class="card-title bold padding-left-and-right truncate">' . $currentMilestone['Title'] . '</span>';
+
+    }
+    else
+    {
+       echo '<span class="card-title bold padding-left-and-right truncate">' . $currentMilestone['VersionName'] . ' - ' . $currentMilestone['Title'] . '</span>';
+    }
+    echo '</div>' .
 		'<div class="milestone-content margin-top">' .
 		'<div class="white progress-container">'.
 		'<div class="progress grey lighten-2 high-progress margin-bottom">'.
@@ -276,9 +284,17 @@ function printMilestoneIndevWithTasks($currentMilestone, $db, $tasks, $color, $l
 
 		echo '<div class="card padding white milestone">' .
 			'<div class="card-content">' .
-			'<div class="'.$color.' center-align milestone-title">' .
-			'<span class="card-title bold padding-left-and-right truncate">' . $currentMilestone['VersionName'] . ' - ' . $currentMilestone['Title'] . '</span>' .
-			'</div>' .
+			'<div class="'.$color.' center-align milestone-title">';
+        if($currentMilestone['VersionName'] == $currentMilestone['Title'])
+        {
+            echo '<span class="card-title bold padding-left-and-right truncate">' . $currentMilestone['Title'] . '</span>';
+
+        }
+        else
+        {
+            echo '<span class="card-title bold padding-left-and-right truncate">' . $currentMilestone['VersionName'] . ' - ' . $currentMilestone['Title'] . '</span>';
+        }
+        echo '</div>' .
 			'<div class="milestone-content margin-top">' .
 			'<div class="white progress-container">'.
 			'<div class="progress grey lighten-2 high-progress margin-bottom">'.
@@ -388,9 +404,17 @@ function printMilestoneDoneAndNoTasks($color, $currentMilestone, $isFirstMilesto
 {
 	echo '<div class="card padding white milestone">' .
 		'<div class="card-content">' .
-		'<div class="'.$color.' center-align milestone-title">' .
-		'<span class="card-title bold padding-left-and-right truncate">' . $currentMilestone['VersionName'] . ' - ' . $currentMilestone['Title'] . '</span>' .
-		'</div>';
+		'<div class="'.$color.' center-align milestone-title">';
+    if($currentMilestone['VersionName'] == $currentMilestone['Title'])
+    {
+        echo '<span class="card-title bold padding-left-and-right truncate">' . $currentMilestone['Title'] . '</span>';
+
+    }
+    else
+    {
+        echo '<span class="card-title bold padding-left-and-right truncate">' . $currentMilestone['VersionName'] . ' - ' . $currentMilestone['Title'] . '</span>';
+    }
+    echo '</div>';
 
 	if($isFirstMilestone)
 	{
@@ -418,9 +442,17 @@ function printMilestoneDoneWithTasks($color, $currentMilestone, $isFirstMileston
 {
 	echo '<div class="card padding white milestone">' .
 		'<div class="card-content">' .
-		'<div class="'.$color.' center-align milestone-title">' .
-		'<span class="card-title bold padding-left-and-right truncate">' . $currentMilestone['VersionName'] . ' - ' . $currentMilestone['Title'] . '</span>' .
-		'</div>';
+		'<div class="'.$color.' center-align milestone-title">';
+         if($currentMilestone['VersionName'] == $currentMilestone['Title'])
+         {
+             echo '<span class="card-title bold padding-left-and-right truncate">' . $currentMilestone['Title'] . '</span>';
+
+         }
+         else
+         {
+             echo '<span class="card-title bold padding-left-and-right truncate">' . $currentMilestone['VersionName'] . ' - ' . $currentMilestone['Title'] . '</span>';
+         }
+		echo '</div>';
 
 	if($isFirstMilestone)
 	{
