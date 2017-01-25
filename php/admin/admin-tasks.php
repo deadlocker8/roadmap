@@ -70,6 +70,8 @@ if($milestone == false)
 			<div class="col s12 m8 offset-m2 l6 offset-l3 center-align">
 				<a class="waves-effect waves-light btn blue darken-3" href="admin-edit-task.php?milestoneID=<?php echo $ID;?>"><i
 						class="material-icons left">add</i>New</a>
+                <a class="waves-effect waves-light btn blue darken-3" id="button-mark-all-as-done" data-milestoneid="<?php echo $ID;?>"><i
+                            class="material-icons left">check</i>Mark all as done</a>
 			</div>
 		</div>
 		<div class="row">

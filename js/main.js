@@ -126,6 +126,11 @@ $(document).ready(function()
 		}
 	});
 
+    $('#button-mark-all-as-done').click(function()
+    {
+        markAllTasksAsDone(this.dataset.milestoneid);
+    });
+
 	createTrainMap();
 });
 
@@ -522,7 +527,7 @@ function login()
 
 	$.post('../admin/helper/checkLogin.php',
 		{
-			"password": password,
+			"password": password
 
 		}, function(data, error)
 		{
@@ -537,4 +542,25 @@ function login()
 				alert('Wrong password!');
 			}
 		});
+}
+
+function markAllTasksAsDone(milestone_ID)
+{
+    $.post('../admin/helper/mark-all-tasks-as-done.php',
+        {
+            "milestoneID": milestone_ID
+
+        }, function(data, error)
+        {
+            data = data.toString().trim();
+
+            if(data != "error" && data != "bad_login")
+            {
+                window.location.href = "../admin/admin-tasks.php?id=" + milestone_ID;
+            }
+            else
+            {
+                alert('An error occurred while marking all tasks as done');
+            }
+        });
 }

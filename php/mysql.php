@@ -226,6 +226,29 @@ class DB
         }
     }
 
+    function markAllTasksAsDone($milestoneID)
+    {
+        $tasks = $this->getTasks($milestoneID);
+        for($m = 0; $m < sizeof($tasks); $m++)
+        {
+            $subTasks = $this->getSubtasks($tasks[$m]['ID']);
+            for($i = 0; $i < sizeof($subTasks); $i++)
+            {
+                if($this->finishSubTask($subTasks[$i]["ID"]) == false)
+                {
+                    return false;
+                }
+            }
+
+            if($this->finishTask($tasks[$m]['ID']) == false)
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
 	//========================================
 	//----------------- get ------------------
 	//========================================
