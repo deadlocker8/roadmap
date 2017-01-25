@@ -8,10 +8,11 @@ class DB
 	{
 		try
 		{
+            require_once('admin/helper/settings.php');
 			self::$db = new PDO(
-				"mysql:host=localhost;dbname=roadmap",
-				"root",
-				"",
+				"mysql:host=localhost;dbname=" . $database_name,
+				$database_user,
+				$database_password,
 				array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'"));
 
 			self::createTables();

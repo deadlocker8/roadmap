@@ -1,6 +1,6 @@
 <?php
 
-$PASSWORD = "123";
+require_once('settings.php');
 
 if(!isset($_SESSION))
 {
@@ -11,7 +11,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
 {
 	if(isset($_POST['password']))
 	{
-		if($_POST['password'] == $PASSWORD)
+		if($_POST['password'] == $admin_password)
 		{
 			$_SESSION['loggedIn'] = 'true';
 			echo "success";
