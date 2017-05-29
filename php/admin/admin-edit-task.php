@@ -108,7 +108,7 @@ else
 				?>
 
 				<div class="row center-align">
-					<div class="col s6 m8 offset-m2 l6 offset-l3">
+					<div class="col s12 m8 offset-m2 l6 offset-l3">
 						<div class="input-field col s12">
 							<input id="title" name="title" type="text" value="<?php if(isset($task)){echo $task['Title'];}?>">
 							<label for="title">Title</label>
@@ -116,7 +116,7 @@ else
 					</div>
 				</div>
 				<div class="row center-align">
-					<div class="col s6 m8 offset-m2 l6 offset-l3">
+					<div class="col s12 m8 offset-m2 l6 offset-l3">
 						<div class="input-field col s12">
 							<input id="description" name="description" type="text" value="<?php if(isset($task)){echo $task['Description'];}?>">
 							<label for="description">Description</label>
@@ -124,7 +124,7 @@ else
 					</div>
 				</div>
 				<div class="row center-align">
-					<div class="col s6 m8 offset-m2 l6 offset-l3">
+					<div class="col s12 m8 offset-m2 l6 offset-l3">
 						<div class="col s12 left-align">
 							<input type="checkbox" id="checkbox-done"
 							<?php
