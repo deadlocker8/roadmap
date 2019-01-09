@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection SqlNoDataSourceInspection */
 
 class DB
 {
@@ -10,7 +10,7 @@ class DB
         {
             require_once('admin/helper/settings.php');
             self::$db = new PDO(
-                "mysql:host=localhost;dbname=" . $database_name,
+                "pgsql:host=localhost;dbname=" . $database_name,
                 $database_user,
                 $database_password,
                 array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'"));
@@ -25,40 +25,36 @@ class DB
 
     function createTables()
     {
-        $statement = self::$db->prepare("CREATE TABLE IF NOT EXISTS `roadmaps` ( `ID` int(10) unsigned NOT NULL AUTO_INCREMENT, `Projectname` text COLLATE utf8_general_ci NOT NULL, PRIMARY KEY (`ID`))ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;");
+        $statement = self::$db->prepare('CREATE TABLE IF NOT EXISTS "roadmaps" ('.
+            '"ID" serial NOT NULL PRIMARY KEY,'.
+            '"Projectname" text NOT NULL);');
         $statement->execute();
 
-        $statement = self::$db->prepare("CREATE TABLE IF NOT EXISTS `milestones` (".
-            "`ID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,".
-            "`RoadmapID` int(10) UNSIGNED NOT NULL,".
-            "`VersionCode` int(10) UNSIGNED NOT NULL,".
-            "`VersionName` text COLLATE utf8_general_ci NOT NULL,".
-            "`Title` text COLLATE utf8_general_ci NOT NULL,".
-            "`DueDate` date NOT NULL,".
-            "`CompletionDate` date NOT NULL,".
-            "`Status` int(11) NOT NULL,".
-            "PRIMARY KEY (`ID`)".
-            ") ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;");
+        $statement = self::$db->prepare('CREATE TABLE IF NOT EXISTS "milestones" ('.
+            '"ID" serial NOT NULL PRIMARY KEY,'.
+            '"RoadmapID" integer NOT NULL,'.
+            '"VersionCode"integer NOT NULL,'.
+            '"VersionName" text NOT NULL,'.
+            '"Title" text NOT NULL,'.
+            '"DueDate" date NOT NULL,'.
+            '"CompletionDate" date NOT NULL,'.
+            '"Status" integer NOT NULL);');
         $statement->execute();
 
-        $statement = self::$db->prepare("CREATE TABLE IF NOT EXISTS `tasks` (".
-            "`ID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,".
-            "`MilestoneID` int(10) UNSIGNED NOT NULL,".
-            "`Title` text CHARACTER SET utf8 NOT NULL,".
-            "`Description` text CHARACTER SET utf8 NOT NULL,".
-            "`Status` int(11) NOT NULL,".
-            "PRIMARY KEY (`ID`)".
-            ") ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;");
+        $statement = self::$db->prepare('CREATE TABLE IF NOT EXISTS "tasks" ('.
+            '"ID" serial NOT NULL PRIMARY KEY,'.
+            '"MilestoneID" integer NOT NULL,'.
+            '"Title" text NOT NULL,'.
+            '"Description" text NOT NULL,'.
+            '"Status" integer NOT NULL);');
         $statement->execute();
 
-        $statement = self::$db->prepare("CREATE TABLE IF NOT EXISTS `subtasks` (".
-            "`ID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,".
-            "`TaskID` int(10) UNSIGNED NOT NULL,".
-            "`Title` text CHARACTER SET utf8 NOT NULL,".
-            "`Description` text CHARACTER SET utf8 NOT NULL,".
-            "`Status` int(11) NOT NULL,".
-            "PRIMARY KEY (`ID`)".
-            ") ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;");
+        $statement = self::$db->prepare('CREATE TABLE IF NOT EXISTS "subtasks" ('.
+            '"ID" serial NOT NULL PRIMARY KEY,'.
+            '"TaskID" integer NOT NULL,'.
+            '"Title" text NOT NULL,'.
+            '"Description" text NOT NULL,'.
+            '"Status" integer NOT NULL);');
         $statement->execute();
     }
 
@@ -68,7 +64,7 @@ class DB
 
     function insertRoadmap($projectName)
     {
-        $statement = self::$db->prepare("INSERT INTO roadmaps VALUES('', :projectName);");
+        $statement = self::$db->prepare('INSERT INTO roadmaps ("Projectname") VALUES(:projectName);');
         $statement->bindParam("projectName", $projectName);
 
         return $statement->execute();
@@ -76,7 +72,7 @@ class DB
 
     function insertMilestone($roadmapID, $versionCode, $versionName, $title, $dueDate, $completionDate, $status)
     {
-        $statement = self::$db->prepare("INSERT INTO milestones VALUES('', :roadmapID, :versionCode, :versionName, :title, STR_TO_DATE(:dueDate, '%d.%m.%Y'), STR_TO_DATE(:completionDate, '%d.%m.%Y'), :status);");
+        $statement = self::$db->prepare('INSERT INTO milestones ("RoadmapID", "VersionCode", "VersionName", "Title", "DueDate", "CompletionDate", "Status") VALUES(:roadmapID, :versionCode, :versionName, :title, to_date(:dueDate, \'DD.MM.YY\'), to_date(:completionDate, \'DD.MM.YY\'), :status);');
         $statement->bindParam("roadmapID", $roadmapID);
         $statement->bindParam("versionCode", $versionCode);
         $statement->bindParam("versionName", $versionName);
@@ -90,7 +86,7 @@ class DB
 
     function insertTask($milestoneID, $title, $description, $status)
     {
-        $statement = self::$db->prepare("INSERT INTO tasks VALUES('', :milestoneID, :title, :description, :status);");
+        $statement = self::$db->prepare('INSERT INTO tasks ("MilestoneID", "Title", "Description", "Status") VALUES(:milestoneID, :title, :description, :status);');
         $statement->bindParam("milestoneID", $milestoneID);
         $statement->bindParam("title", $title);
         $statement->bindParam("description", $description);
@@ -101,7 +97,7 @@ class DB
 
     function insertSubtask($taskID, $title, $description, $status)
     {
-        $statement = self::$db->prepare("INSERT INTO subtasks VALUES('', :taskID, :title, :description, :status);");
+        $statement = self::$db->prepare('INSERT INTO subtasks ("TaskID", "Title", "Description", "Status") VALUES(:taskID, :title, :description, :status);');
         $statement->bindParam("taskID", $taskID);
         $statement->bindParam("title", $title);
         $statement->bindParam("description", $description);
@@ -119,7 +115,7 @@ class DB
 
     function finishMilestone($milestoneID)
     {
-        $statement = self::$db->prepare("UPDATE milestones SET status='1' WHERE ID = :milestoneID;");
+        $statement = self::$db->prepare('UPDATE milestones SET "Status"=1 WHERE "ID" = :milestoneID;');
         $statement->bindParam("milestoneID", $milestoneID);
 
         return $statement->execute();
@@ -127,7 +123,7 @@ class DB
 
     function finishTask($taskID)
     {
-        $statement = self::$db->prepare("UPDATE tasks SET status='1' WHERE ID = :taskID;");
+        $statement = self::$db->prepare('UPDATE tasks SET "Status"=1 WHERE "ID" = :taskID;');
         $statement->bindParam("taskID", $taskID);
 
         return $statement->execute();
@@ -135,7 +131,7 @@ class DB
 
     function reopenTask($taskID)
     {
-        $statement = self::$db->prepare("UPDATE tasks SET status='0' WHERE ID = :taskID;");
+        $statement = self::$db->prepare('UPDATE tasks SET "Status"=0 WHERE "ID" = :taskID;');
         $statement->bindParam("taskID", $taskID);
 
         return $statement->execute();
@@ -143,7 +139,7 @@ class DB
 
     function finishSubTask($subtaskID)
     {
-        $statement = self::$db->prepare("UPDATE subtasks SET status='1' WHERE ID = :subtaskID;");
+        $statement = self::$db->prepare('UPDATE subtasks SET "Status"=1 WHERE "ID" = :subtaskID;');
         $statement->bindParam("subtaskID", $subtaskID);
 
         return $statement->execute();
@@ -155,7 +151,7 @@ class DB
 
     function updateRoadmap($roadmapID, $projectName)
     {
-        $statement = self::$db->prepare("UPDATE roadmaps SET Projectname = :projectName WHERE ID = :roadmapID;");
+        $statement = self::$db->prepare('UPDATE roadmaps SET "Projectname" = :projectName WHERE "ID"= :roadmapID;');
         $statement->bindParam("roadmapID", $roadmapID);
         $statement->bindParam("projectName", $projectName);
 
@@ -164,7 +160,7 @@ class DB
 
     function updateMilestone($milestoneID, $versionCode, $versionName, $title, $dueDate, $completionDate, $status)
     {
-        $statement = self::$db->prepare("UPDATE milestones SET VersionCode = :versionCode, VersionName = :versionName, Title = :title, DueDate = STR_TO_DATE(:dueDate, '%d.%m.%Y'), CompletionDate = STR_TO_DATE(:completionDate, '%d.%m.%Y'), Status = :status WHERE ID = :milestoneID;");
+        $statement = self::$db->prepare('UPDATE milestones SET "VersionCode" = :versionCode, "VersionName" = :versionName, "Title" = :title, "DueDate"=to_date(:dueDate, \'DD.MM.YY\'), "CompletionDate"=to_date(:completionDate, \'DD.MM.YY\'), "Status" = :status WHERE "ID" = :milestoneID;');
         $statement->bindParam("milestoneID", $milestoneID);
         $statement->bindParam("versionCode", $versionCode);
         $statement->bindParam("versionName", $versionName);
@@ -178,7 +174,7 @@ class DB
 
     function updateTask($taskID, $milestoneID, $title, $description, $status)
     {
-        $statement = self::$db->prepare("UPDATE tasks SET MilestoneID = :milestoneID, Title = :title, Description = :description, Status = :status WHERE ID = :taskID;");
+        $statement = self::$db->prepare('UPDATE tasks SET "MilestoneID" = :milestoneID, "Title" = :title, "Description" = :description, "Status" = :status WHERE "ID" = :taskID;');
         $statement->bindParam("taskID", $taskID);
         $statement->bindParam("milestoneID", $milestoneID);
         $statement->bindParam("title", $title);
@@ -190,7 +186,7 @@ class DB
 
     function updateSubtask($subtaskID, $taskID, $title, $description, $status)
     {
-        $statement = self::$db->prepare("UPDATE subtasks SET TaskID = :taskID, Title = :title, Description = :description, Status = :status WHERE ID = :subtaskID;");
+        $statement = self::$db->prepare('UPDATE subtasks SET "TaskID" = :taskID, "Title" = :title, "Description" = :description, "Status" = :status WHERE "ID" = :subtaskID;');
         $statement->bindParam("subtaskID", $subtaskID);
         $statement->bindParam("taskID", $taskID);
         $statement->bindParam("title", $title);
@@ -255,7 +251,7 @@ class DB
 
     function getRoadmap($roadmapID)
     {
-        $statement = self::$db->prepare("SELECT Projectname FROM roadmaps WHERE roadmaps.ID=:roadmapID;");
+        $statement = self::$db->prepare('SELECT "Projectname" FROM roadmaps WHERE "ID"=:roadmapID;');
         $statement->bindParam("roadmapID", $roadmapID);
         $statement->execute();
 
@@ -264,7 +260,7 @@ class DB
 
     function getRoadmaps()
     {
-        $statement = self::$db->prepare("SELECT * FROM roadmaps ORDER BY ID;");
+        $statement = self::$db->prepare('SELECT * FROM roadmaps ORDER BY "ID";');
         $statement->bindParam("roadmapID", $roadmapID);
         $statement->execute();
 
@@ -273,7 +269,7 @@ class DB
 
     function getMilestones($roadmapID)
     {
-        $statement = self::$db->prepare("SELECT * FROM milestones WHERE milestones.roadmapID=:roadmapID ORDER BY VersionCode DESC;");
+        $statement = self::$db->prepare('SELECT * FROM milestones WHERE "RoadmapID"=:roadmapID ORDER BY "VersionCode" DESC;');
         $statement->bindParam("roadmapID", $roadmapID);
         $statement->execute();
 
@@ -282,7 +278,7 @@ class DB
 
     function getMilestone($milestoneID)
     {
-        $statement = self::$db->prepare("SELECT * FROM milestones WHERE milestones.ID=:milestoneID;");
+        $statement = self::$db->prepare('SELECT * FROM milestones WHERE "ID"=:milestoneID;');
         $statement->bindParam("milestoneID", $milestoneID);
         $statement->execute();
 
@@ -291,7 +287,7 @@ class DB
 
     function getNumberOfOpenMilestones($roadmapID)
     {
-        $statement = self::$db->prepare("SELECT COUNT(*) AS 'count' FROM milestones WHERE milestones.roadmapID=:roadmapID AND status = '0';");
+        $statement = self::$db->prepare('SELECT COUNT(*) AS "count" FROM milestones WHERE "RoadmapID"=:roadmapID AND "Status" = 0;');
         $statement->bindParam("roadmapID", $roadmapID);
         $statement->execute();
 
@@ -300,7 +296,7 @@ class DB
 
     function getTasks($milestoneID)
     {
-        $statement = self::$db->prepare("SELECT * FROM tasks WHERE tasks.milestoneID=:milestoneID;");
+        $statement = self::$db->prepare('SELECT * FROM tasks WHERE "MilestoneID"=:milestoneID;');
         $statement->bindParam("milestoneID", $milestoneID);
         $statement->execute();
 
@@ -309,7 +305,7 @@ class DB
 
     function getTask($taskID)
     {
-        $statement = self::$db->prepare("SELECT * FROM tasks WHERE tasks.ID=:taskID;");
+        $statement = self::$db->prepare('SELECT * FROM tasks WHERE "ID"=:taskID;');
         $statement->bindParam("taskID", $taskID);
         $statement->execute();
 
@@ -318,7 +314,7 @@ class DB
 
     function getNumberOfOpenTasks($milestoneID)
     {
-        $statement = self::$db->prepare("SELECT COUNT(*) AS 'count' FROM tasks WHERE tasks.MilestoneID=:milestoneID AND status = '0';");
+        $statement = self::$db->prepare('SELECT COUNT(*) AS "count" FROM tasks WHERE "MilestoneID"=:milestoneID AND "Status" = 0;');
         $statement->bindParam("milestoneID", $milestoneID);
         $statement->execute();
 
@@ -327,7 +323,7 @@ class DB
 
     function getSubtasks($taskID)
     {
-        $statement = self::$db->prepare("SELECT * FROM subtasks WHERE subtasks.taskID=:taskID;");
+        $statement = self::$db->prepare('SELECT * FROM subtasks WHERE "TaskID"=:taskID;');
         $statement->bindParam("taskID", $taskID);
         $statement->execute();
 
@@ -336,7 +332,7 @@ class DB
 
     function getSubtask($taskID)
     {
-        $statement = self::$db->prepare("SELECT * FROM subtasks WHERE subtasks.ID=:taskID;");
+        $statement = self::$db->prepare('SELECT * FROM subtasks WHERE "ID"=:taskID;');
         $statement->bindParam("taskID", $taskID);
         $statement->execute();
 
@@ -345,7 +341,7 @@ class DB
 
     function getNumberOfOpenSubtasks($taskID)
     {
-        $statement = self::$db->prepare("SELECT COUNT(*) AS 'count' FROM subtasks WHERE subtasks.TaskID=:taskID AND status = '0';");
+        $statement = self::$db->prepare('SELECT COUNT(*) AS "count" FROM subtasks WHERE "TaskID"=:taskID AND "Status" = 0;');
         $statement->bindParam("taskID", $taskID);
         $statement->execute();
 
@@ -354,7 +350,7 @@ class DB
 
     function getLatestFinishedMilestone($roadmapID)
     {
-        $statement = self::$db->prepare("SELECT * FROM milestones WHERE RoadmapID=:roadmapID AND status = '1' ORDER BY VersionCode DESC");
+        $statement = self::$db->prepare('SELECT * FROM milestones WHERE "RoadmapID"=:roadmapID AND "Status" = 1 ORDER BY "VersionCode" DESC;');
         $statement->bindParam("roadmapID", $roadmapID);
         $statement->execute();
 
@@ -367,7 +363,7 @@ class DB
 
     function deleteRoadmap($roadmapID)
     {
-        $statement = self::$db->prepare("DELETE FROM roadmaps WHERE roadmaps.ID=:roadmapID;");
+        $statement = self::$db->prepare('DELETE FROM roadmaps WHERE "ID"=:roadmapID;');
         $statement->bindParam("roadmapID", $roadmapID);
         $statement->execute();
 
@@ -376,7 +372,7 @@ class DB
 
     function deleteMilestone($milestoneID)
     {
-        $statement = self::$db->prepare("DELETE FROM milestones WHERE milestones.ID=:milestoneID;");
+        $statement = self::$db->prepare('DELETE FROM milestones WHERE "ID"=:milestoneID;');
         $statement->bindParam("milestoneID", $milestoneID);
         $statement->execute();
 
@@ -385,7 +381,7 @@ class DB
 
     function deleteTask($taskID)
     {
-        $statement = self::$db->prepare("DELETE FROM tasks WHERE tasks.ID=:taskID;");
+        $statement = self::$db->prepare('DELETE FROM tasks WHERE "ID"=:taskID;');
         $statement->bindParam("taskID", $taskID);
         $statement->execute();
 
@@ -394,7 +390,7 @@ class DB
 
     function deleteSubtask($subtaskID, $taskID)
     {
-        $statement = self::$db->prepare("DELETE FROM subtasks WHERE subtasks.ID=:subtaskID;");
+        $statement = self::$db->prepare('DELETE FROM subtasks WHERE "ID"=:subtaskID;');
         $statement->bindParam("subtaskID", $subtaskID);
         $success = $statement->execute();
 
