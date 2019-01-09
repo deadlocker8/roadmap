@@ -1,540 +1,405 @@
-<!DOCTYPE html>
-
 <?php
-include_once('getLanguageJSON.php');
-include_once('mysql.php');
 
-if(!isset($_GET['id']))
+class DB
 {
-    header('Location: overview.php');
-    exit;
-}
+    private static $db;
 
-$ID = $_GET['id'];
-if(!is_numeric($ID) || $ID < 1)
-{
-    header('Location: error.php?message=error_param_invalid');
-    exit;
-}
-
-$db = new DB();
-$db->createTables();
-
-$projectName = $db->getRoadmap($ID);
-if($projectName == false)
-{
-    header('Location: error.php?message=error_roadmap_not_existing');
-    exit;
-}
-$projectName = $projectName["Projectname"];
-
-$milestones = $db->getMilestones($ID);
-if($milestones == false)
-{
-    header('Location: error.php?message=error_no_milestones');
-    exit;
-}
-
-$numberOfMilestones = sizeof($milestones);
-
-$numberofOpenMilestones = $db->getNumberOfOpenMilestones($ID);
-if($numberofOpenMilestones == false)
-{
-    header('Location: error.php?message=error_database_connection');
-    exit;
-}
-
-$numberofOpenMilestones = $numberofOpenMilestones['count'];
-?>
-<html xmlns="http://www.w3.org/1999/html">
-    <head>
-        <meta charset="UTF-8"/>
-        <title>Roadmap - <?php echo $projectName;?></title>
-        <!--Import Google Icon Font-->
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-        <!--Import materialize.css-->
-        <link type="text/css" rel="stylesheet" href="../materialize/css/materialize.min.css" media="screen,projection"/>
-        <link type="text/css" rel="stylesheet" href="../css/style.css"/>
-
-        <!--Import jQuery before materialize.js-->
-        <script type="text/javascript" src="../js/jquery-2.2.4.min.js"></script>
-        <script type="text/javascript" src="../materialize/js/materialize.min.js"></script>
-        <script type="text/javascript" src="../js/main.js"></script>
-        <script type="text/javascript" src="../js/ResizeSensor.js"></script>
-        <script type="text/javascript" src="../js/ElementQueries.js"></script>
-
-        <!--Let browser know website is optimized for mobile-->
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    </head>
-
-    <body class="grey lighten-3">
-        <a class="btn-flat right" href="admin/login.php">Login</a>
-        <div style="clear: both;"></div>
-        <div id="main">
-            <div class="container">
-                <h2 class="center-align" id="headline"><?php echo $projectName;?> Roadmap</h2>
-                <div class="row">
-                    <div class="col s12">
-                        <div class="row">
-                            <div class="col s1 m2 l2 offset-m1 offset-l1 no-padding">
-                                <div class="hide-on-small-only trainmap">
-                                    <?php
-                                    createTrainmapMedAndUp($numberofOpenMilestones, $numberOfMilestones);
-                                    ?>
-                                </div>
-                                <div class="hide-on-med-and-up trainmap-small">
-                                    <?php
-                                    createTrainmapSmall($numberofOpenMilestones, $numberOfMilestones);
-                                    ?>
-                                </div>
-                            </div>
-                            <div class="col s11 m7 l6">
-
-                                <?php
-                                $isFirstMilestone = true;
-                                for($i = 0; $i < $numberOfMilestones; $i++)
-                                {
-                                    $currentMilestone = $milestones[$i];
-
-                                    //Milestone is inDev
-                                    if($currentMilestone['Status'] == 0)
-                                    {
-                                        $color = 'blue lighten-2';
-
-                                        $dueDate = $currentMilestone['DueDate'];
-                                        if($dueDate == "2000-01-01")
-                                        {
-                                            $dueDate = "-";
-                                        }
-                                        else
-                                        {
-                                            $dueDate = date_create($dueDate);
-                                            $dueDate = date_format($dueDate, "d.m.Y");
-                                        }
-
-                                        $tasks = $db->getTasks($currentMilestone['ID']);
-                                        if($tasks == false)
-                                        {
-                                            printMilestoneIndevAndNoTasks($color, $currentMilestone, $dueDate, $languageJSON);
-                                        }
-                                        else
-                                        {
-                                            printMilestoneIndevWithTasks($currentMilestone, $db, $tasks, $color, $languageJSON);
-                                        }
-                                    }
-                                    //Milestone is done
-                                    else
-                                    {
-                                        if($isFirstMilestone)
-                                        {
-                                            $color = 'amber lighten-2';
-                                        }
-                                        else
-                                        {
-                                            $color = 'grey lighten-2';
-                                        }
-
-                                        $dueDate = $currentMilestone['DueDate'];
-                                        if($dueDate == "2000-01-01")
-                                        {
-                                            $dueDate = "-";
-                                        }
-                                        else
-                                        {
-                                            $dueDate = date_create($dueDate);
-                                            $dueDate = date_format($dueDate, "d.m.Y");
-                                        }
-
-                                        $completionDate = $currentMilestone['CompletionDate'];
-                                        $completionDate = date_create($completionDate);
-                                        $completionDate = date_format($completionDate, "d.m.Y");
-
-                                        $tasks = $db->getTasks($currentMilestone['ID']);
-                                        if($tasks == false)
-                                        {
-                                            printMilestoneDoneAndNoTasks($color, $currentMilestone, $isFirstMilestone, $languageJSON, $dueDate, $completionDate);
-                                        }
-                                        else
-                                        {
-                                            printMilestoneDoneWithTasks($color, $currentMilestone, $isFirstMilestone, $languageJSON, $dueDate, $completionDate, $tasks, $db);
-                                        }
-
-                                        if($isFirstMilestone)
-                                        {
-                                            $isFirstMilestone = false;
-                                        }
-                                    }
-                                }
-                                ?>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-    </body>
-</html>
-
-
-
-<?php
-function createTrainmapMedAndUp($numberofOpenMilestones, $numberOfMilestones)
-{
-    for($i = 0; $i < $numberofOpenMilestones; $i++)
+    function __construct()
     {
-        echo '<div class="train-circle train-circle-light"></div>';
-
-        if($numberofOpenMilestones != $numberOfMilestones || $i != ($numberofOpenMilestones-1))
+        try
         {
-            echo '<div class="train-line dotted"></div>';
+            require_once('admin/helper/settings.php');
+            self::$db = new PDO(
+                "mysql:host=localhost;dbname=" . $database_name,
+                $database_user,
+                $database_password,
+                array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'"));
+
+            self::createTables();
+        }
+        catch(PDOException $e)
+        {
+            die($e);
         }
     }
 
-    for($i = 0; $i < ($numberOfMilestones - $numberofOpenMilestones); $i++)
+    function createTables()
     {
-        echo '<div class="train-circle blue"></div>';
+        $statement = self::$db->prepare("CREATE TABLE IF NOT EXISTS `roadmaps` ( `ID` int(10) unsigned NOT NULL AUTO_INCREMENT, `Projectname` text COLLATE utf8_general_ci NOT NULL, PRIMARY KEY (`ID`))ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;");
+        $statement->execute();
 
-        if($i !=  (($numberOfMilestones - $numberofOpenMilestones) - 1))
+        $statement = self::$db->prepare("CREATE TABLE IF NOT EXISTS `milestones` (".
+            "`ID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,".
+            "`RoadmapID` int(10) UNSIGNED NOT NULL,".
+            "`VersionCode` int(10) UNSIGNED NOT NULL,".
+            "`VersionName` text COLLATE utf8_general_ci NOT NULL,".
+            "`Title` text COLLATE utf8_general_ci NOT NULL,".
+            "`DueDate` date NOT NULL,".
+            "`CompletionDate` date NOT NULL,".
+            "`Status` int(11) NOT NULL,".
+            "PRIMARY KEY (`ID`)".
+            ") ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;");
+        $statement->execute();
+
+        $statement = self::$db->prepare("CREATE TABLE IF NOT EXISTS `tasks` (".
+            "`ID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,".
+            "`MilestoneID` int(10) UNSIGNED NOT NULL,".
+            "`Title` text CHARACTER SET utf8 NOT NULL,".
+            "`Description` text CHARACTER SET utf8 NOT NULL,".
+            "`Status` int(11) NOT NULL,".
+            "PRIMARY KEY (`ID`)".
+            ") ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;");
+        $statement->execute();
+
+        $statement = self::$db->prepare("CREATE TABLE IF NOT EXISTS `subtasks` (".
+            "`ID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,".
+            "`TaskID` int(10) UNSIGNED NOT NULL,".
+            "`Title` text CHARACTER SET utf8 NOT NULL,".
+            "`Description` text CHARACTER SET utf8 NOT NULL,".
+            "`Status` int(11) NOT NULL,".
+            "PRIMARY KEY (`ID`)".
+            ") ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;");
+        $statement->execute();
+    }
+
+    //========================================
+    //---------------- insert ----------------
+    //========================================
+
+    function insertRoadmap($projectName)
+    {
+        $statement = self::$db->prepare("INSERT INTO roadmaps VALUES('', :projectName);");
+        $statement->bindParam("projectName", $projectName);
+
+        return $statement->execute();
+    }
+
+    function insertMilestone($roadmapID, $versionCode, $versionName, $title, $dueDate, $completionDate, $status)
+    {
+        $statement = self::$db->prepare("INSERT INTO milestones VALUES('', :roadmapID, :versionCode, :versionName, :title, STR_TO_DATE(:dueDate, '%d.%m.%Y'), STR_TO_DATE(:completionDate, '%d.%m.%Y'), :status);");
+        $statement->bindParam("roadmapID", $roadmapID);
+        $statement->bindParam("versionCode", $versionCode);
+        $statement->bindParam("versionName", $versionName);
+        $statement->bindParam("title", $title);
+        $statement->bindParam("dueDate", $dueDate);
+        $statement->bindParam("completionDate", $completionDate);
+        $statement->bindParam("status", $status);
+
+        return $statement->execute();
+    }
+
+    function insertTask($milestoneID, $title, $description, $status)
+    {
+        $statement = self::$db->prepare("INSERT INTO tasks VALUES('', :milestoneID, :title, :description, :status);");
+        $statement->bindParam("milestoneID", $milestoneID);
+        $statement->bindParam("title", $title);
+        $statement->bindParam("description", $description);
+        $statement->bindParam("status", $status);
+
+        return $statement->execute();
+    }
+
+    function insertSubtask($taskID, $title, $description, $status)
+    {
+        $statement = self::$db->prepare("INSERT INTO subtasks VALUES('', :taskID, :title, :description, :status);");
+        $statement->bindParam("taskID", $taskID);
+        $statement->bindParam("title", $title);
+        $statement->bindParam("description", $description);
+        $statement->bindParam("status", $status);
+        $success = $statement->execute();
+
+        $this->checkParentTask($taskID);
+
+        return $success;
+    }
+
+    //========================================
+    //---------------- finish ----------------
+    //========================================
+
+    function finishMilestone($milestoneID)
+    {
+        $statement = self::$db->prepare("UPDATE milestones SET status='1' WHERE ID = :milestoneID;");
+        $statement->bindParam("milestoneID", $milestoneID);
+
+        return $statement->execute();
+    }
+
+    function finishTask($taskID)
+    {
+        $statement = self::$db->prepare("UPDATE tasks SET status='1' WHERE ID = :taskID;");
+        $statement->bindParam("taskID", $taskID);
+
+        return $statement->execute();
+    }
+
+    function reopenTask($taskID)
+    {
+        $statement = self::$db->prepare("UPDATE tasks SET status='0' WHERE ID = :taskID;");
+        $statement->bindParam("taskID", $taskID);
+
+        return $statement->execute();
+    }
+
+    function finishSubTask($subtaskID)
+    {
+        $statement = self::$db->prepare("UPDATE subtasks SET status='1' WHERE ID = :subtaskID;");
+        $statement->bindParam("subtaskID", $subtaskID);
+
+        return $statement->execute();
+    }
+
+    //========================================
+    //---------------- update ----------------
+    //========================================
+
+    function updateRoadmap($roadmapID, $projectName)
+    {
+        $statement = self::$db->prepare("UPDATE roadmaps SET Projectname = :projectName WHERE ID = :roadmapID;");
+        $statement->bindParam("roadmapID", $roadmapID);
+        $statement->bindParam("projectName", $projectName);
+
+        return $statement->execute();
+    }
+
+    function updateMilestone($milestoneID, $versionCode, $versionName, $title, $dueDate, $completionDate, $status)
+    {
+        $statement = self::$db->prepare("UPDATE milestones SET VersionCode = :versionCode, VersionName = :versionName, Title = :title, DueDate = STR_TO_DATE(:dueDate, '%d.%m.%Y'), CompletionDate = STR_TO_DATE(:completionDate, '%d.%m.%Y'), Status = :status WHERE ID = :milestoneID;");
+        $statement->bindParam("milestoneID", $milestoneID);
+        $statement->bindParam("versionCode", $versionCode);
+        $statement->bindParam("versionName", $versionName);
+        $statement->bindParam("title", $title);
+        $statement->bindParam("dueDate", $dueDate);
+        $statement->bindParam("completionDate", $completionDate);
+        $statement->bindParam("status", $status);
+
+        return $statement->execute();
+    }
+
+    function updateTask($taskID, $milestoneID, $title, $description, $status)
+    {
+        $statement = self::$db->prepare("UPDATE tasks SET MilestoneID = :milestoneID, Title = :title, Description = :description, Status = :status WHERE ID = :taskID;");
+        $statement->bindParam("taskID", $taskID);
+        $statement->bindParam("milestoneID", $milestoneID);
+        $statement->bindParam("title", $title);
+        $statement->bindParam("description", $description);
+        $statement->bindParam("status", $status);
+
+        return $statement->execute();
+    }
+
+    function updateSubtask($subtaskID, $taskID, $title, $description, $status)
+    {
+        $statement = self::$db->prepare("UPDATE subtasks SET TaskID = :taskID, Title = :title, Description = :description, Status = :status WHERE ID = :subtaskID;");
+        $statement->bindParam("subtaskID", $subtaskID);
+        $statement->bindParam("taskID", $taskID);
+        $statement->bindParam("title", $title);
+        $statement->bindParam("description", $description);
+        $statement->bindParam("status", $status);
+
+        $success = $statement->execute();
+        $this->checkParentTask($taskID);
+
+        return $success;
+    }
+
+    function checkParentTask($taskID)
+    {
+        $subTasks = $this->getSubtasks($taskID);
+        $counter = 0;
+        for($m = 0; $m < sizeof($subTasks); $m++)
         {
-            echo '<div class="train-line"></div>';
+            $currentSubTask = $subTasks[$m];
+            if ($currentSubTask['Status'] == 1)
+            {
+                $counter = $counter + 1;
+            }
         }
-    }
-}
 
-function createTrainmapSmall($numberofOpenMilestones, $numberOfMilestones)
-{
-    for($i = 0; $i < $numberofOpenMilestones; $i++)
-    {
-        echo '<div class="train-circle train-circle-light train-circle-small"></div>';
-
-        if($numberofOpenMilestones != $numberOfMilestones || $i != ($numberofOpenMilestones-1))
+        if($counter == sizeof($subTasks))
         {
-            echo '<div class="train-line dotted-small train-line-small"></div>';
-        }
-    }
-
-    for($i = 0; $i < ($numberOfMilestones - $numberofOpenMilestones); $i++)
-    {
-        echo '<div class="train-circle blue train-circle-small"></div>';
-
-        if($i !=  (($numberOfMilestones - $numberofOpenMilestones) - 1))
-        {
-            echo '<div class="train-line train-line-small"></div>';
-        }
-    }
-}
-
-function printMilestoneIndevAndNoTasks($color, $currentMilestone, $dueDate, $languageJSON)
-{
-    echo '<div class="card padding white milestone">' .
-        '<div class="card-content">' .
-        '<div class="'.$color.' center-align milestone-title">';
-    if($currentMilestone['VersionName'] == $currentMilestone['Title'])
-    {
-        echo '<span class="card-title bold padding-left-and-right truncate">' . $currentMilestone['Title'] . '</span>';
-
-    }
-    else
-    {
-        echo '<span class="card-title bold padding-left-and-right truncate">' . $currentMilestone['VersionName'] . ' - ' . $currentMilestone['Title'] . '</span>';
-    }
-    echo '</div>' .
-        '<div class="milestone-content margin-top">' .
-        '<div class="white progress-container">'.
-        '<div class="progress grey lighten-2 high-progress margin-bottom">'.
-        '<div class="determinate green" style="width: 0%"></div>'.
-        '</div>'.
-        '</div>'.
-        '<div class="row">' .
-        '<div class="col s6 valign-wrapper">' .
-        '<i class="material-icons valign">event</i><span class="valign margin-left">' . $languageJSON->due_by . ' ' . $dueDate . '</span>' .
-        '</div>' .
-        '<div class="col s6 valign-wrapper">' .
-        '<i class="material-icons valign">event</i><span class="valign margin-left">0% ' . $languageJSON->done . '</span>' .
-        '</div>' .
-        '</div>' .
-        '</div>' .
-        '</div>' .
-        '</div>';
-}
-
-function printMilestoneIndevWithTasks($currentMilestone, $db, $tasks, $color, $languageJSON)
-{
-    $dueDate = $currentMilestone['DueDate'];
-    if($dueDate == "2000-01-01")
-    {
-        $dueDate = "-";
-    }
-    else
-    {
-        $dueDate = date_create($dueDate);
-        $dueDate = date_format($dueDate, "d.m.Y");
-    }
-
-    $numberOfOpenTasks = $db->getNumberOfOpenTasks($currentMilestone['ID']);
-    if($numberOfOpenTasks == false)
-    {
-        header('Location: error.php?message=error_database_connection');
-        exit;
-    }
-    else
-    {
-        $numberOfOpenTasks = $numberOfOpenTasks['count'];
-        $percentage = ((sizeof($tasks) - $numberOfOpenTasks) / sizeof($tasks))*100;
-        $percentage = round($percentage);
-
-        echo '<div class="card padding white milestone">' .
-            '<div class="card-content">' .
-            '<div class="'.$color.' center-align milestone-title">';
-        if($currentMilestone['VersionName'] == $currentMilestone['Title'])
-        {
-            echo '<span class="card-title bold padding-left-and-right truncate">' . $currentMilestone['Title'] . '</span>';
-
+            $this->finishTask($taskID);
         }
         else
         {
-            echo '<span class="card-title bold padding-left-and-right truncate">' . $currentMilestone['VersionName'] . ' - ' . $currentMilestone['Title'] . '</span>';
+            $this->reopenTask($taskID);
         }
-        echo '</div>' .
-            '<div class="milestone-content margin-top">' .
-            '<div class="white progress-container">'.
-            '<div class="progress grey lighten-2 high-progress margin-bottom">'.
-            '<div class="determinate green" style="width: '.$percentage.'%"></div>'.
-            '</div>'.
-            '</div>'.
-            '<div class="row">' .
-            '<div class="col s6 valign-wrapper">' .
-            '<i class="material-icons valign">event</i><span class="valign margin-left">' . $languageJSON->due_by . ' ' . $dueDate . '</span>' .
-            '</div>' .
-            '<div class="col s6 valign-wrapper">' .
-            '<i class="material-icons valign">event</i><span class="valign margin-left">'.$percentage.'% ' . $languageJSON->done .'</span>' .
-            '</div>' .
-            '</div>' .
-            '<ul class="collapsible white" data-collapsible="accordion">';
-        for($k = 0; $k < sizeof($tasks); $k++)
-        {
-            $currentTask = $tasks[$k];
+    }
 
-            $subtasks = $db->getSubtasks($currentTask['ID']);
-            if($subtasks == false)
+    function markAllTasksAsDone($milestoneID)
+    {
+        $tasks = $this->getTasks($milestoneID);
+        for($m = 0; $m < sizeof($tasks); $m++)
+        {
+            $subTasks = $this->getSubtasks($tasks[$m]['ID']);
+            for($i = 0; $i < sizeof($subTasks); $i++)
             {
-                //inDev
-                if($currentTask['Status'] == 0)
+                if($this->finishSubTask($subTasks[$i]["ID"]) == false)
                 {
-                    echo '<li>' .
-                        '<div class="collapsible-header bold truncate"><i class="material-icons red-text">build</i>' . $currentTask['Title'] . '</div>' .
-                        '<div class="collapsible-body"><p>' . $currentTask['Description'] . '</p></div>' .
-                        '</li>';
-                }
-                //done
-                else
-                {
-                    echo '<li>' .
-                        '<div class="collapsible-header bold truncate"><i class="material-icons green-text">check</i>' . $currentTask['Title'] . '</div>' .
-                        '<div class="collapsible-body"><p>' . $currentTask['Description'] . '</p></div>' .
-                        '</li>';
+                    return false;
                 }
             }
-            else
+
+            if($this->finishTask($tasks[$m]['ID']) == false)
             {
-                printSubTasksDone($currentTask, $subtasks, $db);
+                return false;
             }
         }
 
-        echo '</ul>' .
-            '</div>' .
-            '</div>' .
-            '</div>';
+        return true;
     }
-}
 
-function printSubTasksDone($currentTask, $subtasks, $db)
-{
-    $numberOfOpenSubtasks = $db->getNumberOfOpenSubtasks($currentTask['ID']);
-    if($numberOfOpenSubtasks == false)
+    //========================================
+    //----------------- get ------------------
+    //========================================
+
+    function getRoadmap($roadmapID)
     {
-        header('Location: error.php?message=error_database_connection');
-        exit;
+        $statement = self::$db->prepare("SELECT Projectname FROM roadmaps WHERE roadmaps.ID=:roadmapID;");
+        $statement->bindParam("roadmapID", $roadmapID);
+        $statement->execute();
+
+        return $statement->fetch();
     }
-    else
+
+    function getRoadmaps()
     {
-        $numberOfOpenSubtasks = $numberOfOpenSubtasks['count'];
-        if($numberOfOpenSubtasks == 0)
-        {
-            echo '<li>' .
-                '<div class="collapsible-header bold"><i class="material-icons green-text">check</i>'.$currentTask['Title'].'<span class="right">' . (sizeof($subtasks) - $numberOfOpenSubtasks) . '/' . sizeof($subtasks) . '</span></div>' .
-                '<div class="collapsible-body">' .
-                '<ul class="collapsible white margin-left-and-right no-shadow margin-top-and-bottom" data-collapsible="accordion">';
-        }
-        else
-        {
-            echo '<li>' .
-                '<div class="collapsible-header bold"><i class="material-icons red-text">build</i>'.$currentTask['Title'].'<span class="right">' . (sizeof($subtasks) - $numberOfOpenSubtasks) . '/' . sizeof($subtasks) . '</span></div>' .
-                '<div class="collapsible-body">' .
-                '<ul class="collapsible white margin-left-and-right no-shadow margin-top-and-bottom" data-collapsible="accordion">';
-        }
+        $statement = self::$db->prepare("SELECT * FROM roadmaps ORDER BY ID;");
+        $statement->bindParam("roadmapID", $roadmapID);
+        $statement->execute();
 
-        for($m = 0; $m < sizeof($subtasks); $m++)
-        {
-            $currentSubTask = $subtasks[$m];
-            //inDev
-            if($currentSubTask['Status'] == 0)
-            {
-                echo '<li>' .
-                    '<div class="collapsible-header bold"><span class="left">' . ($m + 1) . '</span><i class="material-icons red-text margin-left">build</i>' . $currentSubTask['Title'] . '</div>' .
-                    '<div class="collapsible-body"><p>' . $currentSubTask['Description'] . '</p></div>' .
-                    '</li>';
-            }
-            //done
-            else
-            {
-                echo '<li>' .
-                    '<div class="collapsible-header bold"><span class="left">' . ($m + 1) . '</span><i class="material-icons green-text margin-left">check</i>' . $currentSubTask['Title'] . '</div>' .
-                    '<div class="collapsible-body"><p>' . $currentSubTask['Description'] . '</p></div>' .
-                    '</li>';
-            }
-        }
-
-        echo '</ul>' .
-            '</div>' .
-            '</li>';
+        return $statement->fetchAll();
     }
-}
 
-function printMilestoneDoneAndNoTasks($color, $currentMilestone, $isFirstMilestone, $languageJSON, $dueDate, $completionDate)
-{
-    echo '<div class="card padding white milestone">' .
-        '<div class="card-content">' .
-        '<div class="'.$color.' center-align milestone-title">';
-    if($currentMilestone['VersionName'] == $currentMilestone['Title'])
+    function getMilestones($roadmapID)
     {
-        echo '<span class="card-title bold padding-left-and-right truncate">' . $currentMilestone['Title'] . '</span>';
+        $statement = self::$db->prepare("SELECT * FROM milestones WHERE milestones.roadmapID=:roadmapID ORDER BY VersionCode DESC;");
+        $statement->bindParam("roadmapID", $roadmapID);
+        $statement->execute();
 
+        return $statement->fetchAll();
     }
-    else
+
+    function getMilestone($milestoneID)
     {
-        echo '<span class="card-title bold padding-left-and-right truncate">' . $currentMilestone['VersionName'] . ' - ' . $currentMilestone['Title'] . '</span>';
-    }
-    echo '</div>';
+        $statement = self::$db->prepare("SELECT * FROM milestones WHERE milestones.ID=:milestoneID;");
+        $statement->bindParam("milestoneID", $milestoneID);
+        $statement->execute();
 
-    if($isFirstMilestone)
+        return $statement->fetch();
+    }
+
+    function getNumberOfOpenMilestones($roadmapID)
     {
-        echo '<div class="milestone-content margin-top init-as-expanded">';
+        $statement = self::$db->prepare("SELECT COUNT(*) AS 'count' FROM milestones WHERE milestones.roadmapID=:roadmapID AND status = '0';");
+        $statement->bindParam("roadmapID", $roadmapID);
+        $statement->execute();
+
+        return $statement->fetch();
     }
-    else
+
+    function getTasks($milestoneID)
     {
-        echo '<div class="milestone-content margin-top">';
+        $statement = self::$db->prepare("SELECT * FROM tasks WHERE tasks.milestoneID=:milestoneID;");
+        $statement->bindParam("milestoneID", $milestoneID);
+        $statement->execute();
+
+        return $statement->fetchAll();
     }
 
-    echo '<div class="row">' .
-        '<div class="col s6 valign-wrapper">' .
-        '<i class="material-icons valign">event</i><span class="valign margin-left">' . $languageJSON->due_by . ' ' . $dueDate . '</span>' .
-        '</div>' .
-        '<div class="col s6 valign-wrapper">' .
-        '<i class="material-icons valign">event</i><span class="valign margin-left">' . $languageJSON->done_at . ' ' . $completionDate . '</span>' .
-        '</div>' .
-        '</div>' .
-        '</div>' .
-        '</div>' .
-        '</div>';
-}
-
-function printMilestoneDoneWithTasks($color, $currentMilestone, $isFirstMilestone, $languageJSON, $dueDate, $completionDate, $tasks, $db)
-{
-    echo '<div class="card padding white milestone">' .
-        '<div class="card-content">' .
-        '<div class="'.$color.' center-align milestone-title">';
-    if($currentMilestone['VersionName'] == $currentMilestone['Title'])
+    function getTask($taskID)
     {
-        echo '<span class="card-title bold padding-left-and-right truncate">' . $currentMilestone['Title'] . '</span>';
+        $statement = self::$db->prepare("SELECT * FROM tasks WHERE tasks.ID=:taskID;");
+        $statement->bindParam("taskID", $taskID);
+        $statement->execute();
 
+        return $statement->fetch();
     }
-    else
+
+    function getNumberOfOpenTasks($milestoneID)
     {
-        echo '<span class="card-title bold padding-left-and-right truncate">' . $currentMilestone['VersionName'] . ' - ' . $currentMilestone['Title'] . '</span>';
-    }
-    echo '</div>';
+        $statement = self::$db->prepare("SELECT COUNT(*) AS 'count' FROM tasks WHERE tasks.MilestoneID=:milestoneID AND status = '0';");
+        $statement->bindParam("milestoneID", $milestoneID);
+        $statement->execute();
 
-    if($isFirstMilestone)
+        return $statement->fetch();
+    }
+
+    function getSubtasks($taskID)
     {
-        echo '<div class="milestone-content margin-top init-as-expanded">';
+        $statement = self::$db->prepare("SELECT * FROM subtasks WHERE subtasks.taskID=:taskID;");
+        $statement->bindParam("taskID", $taskID);
+        $statement->execute();
+
+        return $statement->fetchAll();
     }
-    else
+
+    function getSubtask($taskID)
     {
-        echo '<div class="milestone-content margin-top">';
+        $statement = self::$db->prepare("SELECT * FROM subtasks WHERE subtasks.ID=:taskID;");
+        $statement->bindParam("taskID", $taskID);
+        $statement->execute();
+
+        return $statement->fetch();
     }
 
-    echo '<div class="row">' .
-        '<div class="col s6 valign-wrapper">' .
-        '<i class="material-icons valign">event</i><span class="valign margin-left">' . $languageJSON->due_by . ' ' . $dueDate . '</span>' .
-        '</div>' .
-        '<div class="col s6 valign-wrapper">' .
-        '<i class="material-icons valign">event</i><span class="valign margin-left">' . $languageJSON->done_at . ' ' . $completionDate . '</span>' .
-        '</div>' .
-        '</div>' .
-        '<ul class="collapsible white" data-collapsible="accordion">';
-    for($k = 0; $k < sizeof($tasks); $k++)
+    function getNumberOfOpenSubtasks($taskID)
     {
-        $currentTask = $tasks[$k];
+        $statement = self::$db->prepare("SELECT COUNT(*) AS 'count' FROM subtasks WHERE subtasks.TaskID=:taskID AND status = '0';");
+        $statement->bindParam("taskID", $taskID);
+        $statement->execute();
 
-        $subtasks = $db->getSubtasks($currentTask['ID']);
-        if($subtasks == false)
-        {
-            echo '<li>' .
-                '<div class="collapsible-header bold truncate"><i class="material-icons green-text">check</i>' . $currentTask['Title'] . '</div>' .
-                '<div class="collapsible-body"><p>' . $currentTask['Description'] . '</p></div>' .
-                '</li>';
-        }
-        else
-        {
-            $numberOfOpenSubtasks = $db->getNumberOfOpenSubtasks($currentTask['ID']);
-            if($numberOfOpenSubtasks != false)
-            {
-                $numberOfOpenSubtasks = $numberOfOpenSubtasks['count'];
-                if($numberOfOpenSubtasks == 0)
-                {
-                    echo '<li>' .
-                        '<div class="collapsible-header bold"><i class="material-icons green-text">check</i>'.$currentTask['Title'].'<span class="right">' . sizeof($subtasks) . '/' . sizeof($subtasks) . '</span></div>' .
-                        '<div class="collapsible-body">' .
-                        '<ul class="collapsible white margin-left-and-right no-shadow margin-top-and-bottom" data-collapsible="accordion">';
-                }
-                else
-                {
-                    echo '<li>' .
-                        '<div class="collapsible-header bold"><i class="material-icons red-text">build</i>'.$currentTask['Title'].'<span class="right">' . (sizeof($subtasks) - $numberOfOpenSubtasks) . '/' . sizeof($subtasks) . '</span></div>' .
-                        '<div class="collapsible-body">' .
-                        '<ul class="collapsible white margin-left-and-right no-shadow margin-top-and-bottom" data-collapsible="accordion">';
-                }
-
-                for($m = 0; $m < sizeof($subtasks); $m++)
-                {
-                    $currentSubTask = $subtasks[$m];
-                    //inDev
-                    if($currentSubTask['Status'] == 0)
-                    {
-                        echo '<li>' .
-                            '<div class="collapsible-header bold truncate"><span class="left">' . ($m + 1) . '</span><i class="material-icons red-text margin-left">build</i>' . $currentSubTask['Title'] . '</div>' .
-                            '<div class="collapsible-body"><p>' . $currentSubTask['Description'] . '</p></div>' .
-                            '</li>';
-                    }
-                    //done
-                    else
-                    {
-                        echo '<li>' .
-                            '<div class="collapsible-header bold truncate"><span class="left">' . ($m + 1) . '</span><i class="material-icons green-text margin-left">check</i>' . $currentSubTask['Title'] . '</div>' .
-                            '<div class="collapsible-body"><p>' . $currentSubTask['Description'] . '</p></div>' .
-                            '</li>';
-                    }
-                }
-
-                echo '</ul>' .
-                    '</div>' .
-                    '</li>';
-            }
-        }
+        return $statement->fetch();
     }
 
-    echo '</ul>' .
-        '</div>' .
-        '</div>' .
-        '</div>';
+    function getLatestFinishedMilestone($roadmapID)
+    {
+        $statement = self::$db->prepare("SELECT * FROM milestones WHERE RoadmapID=:roadmapID AND status = '1' ORDER BY VersionCode DESC");
+        $statement->bindParam("roadmapID", $roadmapID);
+        $statement->execute();
+
+        return $statement->fetchAll();
+    }
+
+    //========================================
+    //--------------- delete -----------------
+    //========================================
+
+    function deleteRoadmap($roadmapID)
+    {
+        $statement = self::$db->prepare("DELETE FROM roadmaps WHERE roadmaps.ID=:roadmapID;");
+        $statement->bindParam("roadmapID", $roadmapID);
+        $statement->execute();
+
+        return $statement->execute();
+    }
+
+    function deleteMilestone($milestoneID)
+    {
+        $statement = self::$db->prepare("DELETE FROM milestones WHERE milestones.ID=:milestoneID;");
+        $statement->bindParam("milestoneID", $milestoneID);
+        $statement->execute();
+
+        return $statement->execute();
+    }
+
+    function deleteTask($taskID)
+    {
+        $statement = self::$db->prepare("DELETE FROM tasks WHERE tasks.ID=:taskID;");
+        $statement->bindParam("taskID", $taskID);
+        $statement->execute();
+
+        return $statement->execute();
+    }
+
+    function deleteSubtask($subtaskID, $taskID)
+    {
+        $statement = self::$db->prepare("DELETE FROM subtasks WHERE subtasks.ID=:subtaskID;");
+        $statement->bindParam("subtaskID", $subtaskID);
+        $success = $statement->execute();
+
+        $this->checkParentTask($taskID);
+
+        return $success;
+    }
 }
