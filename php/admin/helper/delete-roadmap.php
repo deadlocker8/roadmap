@@ -1,5 +1,5 @@
 <?php
-include_once('../../mysql.php');
+include_once('../../database.php');
 
 if($_SERVER['REQUEST_METHOD'] == 'POST')
 {

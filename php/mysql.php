@@ -8,7 +8,7 @@ class DB
 	{
 		try
 		{
-            require_once('admin/helper/settings.php');
+            include(dirname(__FILE__)."/admin/helper/settings.php");
 			self::$db = new PDO(
 				"mysql:host=localhost;dbname=" . $database_name,
 				$database_user,

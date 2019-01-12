@@ -11,7 +11,7 @@ if(!isset($_SESSION['loggedIn']))
 }
 
 include_once('../getLanguageJSON.php');
-include_once('../mysql.php');
+include_once('../database.php');
 
 if(!isset($_GET['id']))
 {

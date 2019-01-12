@@ -2,7 +2,7 @@
 
 <?php
 include_once('../getLanguageJSON.php');
-include_once('../mysql.php');
+include_once('../database.php');
 ?>
 <html xmlns="http://www.w3.org/1999/html">
 	<head>

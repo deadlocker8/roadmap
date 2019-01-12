@@ -1,5 +1,5 @@
 <?php
-include_once('mysql.php');
+include_once('database.php');
 
 $result = new stdClass();;
 if(!isset($_GET['id']))
