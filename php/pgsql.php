@@ -12,8 +12,7 @@ class DB
             self::$db = new PDO(
                 "pgsql:host=localhost;dbname=" . $database_name,
                 $database_user,
-                $database_password,
-                array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'"));
+                $database_password);
 
             self::createTables();
         }
@@ -261,7 +260,6 @@ class DB
     function getRoadmaps()
     {
         $statement = self::$db->prepare('SELECT * FROM roadmaps ORDER BY "ID";');
-        $statement->bindParam("roadmapID", $roadmapID);
         $statement->execute();
 
         return $statement->fetchAll();

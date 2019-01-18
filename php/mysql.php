@@ -265,7 +265,6 @@ class DB
 	function getRoadmaps()
 	{
 		$statement = self::$db->prepare("SELECT * FROM roadmaps ORDER BY ID;");
-		$statement->bindParam("roadmapID", $roadmapID);
 		$statement->execute();
 
 		return $statement->fetchAll();
