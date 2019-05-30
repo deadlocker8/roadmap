@@ -25,8 +25,8 @@ def get_roadmaps():
 
 
 @app.route('/roadmap/<int:roadmapID>', methods=['GET'])
-def get_roadmap_name(roadmapID):
-    return jsonify(database.get_roadmap_name(roadmapID))
+def get_roadmap(roadmapID):
+    return jsonify(database.get_roadmap(roadmapID))
 
 
 @app.route('/milestones/<int:roadmapID>', methods=['GET'])
@@ -77,7 +77,8 @@ def get_sub_task(subTaskID):
 if __name__ == "__main__":
     serverSettings = SETTINGS["server"]
     if serverSettings["useSSL"]:
-        http_server = WSGIServer((serverSettings["listen"], serverSettings["port"]), app, keyfile=serverSettings["keyfile"], certfile=serverSettings["certfile"])
+        http_server = WSGIServer((serverSettings["listen"], serverSettings["port"]), app,
+                                 keyfile=serverSettings["keyfile"], certfile=serverSettings["certfile"])
     else:
         http_server = WSGIServer((serverSettings["listen"], serverSettings["port"]), app)
 
