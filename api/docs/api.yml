@@ -47,6 +47,26 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Roadmap'
+  /roadmap/{roadmapID}/full:
+    get:
+      tags:
+        - public
+      summary: Gets  a specific roadmap with all milestones, tasks and sub tasks
+      operationId: roadmapFull
+      parameters:
+        - in: path
+          name: roadmapID
+          description: The roadmap ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: The roadmap
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RoadmapFull'
 
   /milestones/{roadmapID}:
     get:
@@ -256,6 +276,31 @@ components:
         name:
           type: string
           example: "Example Roadmap"
+
+    RoadmapFull:
+      allOf:
+        - $ref: '#/components/schemas/Roadmap'
+        - type: object
+          properties:
+            milestones:
+              type: array
+              items:
+                allOf:
+                  - $ref: '#/components/schemas/Milestone'
+                  - type: object
+                    properties:
+                      tasks:
+                        type: array
+                        items:
+                          allOf:
+                            - $ref: '#/components/schemas/Task'
+                            - type: object
+                              properties:
+                                subtasks:
+                                  type: array
+                                  items:
+                                    $ref: '#/components/schemas/SubTask'
+
     Milestone:
       type: object
       required:
