@@ -1,16 +1,15 @@
 from datetime import datetime
 
 import requests
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect
 from gevent.pywsgi import WSGIServer
+
+from Localization import LOCALIZATION
 
 app = Flask(__name__)
 
 API_URL = "http://127.0.0.1:5000"
 DEFAULT_DATE = datetime(2000, 1, 1, 0, 0, 0)
-LOCALIZATION = {"due_by": "Due by",
-                "done": "Done",
-                "done_at": "Done at"}
 
 
 def build_url(*parts):
@@ -24,17 +23,25 @@ def overview():
     return render_template("overview.html", roadmaps=roadmaps)
 
 
+@app.route("/roadmap/")
+def roadmap():
+    return redirect("/")
+
+
 @app.route("/roadmap/<roadmapID>")
-def roadmap(roadmapID):
+def roadmap_by_id(roadmapID):
     try:
         roadmapID = int(roadmapID)
     except ValueError:
-        return "Invalid roadmap ID"
+        return render_template("error.html", message=LOCALIZATION["error_param_invalid"])
 
     if roadmapID < 1:
-        return "Invalid roadmap ID"
+        return render_template("error.html", message=LOCALIZATION["error_param_invalid"])
 
     roadmap = requests.get(build_url("roadmap", roadmapID)).json()
+    if roadmap is None:
+        return render_template("error.html", message=LOCALIZATION["error_roadmap_not_existing"])
+
     roadmap["milestones"] = requests.get(build_url("milestones", roadmapID)).json()
 
     numberOfOpenMilestones = 0
