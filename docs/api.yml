@@ -1,0 +1,286 @@
+openapi: 3.0.0
+# Added by API Auto Mocking Plugin
+servers:
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/deadlocker8/RoadmapsAPI/1.0.0
+info:
+  description: The Official Roadmaps API
+  version: "1.0.0"
+  title: Roadmaps API
+tags:
+  - name: admins
+    description: Secured Admin-only calls
+  - name: public
+    description: Operations available to the public
+paths:
+  /roadmaps:
+    get:
+      tags:
+        - public
+      summary: Gets all roadmaps
+      operationId: roadmaps
+      responses:
+        '200':
+          description: All available roadmaps
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Roadmap'
+  /roadmap/{roadmapID}:
+    get:
+      tags:
+        - public
+      summary: Gets  a specific roadmap
+      operationId: roadmap
+      parameters:
+        - in: path
+          name: roadmapID
+          description: The roadmap ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: The roadmap
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Roadmap'
+                
+  /milestones/{roadmapID}:
+    get:
+      tags:
+        - public
+      summary: Gets all milestones for a roadmap
+      operationId: milestones
+      parameters:
+        - in: path
+          name: roadmapID
+          description: The roadmap ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: All milestones for the given roadmap ID
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Milestone'
+  /milestone/{milestoneID}:
+    get:
+      tags:
+        - public
+      summary: Gets  a specific milestone
+      operationId: milestone
+      parameters:
+        - in: path
+          name: milestoneID
+          description: The milestone ID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The milestone
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Milestone'
+                
+  /tasks/{milestoneID}:
+    get:
+      tags:
+        - public
+      summary: Gets all tasks for a milestone
+      operationId: tasks
+      parameters:
+        - in: path
+          name: milestoneID
+          description: The milestone ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: All tasks for the given milestone ID
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Task'
+  /task/{taskID}:
+    get:
+      tags:
+        - public
+      summary: Gets  a specific task
+      operationId: task
+      parameters:
+        - in: path
+          name: taskID
+          description: The task ID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The task
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+                
+  /subtasks/{taskID}:
+    get:
+      tags:
+        - public
+      summary: Gets all sub taks for a task
+      operationId: substasks
+      parameters:
+        - in: path
+          name: taskID
+          description: The task ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: All sub tasks for the given task ID
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SubTask'
+  /subtask/{subtaskID}:
+    get:
+      tags:
+        - public
+      summary: Gets  a specific sub task
+      operationId: subtask
+      parameters:
+        - in: path
+          name: subtaskID
+          description: The sub task ID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The sub task
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubTask'
+components:
+  schemas:
+    Roadmap:
+      type: object
+      required:
+        - ID
+        - Projectname
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: "Example Roadmap"
+    Milestone:
+      type: object
+      required:
+        - ID
+        - RoadmapID
+        - VersionCode
+        - VersionName
+        - Title
+        - DueDate
+        - CompletionDate
+        - Status
+      properties:
+        ID:
+          type: integer
+          example: 1
+        RoadmapID:
+          type: integer
+          example: 2
+        VersionCode:
+          type: integer
+          example: 3
+        VersionName:
+          type: string
+          example: "v1.0.0"
+        Title:
+          type: string
+          example: "My awesome milestone"
+        DueDate:
+          type: string
+          format: date
+          example: "2019-05-30"
+        CompletionDate:
+          type: string
+          format: date
+          example: "2019-05-30"
+        Status:
+          type: integer
+          enum:
+            - 0
+            - 1
+    Task:
+      type: object
+      required:
+        - ID
+        - MilestoneID
+        - Title
+        - Description
+        - Status
+      properties:
+        ID:
+          type: integer
+          example: 1
+        MilestoneID:
+          type: integer
+          example: 2
+        Title:
+          type: string
+          example: "My awesome task"
+        Description:
+          type: string
+          example: "Lorem Ipsum dolor sit amet"
+        Status:
+          type: integer
+          enum:
+            - 0
+            - 1
+    SubTask:
+      type: object
+      required:
+        - ID
+        - TaskID
+        - Title
+        - Description
+        - Status
+      properties:
+        ID:
+          type: integer
+          example: 1
+        TaskID:
+          type: integer
+          example: 2
+        Title:
+          type: string
+          example: "My awesome sub task"
+        Description:
+          type: string
+          example: "Lorem Ipsum dolor sit amet"
+        Status:
+          type: integer
+          enum:
+            - 0
+            - 1
+            
