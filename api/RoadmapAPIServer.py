@@ -1,6 +1,6 @@
 import json
 
-from flask import Flask
+from flask import Flask, send_from_directory
 from flask import jsonify
 from gevent.pywsgi import WSGIServer
 
@@ -16,7 +16,7 @@ database = Database(SETTINGS["database"])
 
 @app.route('/')
 def index():
-    return ""
+    return send_from_directory("docs", "api.html")
 
 
 @app.route('/roadmaps', methods=['GET'])
