@@ -1,3 +1,5 @@
+import json
+
 from flask import Flask
 from flask import jsonify
 from gevent.pywsgi import WSGIServer
@@ -6,7 +8,10 @@ from Database import Database
 
 app = Flask(__name__)
 
-database = Database('127.0.0.1', '5433', 'roadmaps', 'roadmaps', '12345')
+with open("settings.json", "r") as f:
+    SETTINGS = json.load(f)
+
+database = Database(SETTINGS["database"])
 
 
 @app.route('/')
@@ -70,5 +75,10 @@ def get_sub_task(subTaskID):
 
 
 if __name__ == "__main__":
-    http_server = WSGIServer(('0.0.0.0', 5000), app)
+    serverSettings = SETTINGS["server"]
+    if serverSettings["useSSL"]:
+        http_server = WSGIServer((serverSettings["listen"], serverSettings["port"]), app, keyfile=serverSettings["keyfile"], certfile=serverSettings["certfile"])
+    else:
+        http_server = WSGIServer((serverSettings["listen"], serverSettings["port"]), app)
+
     http_server.serve_forever()

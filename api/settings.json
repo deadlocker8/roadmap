@@ -1,0 +1,16 @@
+{
+    "database": {
+        "host": "127.0.0.1",
+        "port": "5433",
+        "databaseName": "roadmaps",
+        "user": "roadmaps",
+        "password": "12345"
+    },
+    "server": {
+        "listen": "0.0.0.0",
+        "port": 10000,
+        "useSSL": false,
+        "keyfile": "",
+        "certfile": ""
+    }
+}

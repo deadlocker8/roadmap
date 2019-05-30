@@ -5,12 +5,12 @@ from psycopg2.extras import RealDictCursor
 
 
 class DatabaseConnection:
-    def __init__(self, host, port, database, user, password):
-        self.__host = host
-        self.__port = port
-        self.__database = database
-        self.__user = user
-        self.__password = password
+    def __init__(self, database_settings):
+        self.__host = database_settings["host"]
+        self.__port = database_settings["port"]
+        self.__database = database_settings["databaseName"]
+        self.__user = database_settings["user"]
+        self.__password = database_settings["password"]
 
     def __enter__(self):
         self.__connection = psycopg2.connect(user=self.__user,
