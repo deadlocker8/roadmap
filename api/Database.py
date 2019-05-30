@@ -29,6 +29,13 @@ class Database:
             conn.execute(query, (roadmapID,))
             return conn.fetchall()
 
+    def get_open_milestones(self, roadmapID):
+        query = 'SELECT * FROM milestones WHERE "RoadmapID"=%s AND "Status"=0 ORDER BY "VersionCode" DESC;'
+
+        with DatabaseConnection(self.__host, self.__port, self.__database, self.__user, self.__password) as conn:
+            conn.execute(query, (roadmapID,))
+            return conn.fetchall()
+
     def get_milestone(self, milestoneID):
         query = 'SELECT * FROM milestones WHERE "ID"=%s;'
 
@@ -43,6 +50,13 @@ class Database:
             conn.execute(query, (milestoneID,))
             return conn.fetchall()
 
+    def get_open_tasks(self, milestoneID):
+        query = 'SELECT * FROM tasks WHERE "MilestoneID"=%s AND "Status"=0;'
+
+        with DatabaseConnection(self.__host, self.__port, self.__database, self.__user, self.__password) as conn:
+            conn.execute(query, (milestoneID,))
+            return conn.fetchall()
+
     def get_task(self, taskID):
         query = 'SELECT * FROM tasks WHERE "ID"=%s;'
 
@@ -50,16 +64,23 @@ class Database:
             conn.execute(query, (taskID,))
             return conn.fetchone()
 
-    def get_sub_tasks(self, milestoneID):
+    def get_sub_tasks(self, taskID):
         query = 'SELECT * FROM subtasks WHERE "TaskID"=%s;'
 
         with DatabaseConnection(self.__host, self.__port, self.__database, self.__user, self.__password) as conn:
-            conn.execute(query, (milestoneID,))
+            conn.execute(query, (taskID,))
             return conn.fetchall()
 
-    def get_sub_task(self, taskID):
-        query = 'SELECT * FROM subtasks WHERE "ID"=%s;'
+    def get_open_sub_tasks(self, taskID):
+        query = 'SELECT * FROM subtasks WHERE "TaskID"=%s AND "Status"=0;'
 
         with DatabaseConnection(self.__host, self.__port, self.__database, self.__user, self.__password) as conn:
             conn.execute(query, (taskID,))
+            return conn.fetchall()
+
+    def get_sub_task(self, subTaskID):
+        query = 'SELECT * FROM subtasks WHERE "ID"=%s;'
+
+        with DatabaseConnection(self.__host, self.__port, self.__database, self.__user, self.__password) as conn:
+            conn.execute(query, (subTaskID,))
         return conn.fetchone()

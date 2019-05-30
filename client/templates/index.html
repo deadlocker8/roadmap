@@ -1,0 +1,279 @@
+{% macro createTrainmapMedAndUp(numberOfOpenMilestones, numberOfMilestones) -%}
+    {% for i in range(numberOfOpenMilestones) %}
+        <div class="train-circle train-circle-light"></div>
+        {% if numberOfOpenMilestones != numberOfMilestones or i != (numberOfOpenMilestones-1) %}
+            <div class="train-line dotted"></div>
+        {% endif %}
+    {% endfor %}
+
+    {% for i in range(numberOfMilestones - numberOfOpenMilestones) %}
+        <div class="train-circle blue"></div>
+        {% if i != ((numberOfMilestones - numberOfOpenMilestones) - 1) %}
+            <div class="train-line"></div>
+        {% endif %}
+    {% endfor %}
+{%- endmacro %}
+
+{% macro createTrainmapSmall(numberOfOpenMilestones, numberOfMilestones) -%}
+    {% for i in range(numberOfOpenMilestones) %}
+        <div class="train-circle train-circle-light train-circle-small"></div>
+        {% if numberOfOpenMilestones != numberOfMilestones or i != (numberOfOpenMilestones-1) %}
+            <div class="train-line dotted-small train-line-small"></div>
+        {% endif %}
+    {% endfor %}
+
+    {% for i in range(numberOfMilestones - numberOfOpenMilestones) %}
+        <div class="train-circle blue train-circle-small"></div>
+        {% if i != ((numberOfMilestones - numberOfOpenMilestones) - 1) %}
+            <div class="train-line train-line-small"></div>
+        {% endif %}
+    {% endfor %}
+{%- endmacro %}
+
+{% macro printMilestoneIndevAndNoTasks(milestone, color) -%}
+    <div class="card padding white milestone">
+        <div class="card-content">
+            <div class="{{ color }} center-align milestone-title">
+                {% if milestone["VersionName"] == milestone["Title"] %}
+                    <span class="card-title bold padding-left-and-right truncate">{{ milestone["Title"] }}</span>
+                {% else %}
+                    <span class="card-title bold padding-left-and-right truncate">{{ milestone["VersionName"] }} - {{ milestone["Title"] }}</span>
+                {% endif %}
+            </div>
+            <div class="milestone-content margin-top">
+                <div class="white progress-container">
+                    <div class="progress grey lighten-2 high-progress margin-bottom">
+                        <div class="determinate green" style="width: 0%"></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s6 valign-wrapper">
+                        <i class="material-icons valign">event</i><span class="valign margin-left">{{ localization["due_by"] }} {{ milestone["DueDate"] }}</span>
+                    </div>
+                    <div class="col s6 valign-wrapper">
+                        <i class="material-icons valign">event</i><span class="valign margin-left">0% {{ localization["done"] }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{%- endmacro %}
+
+{% macro printMilestoneDoneAndNoTasks(milestone, color, isFirstMilestone) -%}
+    <div class="card padding white milestone">
+        <div class="card-content">
+            <div class="{{ color }} center-align milestone-title">
+                {% if  milestone["VersionName"] == milestone["Title"] %}
+                    <span class="card-title bold padding-left-and-right truncate">{{ milestone["Title"] }}</span>
+                {% else %}
+                    <span class="card-title bold padding-left-and-right truncate">{{ milestone["VersionName"] }} - {{ milestone["Title"] }}</span>
+                {% endif %}
+            </div>
+
+            {% if isFirstMilestone|length == 0 %}
+                <div class="milestone-content margin-top init-as-expanded">
+            {% else %}
+                <div class="milestone-content margin-top">
+            {% endif %}
+                    <div class="row">
+                        <div class="col s6 valign-wrapper">
+                            <i class="material-icons valign">event</i><span class="valign margin-left">{{ localization["due_by"] }} {{ milestone["DueDate"] }}</span>
+                        </div>
+                        <div class="col s6 valign-wrapper">
+                            <i class="material-icons valign">event</i><span class="valign margin-left">{{ localization["done_at"] }} {{ milestone["CompletionDate"] }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+{%- endmacro %}
+
+{% macro printMilestoneIndevWithTasks(milestone, color) -%}
+    {% set numberOfTasks = milestone["tasks"]|length %}
+    {% set percentage = (numberOfTasks - milestone["numberOfOpenTasks"]) / numberOfTasks*100 %}
+    <div class="card padding white milestone">
+        <div class="card-content">
+            <div class="{{ color }} center-align milestone-title">
+                {% if  milestone["VersionName"] == milestone["Title"] %}
+                    <span class="card-title bold padding-left-and-right truncate">{{ milestone["Title"] }}</span>
+                {% else %}
+                    <span class="card-title bold padding-left-and-right truncate">{{ milestone["VersionName"] }} - {{ milestone["Title"] }}</span>
+                {% endif %}
+            </div>
+            <div class="milestone-content margin-top">
+                <div class="white progress-container">
+                    <div class="progress grey lighten-2 high-progress margin-bottom">
+                        <div class="determinate green" style="width: {{ percentage }}%"></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s6 valign-wrapper">
+                        <i class="material-icons valign">event</i><span class="valign margin-left">{{ localization["due_by"] }} {{ milestone["DueDate"] }}</span>
+                    </div>
+                    <div class="col s6 valign-wrapper">
+                        <i class="material-icons valign">event</i><span class="valign margin-left">{{ percentage }}% {{ localization["done"] }}</span>
+                    </div>
+                </div>
+                <ul class="collapsible white" data-collapsible="accordion">
+                    {% for task in milestone["tasks"] %}
+                        {% if task["subtasks"]|length > 0 %}
+                            {{ printSubTasksDone(task) }}
+                        {% else %}
+                            <li>
+                            {% if task["Status"] == 0 %}
+                                <div class="collapsible-header bold truncate"><i class="material-icons red-text">build</i>{{ task["Title"] }}</div>
+                            {% else %}
+                                <div class="collapsible-header bold truncate"><i class="material-icons green-text">check</i>{{ task["Title"] }}</div>
+                            {% endif %}
+                                <div class="collapsible-body"><p>{{ task["Description"] }}</p></div>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+   </div>
+{%- endmacro %}
+
+{% macro printSubTasksDone(task) -%}
+    {% set numberOfSubTasks = task["subtasks"]|length %}
+    <li>
+    {% if task["numberOfOpenSubTasks"] > 0 %}
+        <div class="collapsible-header bold"><i class="material-icons red-text">build</i>{{ task["Title"] }}<span class="right">{{ numberOfSubTasks - task["numberOfOpenSubTasks"] }}/{{ numberOfSubTasks }}</span></div>
+    {% else %}
+        <div class="collapsible-header bold"><i class="material-icons green-text">check</i>{{ task["Title"] }}<span class="right">{{ numberOfSubTasks - task["numberOfOpenSubTasks"] }}/{{ numberOfSubTasks }}</span></div>
+    {% endif %}
+        <div class="collapsible-body">
+            <ul class="collapsible white margin-left-and-right no-shadow margin-top-and-bottom" data-collapsible="accordion">
+                {% for subtask in task["subtasks"] %}
+                    <li>
+                        {% if subtask["Status"] == 0 %}
+                            <div class="collapsible-header bold"><span class="left">{{ loop.index + 1 }}</span><i class="material-icons red-text margin-left">build</i>{{ subtask["Title"] }}</div>
+                        {% else %}
+                            <div class="collapsible-header bold"><span class="left">{{ loop.index + 1 }}</span><i class="material-icons green-text margin-left">check</i>{{ subtask["Title"] }}</div>
+                        {% endif %}
+                        <div class="collapsible-body"><p>{{ subtask["Description"] }}</p></div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </li>
+{%- endmacro %}
+
+{% macro printMilestoneDoneWithTasks(milestone, color, isFirstMilestone) -%}
+     <div class="card padding white milestone">
+        <div class="card-content">
+            <div class="{{ color }} center-align milestone-title">
+                {% if  milestone["VersionName"] == milestone["Title"] %}
+                <span class="card-title bold padding-left-and-right truncate">{{ milestone["Title"] }}</span>
+                {% else %}
+                <span class="card-title bold padding-left-and-right truncate">{{ milestone["VersionName"] }} - {{ milestone["Title"] }}</span>
+                {% endif %}
+            </div>
+            {% if isFirstMilestone|length == 0 %}
+                <div class="milestone-content margin-top init-as-expanded">
+            {% else %}
+                <div class="milestone-content margin-top">
+            {% endif %}
+                    <div class="row">
+                        <div class="col s6 valign-wrapper">
+                            <i class="material-icons valign">event</i><span class="valign margin-left">{{ localization["due_by"] }} {{ milestone["DueDate"] }}</span>
+                        </div>
+                        <div class="col s6 valign-wrapper">
+                            <i class="material-icons valign">event</i><span class="valign margin-left">{{ localization["done_at"] }} {{ milestone["CompletionDate"] }}</span>
+                        </div>
+                    </div>
+                    <ul class="collapsible white" data-collapsible="accordion">
+                    {% for task in milestone["tasks"] %}
+                        {% set numberOfSubTasks = task["subtasks"]|length %}
+                        {% if numberOfSubTasks > 0 %}
+                            {{ printSubTasksDone(task) }}
+                        {% else %}
+                            <li>
+                                <div class="collapsible-header bold truncate"><i class="material-icons green-text">check</i>{{ task["Title"] }}</div>
+                                <div class="collapsible-body"><p>{{ task["Description"] }}</p></div>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+{%- endmacro %}
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+    <head>
+        <meta charset="UTF-8"/>
+        <title>Roadmaps</title>
+        <!--Import Google Icon Font-->
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <!--Import materialize.css-->
+        <link type="text/css" rel="stylesheet" href="../static/materialize/css/materialize.min.css"
+              media="screen,projection"/>
+        <link type="text/css" rel="stylesheet" href="../static/css/style.css"/>
+
+        <!--Import jQuery before materialize.js-->
+        <script type="text/javascript" src="../static/js/jquery-2.2.4.min.js"></script>
+        <script type="text/javascript" src="../static/materialize/js/materialize.min.js"></script>
+        <script type="text/javascript" src="../static/js/main.js"></script>
+        <script type="text/javascript" src="../static/js/ResizeSensor.js"></script>
+        <script type="text/javascript" src="../static/js/ElementQueries.js"></script>
+
+        <!--Let browser know website is optimized for mobile-->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+
+    <body class="grey lighten-3">
+        <a class="btn-flat right" href="admin/login.php">Login</a>
+        <div style="clear: both;"></div>
+        <div id="main">
+            <div class="container">
+                <h2 class="center-align" id="headline">{{ roadmap["Projectname"] }}</h2>
+                <div class="row">
+                    <div class="col s12">
+                        <div class="row">
+                            <div class="col s1 m2 l2 offset-m1 offset-l1 no-padding">
+                                <div class="hide-on-small-only trainmap">
+                                    {{ createTrainmapMedAndUp(roadmap["numberOfOpenMilestones"], roadmap["milestones"]|length) }}
+                                </div>
+                                <div class="hide-on-med-and-up trainmap-small">
+                                    {{ createTrainmapSmall(roadmap["numberOfOpenMilestones"], roadmap["milestones"]|length) }}
+                                </div>
+                            </div>
+                            <div class="col s11 m7 l6">
+                                {% set isFirstMilestone = [] %}
+                                {% for milestone in roadmap["milestones"] %}
+                                    {% if milestone["Status"] == 0 %}
+                                        {% set color = 'blue lighten-2' %}
+                                        {% if milestone["tasks"]|length > 0 %}
+                                            {{ printMilestoneIndevWithTasks(milestone, color) }}
+                                        {% else %}
+                                            {{ printMilestoneIndevAndNoTasks(milestone, color) }}
+                                        {% endif %}
+                                    {% else %}
+                                        {% if isFirstMilestone|length == 0 %}
+                                            {% set color = 'amber lighten-2' %}
+                                        {% else %}
+                                            {% set color = 'grey lighten-2' %}
+                                        {% endif %}
+
+                                        {% if milestone["tasks"]|length > 0 %}
+                                            {{ printMilestoneDoneWithTasks(milestone, color, isFirstMilestone) }}
+                                        {% else %}
+                                            {{ printMilestoneDoneAndNoTasks(milestone, color, isFirstMilestone) }}
+                                        {% endif %}
+
+                                        {% if isFirstMilestone|length == 0 %}
+                                            {% if isFirstMilestone.append(1) %}{% endif %}
+                                        {% endif %}
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

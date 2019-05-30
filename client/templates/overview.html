@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/html">
+	<head>
+		<meta charset="UTF-8"/>
+		<title>Roadmaps</title>
+		<!--Import Google Icon Font-->
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+		<!--Import materialize.css-->
+		<link type="text/css" rel="stylesheet" href="../static/materialize/css/materialize.min.css" media="screen,projection"/>
+		<link type="text/css" rel="stylesheet" href="../static/css/style.css"/>
+
+		<!--Import jQuery before materialize.js-->
+		<script type="text/javascript" src="../static/js/jquery-2.2.4.min.js"></script>
+		<script type="text/javascript" src="../static/materialize/js/materialize.min.js"></script>
+		<script type="text/javascript" src="../static/js/main.js"></script>
+		<script type="text/javascript" src="../static/js/ResizeSensor.js"></script>
+		<script type="text/javascript" src="../static/js/ElementQueries.js"></script>
+
+		<!--Let browser know website is optimized for mobile-->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	</head>
+
+	<body class="grey lighten-3">
+		<a class="btn-flat right" href="admin/login.php">Login</a>
+		<div style="clear: both;"></div>
+		<div id="main">
+			<div class="container">
+				<h2 class="center-align" id="headline">All Roadmaps</h2>
+
+				<div class="row">
+					<div class="col s12 m10 offset-m1 l6 offset-l3">
+                        {% if roadmaps|length == 0 %}
+                            <h5 class="center-align">no roadmaps available</h5>
+                        {% else %}
+                            <div class="collection center-align">
+                                {% for roadmap in roadmaps %}
+                                    <a class="collection-item blue-text" href="roadmap/{{ roadmap.ID }}">{{ roadmap.Projectname }}</a>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+					 </div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
