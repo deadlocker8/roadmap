@@ -66,5 +66,12 @@ def roadmap_fragement_by_id(roadmapID):
 
 
 if __name__ == "__main__":
-    http_server = WSGIServer((SETTINGS["listen"], SETTINGS["port"]), app)
+    if SETTINGS["useSSL"]:
+        http_server = WSGIServer((SETTINGS["listen"],
+                                  SETTINGS["port"]), app,
+                                 keyfile=SETTINGS["keyfile"],
+                                 certfile=SETTINGS["certfile"])
+    else:
+        http_server = WSGIServer((SETTINGS["listen"], SETTINGS["port"]), app)
+
     http_server.serve_forever()
