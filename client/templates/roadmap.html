@@ -90,7 +90,7 @@
 
 {% macro printMilestoneIndevWithTasks(localization, milestone, color) -%}
     {% set numberOfTasks = milestone["tasks"]|length %}
-    {% set percentage = (numberOfTasks - milestone["numberOfOpenTasks"]) / numberOfTasks*100 %}
+    {% set percentage = ((numberOfTasks - milestone["numberOfOpenTasks"]) / numberOfTasks*100)|round|int %}
     <div class="card padding white milestone">
         <div class="card-content">
             <div class="{{ color }} center-align milestone-title">
