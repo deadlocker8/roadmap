@@ -48,6 +48,23 @@ def roadmap_by_id(roadmapID):
     return render_template("index.html", roadmap=roadmap, localization=LOCALIZATION)
 
 
+@app.route("/roadmap/<roadmapID>/fragment")
+def roadmap_fragement_by_id(roadmapID):
+    try:
+        roadmapID = int(roadmapID)
+    except ValueError:
+        return render_template("error.html", message=LOCALIZATION["error_param_invalid"])
+
+    if roadmapID < 1:
+        return render_template("error.html", message=LOCALIZATION["error_param_invalid"])
+
+    roadmap = requests.get(build_url("roadmap", roadmapID, "full")).json()
+    if roadmap is None:
+        return render_template("error.html", message=LOCALIZATION["error_roadmap_not_existing"])
+
+    return render_template("roadmapFragment.html", roadmap=roadmap, localization=LOCALIZATION)
+
+
 if __name__ == "__main__":
     http_server = WSGIServer((SETTINGS["listen"], SETTINGS["port"]), app)
     http_server.serve_forever()
