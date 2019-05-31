@@ -268,7 +268,7 @@ function printMilestoneIndevWithTasks($currentMilestone, $tasks, $api_url, $colo
         $dueDate = date_format($dueDate, "d.m.Y");
     }
 
-    $openTasks =json_decode(file_get_contents($api_url . "/tasks/" . $currentMilestone->ID. "/open"));
+    $openTasks = json_decode(file_get_contents($api_url . "/tasks/" . $currentMilestone->ID. "/open"));
     if($openTasks == false)
     {
         header('Location: error.php?message=error_database_connection');

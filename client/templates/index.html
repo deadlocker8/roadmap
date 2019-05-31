@@ -23,6 +23,7 @@
 
     <body class="grey lighten-3">
         {% import 'roadmap.html' as roadmapMacros %}
+        {{ roadmapMacros.adminLogin() }}
         {{ roadmapMacros.showRoadmap(roadmap, localization) }}
     </body>
 </html>

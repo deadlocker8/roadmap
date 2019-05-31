@@ -201,9 +201,12 @@
         </div>
 {%- endmacro %}
 
-{% macro showRoadmap(roadmap, localization) -%}
+{% macro adminLogin() -%}
     <a class="btn-flat right" href="admin/login.php">Login</a>
     <div style="clear: both;"></div>
+{%- endmacro %}
+
+{% macro showRoadmap(roadmap, localization) -%}
     <div id="main">
         <div class="container">
             <h2 class="center-align" id="headline">{{ roadmap["Projectname"] }}</h2>
