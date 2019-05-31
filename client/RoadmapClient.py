@@ -1,3 +1,4 @@
+import json
 from datetime import datetime
 
 import requests
@@ -8,13 +9,15 @@ from Localization import LOCALIZATION
 
 app = Flask(__name__)
 
-API_URL = "http://127.0.0.1:10000"
+with open("settings.json", "r") as f:
+    SETTINGS = json.load(f)
+
 DEFAULT_DATE = datetime(2000, 1, 1, 0, 0, 0)
 
 
 def build_url(*parts):
     part = '/'.join(str(x) for x in parts)
-    return "{}/{}".format(API_URL, part)
+    return "{}/{}".format(SETTINGS["apiURL"], part)
 
 
 @app.route("/")
@@ -46,5 +49,5 @@ def roadmap_by_id(roadmapID):
 
 
 if __name__ == "__main__":
-    http_server = WSGIServer(("0.0.0.0", 11000), app)
+    http_server = WSGIServer((SETTINGS["listen"], SETTINGS["port"]), app)
     http_server.serve_forever()
