@@ -59,6 +59,10 @@ class Database:
         query = 'SELECT * FROM milestones WHERE "ID"=%s;'
         return self.__query(query, milestoneID, fetch_one=True)
 
+    def get_latest_milestone(self, roadmapID):
+        query = 'SELECT * FROM milestones WHERE "RoadmapID"=%s AND "Status" = 1 ORDER BY "VersionCode" DESC;'
+        return self.__query(query, roadmapID, fetch_one=True)
+
     def get_tasks(self, milestoneID):
         query = 'SELECT * FROM tasks WHERE "MilestoneID"=%s;'
         return self.__query(query, milestoneID)

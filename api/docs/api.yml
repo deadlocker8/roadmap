@@ -112,6 +112,26 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Milestone'
+  /milestones/{roadmapID}/latest:
+    get:
+      tags:
+        - public
+      summary: Gets the lastest finished milestone for a roadmap
+      operationId: latestMilestone
+      parameters:
+        - in: path
+          name: roadmapID
+          description: The roadmap ID
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: The latest finished milestone for the given roadmap ID
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Milestone'
   /milestone/{milestoneID}:
     get:
       tags:

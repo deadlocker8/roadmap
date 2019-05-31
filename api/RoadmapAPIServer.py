@@ -82,6 +82,11 @@ def get_open_milestones(roadmapID):
     return jsonify(database.get_open_milestones(roadmapID))
 
 
+@app.route('/milestones/<int:roadmapID>/latest', methods=['GET'])
+def get_latest_milestone(roadmapID):
+    return jsonify(database.get_latest_milestone(roadmapID))
+
+
 @app.route('/milestone/<int:milestoneID>', methods=['GET'])
 def get_milestone(milestoneID):
     return jsonify(database.get_milestone(milestoneID))
