@@ -12,5 +12,11 @@
         "useSSL": false,
         "keyfile": "",
         "certfile": ""
-    }
+    },
+    "users": [
+        {
+            "name": "admin",
+            "password": "123"
+        }
+    ]
 }

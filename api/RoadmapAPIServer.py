@@ -1,19 +1,30 @@
 import json
 
 from datetime import datetime
-from flask import Flask, send_from_directory
+from flask import Flask, send_from_directory, request
 from flask import jsonify
 from gevent.pywsgi import WSGIServer
 
+from flask_jwt_extended import (
+    JWTManager, jwt_required, create_access_token,
+    get_jwt_identity
+)
+
 from Database import Database
+from UserService import UserService
 
 app = Flask(__name__)
+
+app.config["JWT_SECRET_KEY"] = "KulYdiZJTEvUxNKyseaX"
+jwt = JWTManager(app)
 
 with open("settings.json", "r") as f:
     SETTINGS = json.load(f)
 
 database = Database(SETTINGS["database"])
+userService = UserService(SETTINGS["users"])
 
+SERVER_SETTINGS = SETTINGS["server"]
 DEFAULT_DATE = datetime(2000, 1, 1, 0, 0, 0)
 
 
@@ -22,6 +33,29 @@ def index():
     return send_from_directory("docs", "api.html")
 
 
+@app.route('/login', methods=['POST'])
+def login():
+    if not request.is_json:
+        return jsonify({"msg": "Missing JSON in request"}), 400
+
+    username = request.json.get('username', None)
+    password = request.json.get('password', None)
+    if username is None:
+        return jsonify({"msg": "Missing username parameter"}), 400
+    if password is None:
+        return jsonify({"msg": "Missing password parameter"}), 400
+
+    user = userService.get_password_by_username(username)
+    if user is None:
+        return jsonify({"msg": "Bad username or password"}), 401
+
+    access_token = create_access_token(identity=username)
+    return jsonify(access_token=access_token), 200
+
+
+"""
+ROADMAPS 
+"""
 @app.route('/roadmaps', methods=['GET'])
 def get_roadmaps():
     return jsonify(database.get_roadmaps())
@@ -72,6 +106,9 @@ def get_roadmap_fast(roadmapID):
     return jsonify(roadmap)
 
 
+"""
+MILESTONES 
+"""
 @app.route('/milestones/<int:roadmapID>', methods=['GET'])
 def get_milestones(roadmapID):
     return jsonify(database.get_milestones(roadmapID))
@@ -92,6 +129,16 @@ def get_milestone(milestoneID):
     return jsonify(database.get_milestone(milestoneID))
 
 
+@app.route('/admin', methods=['GET'])
+@jwt_required
+def protected():
+    current_user = get_jwt_identity()
+    return jsonify(logged_in_as=current_user), 200
+
+
+""" 
+TASKS 
+"""
 @app.route('/tasks/<int:milestoneID>', methods=['GET'])
 def get_tasks(milestoneID):
     return jsonify(database.get_tasks(milestoneID))
@@ -107,6 +154,9 @@ def get_task(taskID):
     return jsonify(database.get_task(taskID))
 
 
+""" 
+SUBTASKS 
+"""
 @app.route('/subtasks/<int:taskID>', methods=['GET'])
 def get_sub_tasks(taskID):
     return jsonify(database.get_sub_tasks(taskID))
@@ -123,11 +173,10 @@ def get_sub_task(subTaskID):
 
 
 if __name__ == "__main__":
-    serverSettings = SETTINGS["server"]
-    if serverSettings["useSSL"]:
-        http_server = WSGIServer((serverSettings["listen"], serverSettings["port"]), app,
-                                 keyfile=serverSettings["keyfile"], certfile=serverSettings["certfile"])
+    if SERVER_SETTINGS["useSSL"]:
+        http_server = WSGIServer((SERVER_SETTINGS["listen"], SERVER_SETTINGS["port"]), app,
+                                 keyfile=SERVER_SETTINGS["keyfile"], certfile=SERVER_SETTINGS["certfile"])
     else:
-        http_server = WSGIServer((serverSettings["listen"], serverSettings["port"]), app)
+        http_server = WSGIServer((SERVER_SETTINGS["listen"], SERVER_SETTINGS["port"]), app)
 
     http_server.serve_forever()
