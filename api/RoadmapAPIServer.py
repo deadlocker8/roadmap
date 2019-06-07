@@ -13,18 +13,19 @@ from flask_jwt_extended import (
 from Database import Database
 from UserService import UserService
 
-app = Flask(__name__)
-
-app.config["JWT_SECRET_KEY"] = "KulYdiZJTEvUxNKyseaX"
-jwt = JWTManager(app)
 
 with open("settings.json", "r") as f:
     SETTINGS = json.load(f)
+SERVER_SETTINGS = SETTINGS["server"]
+
+app = Flask(__name__)
+
+app.config["JWT_SECRET_KEY"] = SERVER_SETTINGS["secret"]
+jwt = JWTManager(app)
 
 database = Database(SETTINGS["database"])
 userService = UserService(SETTINGS["users"])
 
-SERVER_SETTINGS = SETTINGS["server"]
 DEFAULT_DATE = datetime(2000, 1, 1, 0, 0, 0)
 
 

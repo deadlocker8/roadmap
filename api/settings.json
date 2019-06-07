@@ -11,7 +11,8 @@
         "port": 10000,
         "useSSL": false,
         "keyfile": "",
-        "certfile": ""
+        "certfile": "",
+        "secret": "KulYdiZJTEvUxNKyseaX"
     },
     "users": [
         {
