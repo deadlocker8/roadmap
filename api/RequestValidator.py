@@ -9,7 +9,6 @@ class ValidationError(Exception):
 
 
 class RequestValidator:
-
     @staticmethod
     def validate(request, parameters):
         if not request.is_json:

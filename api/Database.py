@@ -49,6 +49,7 @@ class Database:
         if fetch_type == FetchType.ALL:
             return self.__cursor.fetchall()
 
+    # ROADMAPS
     def get_roadmaps(self):
         query = 'SELECT * FROM roadmaps ORDER BY "ID";'
         return self.__query(query)
@@ -61,13 +62,18 @@ class Database:
         query = 'INSERT INTO roadmaps ("Projectname") VALUES (%s);'
         self.__query(query, name, fetch_type=FetchType.NONE)
 
+    def update_roadmap(self, roadmapID, name):
+        query = 'UPDATE roadmaps SET "Projectname"=%s WHERE "ID"=%s;'
+        self.__query(query, name, roadmapID, fetch_type=FetchType.NONE)
+
     def delete_roadmap(self, roadmapID):
         query = 'DELETE FROM roadmaps WHERE "ID"=%s;'
         self.__query(query, roadmapID, fetch_type=FetchType.NONE)
 
-    def update_roadmap(self, roadmapID, name):
-        query = 'UPDATE roadmaps SET "Projectname"=%s WHERE "ID"=%s;'
-        self.__query(query, name, roadmapID, fetch_type=FetchType.NONE)
+    # MILESTONES
+    def get_all_milestones(self):
+        query = 'SELECT * FROM milestones ORDER BY "VersionCode" DESC;'
+        return self.__query(query)
 
     def get_milestones(self, roadmapID):
         query = 'SELECT * FROM milestones WHERE "RoadmapID"=%s ORDER BY "VersionCode" DESC;'
@@ -85,6 +91,19 @@ class Database:
         query = 'SELECT * FROM milestones WHERE "RoadmapID"=%s AND "Status" = 1 ORDER BY "VersionCode" DESC;'
         return self.__query(query, roadmapID, fetch_type=FetchType.ONE)
 
+    def add_milestone(self, roadmapID, versionCode, versionName, title, dueDate, completionDate):
+        query = 'INSERT INTO milestones ("RoadmapID", "VersionCode", "VersionName", "Title", "DueDate", "CompletionDate", "Status") VALUES (%s, %s, %s, %s, %s, %s, %s);'
+        self.__query(query, roadmapID, versionCode, versionName, title, dueDate, completionDate, 1, fetch_type=FetchType.NONE)
+
+    def update_milestone(self, milestoneID, roadmapID, versionCode, versionName, title, dueDate, completionDate, status):
+        query = 'UPDATE milestones SET "RoadmapID"=%s, "VersionCode"=%s, "VersionName"=%s, "Title"=%s, "DueDate"=%s, "CompletionDate"=%s, "Status"=%s WHERE "ID"=%s;'
+        self.__query(query, roadmapID, versionCode, versionName, title, dueDate, completionDate, status, milestoneID, fetch_type=FetchType.NONE)
+
+    def delete_milestone(self, milestoneID):
+        query = 'DELETE FROM milestones WHERE "ID"=%s;'
+        self.__query(query, milestoneID, fetch_type=FetchType.NONE)
+
+    # TASKS
     def get_tasks(self, milestoneID):
         query = 'SELECT * FROM tasks WHERE "MilestoneID"=%s;'
         return self.__query(query, milestoneID)
@@ -97,6 +116,7 @@ class Database:
         query = 'SELECT * FROM tasks WHERE "ID"=%s;'
         return self.__query(query, taskID, fetch_type=FetchType.ONE)
 
+    # SUBTASKS
     def get_sub_tasks(self, taskID):
         query = 'SELECT * FROM subtasks WHERE "TaskID"=%s;'
         return self.__query(query, taskID)
