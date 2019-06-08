@@ -48,7 +48,7 @@ def construct_blueprint(database):
                               parameters[SubTaskParameters.DESCRIPTION.value])
         return jsonify({"success": True})
 
-    @subtask_api.route('/task/<int:taskID>', methods=['DELETE'])
+    @subtask_api.route('/subtask/<int:subTaskID>', methods=['DELETE'])
     @jwt_required
     def delete_sub_task(subTaskID):
         if not __subtask_exists(subTaskID):
