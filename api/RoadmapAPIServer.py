@@ -40,10 +40,10 @@ def login():
 
     password = userService.get_password_by_username(parameters["username"])
     if password is None:
-        return jsonify({"msg": "Unknown username"}), 401
+        return jsonify({"success": False, "message": "Unknown username"}), 401
 
     if password != parameters["password"]:
-        return jsonify({"msg": "Bad credentials"}), 401
+        return jsonify({"success": False, "message": "Bad credentials"}), 401
 
     access_token = create_access_token(identity=parameters["username"])
     return jsonify(access_token=access_token), 200

@@ -1,5 +1,13 @@
+from enum import Enum
+
 import psycopg2
 from psycopg2.extras import RealDictCursor
+
+
+class FetchType(Enum):
+    NONE = 1
+    ONE = 2
+    ALL = 3
 
 
 class Database:
@@ -21,23 +29,25 @@ class Database:
                                              host=self.__host,
                                              port=self.__port,
                                              database=self.__database)
+        self.__connection.autocommit = True
         self.__cursor = self.__connection.cursor(cursor_factory=RealDictCursor)
 
     def __disconnect(self):
         if self.__connection is not None:
             self.__connection.close()
 
-    def __query(self, query, *args, fetch_one=False):
+    def __query(self, query, *args, fetch_type=FetchType.ALL):
         try:
             self.__cursor.execute(query, args)
         except psycopg2.InterfaceError:
             self.__disconnect()
             self.__connect()
+            self.__cursor.execute(query, args)
 
-        self.__cursor.execute(query, args)
-        if fetch_one:
+        if fetch_type == FetchType.ONE:
             return self.__cursor.fetchone()
-        return self.__cursor.fetchall()
+        if fetch_type == FetchType.ALL:
+            return self.__cursor.fetchall()
 
     def get_roadmaps(self):
         query = 'SELECT * FROM roadmaps ORDER BY "ID";'
@@ -45,7 +55,19 @@ class Database:
 
     def get_roadmap(self, roadmapID):
         query = 'SELECT "Projectname" FROM roadmaps WHERE "ID"=%s;'
-        return self.__query(query, roadmapID, fetch_one=True)
+        return self.__query(query, roadmapID, fetch_type=FetchType.ONE)
+
+    def add_roadmap(self, name):
+        query = 'INSERT INTO roadmaps ("Projectname") VALUES (%s);'
+        self.__query(query, name, fetch_type=FetchType.NONE)
+
+    def delete_roadmap(self, roadmapID):
+        query = 'DELETE FROM roadmaps WHERE "ID"=%s;'
+        self.__query(query, roadmapID, fetch_type=FetchType.NONE)
+
+    def update_roadmap(self, roadmapID, name):
+        query = 'UPDATE roadmaps SET "Projectname"=%s WHERE "ID"=%s;'
+        self.__query(query, name, roadmapID, fetch_type=FetchType.NONE)
 
     def get_milestones(self, roadmapID):
         query = 'SELECT * FROM milestones WHERE "RoadmapID"=%s ORDER BY "VersionCode" DESC;'
@@ -57,11 +79,11 @@ class Database:
 
     def get_milestone(self, milestoneID):
         query = 'SELECT * FROM milestones WHERE "ID"=%s;'
-        return self.__query(query, milestoneID, fetch_one=True)
+        return self.__query(query, milestoneID, fetch_type=FetchType.ONE)
 
     def get_latest_milestone(self, roadmapID):
         query = 'SELECT * FROM milestones WHERE "RoadmapID"=%s AND "Status" = 1 ORDER BY "VersionCode" DESC;'
-        return self.__query(query, roadmapID, fetch_one=True)
+        return self.__query(query, roadmapID, fetch_type=FetchType.ONE)
 
     def get_tasks(self, milestoneID):
         query = 'SELECT * FROM tasks WHERE "MilestoneID"=%s;'
@@ -73,7 +95,7 @@ class Database:
 
     def get_task(self, taskID):
         query = 'SELECT * FROM tasks WHERE "ID"=%s;'
-        return self.__query(query, taskID, fetch_one=True)
+        return self.__query(query, taskID, fetch_type=FetchType.ONE)
 
     def get_sub_tasks(self, taskID):
         query = 'SELECT * FROM subtasks WHERE "TaskID"=%s;'
@@ -85,4 +107,4 @@ class Database:
 
     def get_sub_task(self, subTaskID):
         query = 'SELECT * FROM subtasks WHERE "ID"=%s;'
-        return self.__query(query, subTaskID, fetch_one=True)
+        return self.__query(query, subTaskID, fetch_type=FetchType.ONE)

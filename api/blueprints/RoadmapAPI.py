@@ -1,6 +1,8 @@
 from datetime import datetime
 
-from flask import Blueprint, jsonify
+from flask import Blueprint, jsonify, request
+
+from RequestValidator import RequestValidator, ValidationError
 
 DEFAULT_DATE = datetime(2000, 1, 1, 0, 0, 0)
 
@@ -57,9 +59,55 @@ def construct_blueprint(database):
 
     @roadmap_api.route('/roadmap', methods=['POST'])
     def add_roadmap():
-        database.add_roadmap()
+        try:
+            parameters = RequestValidator.validate(request, ["name"])
+        except ValidationError as e:
+            return e.response, 400
 
+        if __name_already_used(parameters["name"]):
+            return jsonify({"success": False, "message": "A roadmap with this name already exists"}), 400
 
-        return True
+        database.add_roadmap(parameters["name"])
+        return jsonify({"success": True})
+
+    @roadmap_api.route('/roadmap', methods=['DELETE'])
+    def delete_roadmap():
+        try:
+            parameters = RequestValidator.validate(request, ["id"])
+        except ValidationError as e:
+            return e.response, 400
+
+        roadmapID = parameters["id"]
+        if not __roadmaps_exists(roadmapID):
+            return jsonify({"success": False, "message": "No roadmap with id '{}' existing".format(roadmapID)}), 400
+
+        database.delete_roadmap(roadmapID)
+        return jsonify({"success": True})
+
+    @roadmap_api.route('/roadmap', methods=['PUT'])
+    def update_roadmap():
+        try:
+            parameters = RequestValidator.validate(request, ["id", "name"])
+        except ValidationError as e:
+            return e.response, 400
+
+        roadmapID = parameters["id"]
+        if not __roadmaps_exists(roadmapID):
+            return jsonify({"success": False, "message": "No roadmap with id '{}' existing".format(roadmapID)}), 400
+
+        if __name_already_used(parameters["name"]):
+            return jsonify({"success": False, "message": "A roadmap with this name already exists"}), 400
+
+        database.update_roadmap(parameters["id"], parameters["name"])
+        return jsonify({"success": True})
+
+    def __roadmaps_exists(roadmapID):
+        roadmapID = int(roadmapID)
+        availableIDs = [jsonify(roadmap).json["ID"] for roadmap in database.get_roadmaps()]
+        return roadmapID in availableIDs
+
+    def __name_already_used(name):
+        usedNames = [jsonify(roadmap).json["Projectname"] for roadmap in database.get_roadmaps()]
+        return name in usedNames
 
     return roadmap_api

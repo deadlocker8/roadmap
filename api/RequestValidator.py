@@ -4,7 +4,8 @@ from flask import jsonify
 class ValidationError(Exception):
     def __init__(self, message):
         super().__init__(message)
-        self.response = jsonify({"msg": message})
+        self.response = jsonify({"success": False,
+                                 "message": message})
 
 
 class RequestValidator:
