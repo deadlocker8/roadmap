@@ -133,6 +133,10 @@ class Database:
         self.__query(query, taskID, fetch_type=FetchType.NONE)
 
     # SUBTASKS
+    def get_all_sub_tasks(self):
+        query = 'SELECT * FROM subtasks;'
+        return self.__query(query)
+
     def get_sub_tasks(self, taskID):
         query = 'SELECT * FROM subtasks WHERE "TaskID"=%s;'
         return self.__query(query, taskID)
@@ -144,3 +148,15 @@ class Database:
     def get_sub_task(self, subTaskID):
         query = 'SELECT * FROM subtasks WHERE "ID"=%s;'
         return self.__query(query, subTaskID, fetch_type=FetchType.ONE)
+
+    def add_sub_task(self, taskID, title, description):
+        query = 'INSERT INTO subtasks ("TaskID", "Title", "Description", "Status") VALUES (%s, %s, %s, %s);'
+        self.__query(query, taskID, title, description, 1, fetch_type=FetchType.NONE)
+
+    def update_sub_task(self, subTaskID, taskID, title, description, status):
+        query = 'UPDATE subtasks SET "TaskID"=%s, "Title"=%s, "Description"=%s, "Status"=%s WHERE "ID"=%s;'
+        self.__query(query, taskID, title, description, status, subTaskID, fetch_type=FetchType.NONE)
+
+    def delete_sub_task(self, subTaskID):
+        query = 'DELETE FROM subtasks WHERE "ID"=%s;'
+        self.__query(query, subTaskID, fetch_type=FetchType.NONE)
