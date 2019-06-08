@@ -1,5 +1,8 @@
 openapi: 3.0.0
 servers:
+  # Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/deadlocker8/RoadmapsAPI/1.0.0
   - description: Roadmaps API Server
     url: https://roadmaps.thecodelabs.de:10000/
 info:
@@ -13,6 +16,19 @@ tags:
     description: Operations available to the public
 
 paths:
+  /version:
+    get:
+      tags:
+        - public
+      summary: Gets information about the server version
+      operationId: version
+      responses:
+        '200':
+          description: The server version information
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Version'
   /login:
     post:
       tags:
@@ -725,6 +741,24 @@ components:
       bearerFormat: JWT
 
   schemas:
+    Version:
+      type: object
+      required:
+        - code
+        - name
+        - date
+      properties:
+        code:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: "v1.0.0"
+        date:
+          type: string
+          format: date
+          example: "30.05.19"
+
     Credentials:
       type: object
       required:

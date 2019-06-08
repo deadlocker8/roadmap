@@ -31,6 +31,12 @@ def index():
     return send_from_directory("docs", "api.html")
 
 
+@app.route('/version', methods=['GET'])
+def version():
+    with open("version.json", "r") as f:
+        return jsonify(json.load(f)["version"])
+
+
 @app.route('/login', methods=['POST'])
 def login():
     try:
