@@ -8,6 +8,7 @@ from flask_jwt_extended import (
 )
 from gevent.pywsgi import WSGIServer
 
+from RequestValidator import RequestValidator, ValidationError
 from blueprints import SubTaskAPI, MilestoneAPI, TaskAPI, RoadmapAPI
 from Database import Database
 from UserService import UserService
@@ -32,21 +33,19 @@ def index():
 
 @app.route('/login', methods=['POST'])
 def login():
-    if not request.is_json:
-        return jsonify({"msg": "Missing JSON in request"}), 400
+    try:
+        parameters = RequestValidator.validate(request, ["username", "password"])
+    except ValidationError as e:
+        return e.response, 400
 
-    username = request.json.get('username', None)
-    password = request.json.get('password', None)
-    if username is None:
-        return jsonify({"msg": "Missing username parameter"}), 400
+    password = userService.get_password_by_username(parameters["username"])
     if password is None:
-        return jsonify({"msg": "Missing password parameter"}), 400
+        return jsonify({"msg": "Unknown username"}), 401
 
-    user = userService.get_password_by_username(username)
-    if user is None:
-        return jsonify({"msg": "Bad username or password"}), 401
+    if password != parameters["password"]:
+        return jsonify({"msg": "Bad credentials"}), 401
 
-    access_token = create_access_token(identity=username)
+    access_token = create_access_token(identity=parameters["username"])
     return jsonify(access_token=access_token), 200
 
 

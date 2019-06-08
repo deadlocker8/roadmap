@@ -55,4 +55,11 @@ def construct_blueprint(database):
         roadmap["numberOfOpenMilestones"] = numberOfOpenMilestones
         return jsonify(roadmap)
 
+    @roadmap_api.route('/roadmap', methods=['POST'])
+    def add_roadmap():
+        database.add_roadmap()
+
+
+        return True
+
     return roadmap_api
