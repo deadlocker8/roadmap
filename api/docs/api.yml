@@ -11,7 +11,41 @@ tags:
     description: Secured Admin-only calls
   - name: public
     description: Operations available to the public
+
 paths:
+  /login:
+    post:
+      tags:
+        - public
+      summary: Gets a bearer JSON Web Token
+      operationId: login
+      requestBody:
+        description: Credentials
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Credentials'
+      responses:
+        '200':
+          description: success response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenResponse'
+        '401':
+          description: unauthorized response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedResponse'
+        default:
+          description: error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
   /roadmaps:
     get:
       tags:
@@ -47,6 +81,106 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Roadmap'
+    delete:
+      tags:
+        - admins
+      description: Deletes a roadmap based on the given ID
+      operationId: deleteRoadmap
+      parameters:
+        - in: path
+          name: roadmapID
+          description: The roadmap ID
+          required: true
+          schema:
+            type: integer
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: success response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '401':
+          description: unauthorized response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedResponse'
+        default:
+          description: error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /roadmap:
+    post:
+      tags:
+        - admins
+      summary: Adds a new roadmap
+      operationId: addRoadmap
+      requestBody:
+        description: Roadmap to add
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewRoadmap'
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: success response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '401':
+          description: unauthorized response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedResponse'
+        default:
+          description: error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    put:
+      tags:
+        - admins
+      summary: Updates a roadmap
+      operationId: updateRoadmap
+      requestBody:
+        description: Roadmap to update
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Roadmap'
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: success response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '401':
+          description: unauthorized response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedResponse'
+        default:
+          description: error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
   /roadmap/{roadmapID}/full:
     get:
       tags:
@@ -152,6 +286,106 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Milestone'
+    delete:
+      tags:
+        - admins
+      description: Deletes a milestone based on the given ID
+      operationId: deleteMilestone
+      parameters:
+        - in: path
+          name: milestoneID
+          description: The milestone ID
+          required: true
+          schema:
+            type: integer
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: success response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '401':
+          description: unauthorized response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedResponse'
+        default:
+          description: error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /milestone:
+    post:
+      tags:
+        - admins
+      summary: Adds a new milestone
+      operationId: addMilestone
+      requestBody:
+        description: Milestone to add
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewMilestone'
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: success response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '401':
+          description: unauthorized response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedResponse'
+        default:
+          description: error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    put:
+      tags:
+        - admins
+      summary: Updates a milestone
+      operationId: updateMilestone
+      requestBody:
+        description: Milestone to update
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Milestone'
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: success response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '401':
+          description: unauthorized response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedResponse'
+        default:
+          description: error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
 
   /tasks/{milestoneID}:
     get:
@@ -217,6 +451,106 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Task'
+    delete:
+      tags:
+        - admins
+      description: Deletes a task based on the given ID
+      operationId: deleteTask
+      parameters:
+        - in: path
+          name: taskID
+          description: The task ID
+          required: true
+          schema:
+            type: integer
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: success response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '401':
+          description: unauthorized response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedResponse'
+        default:
+          description: error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /task:
+    post:
+      tags:
+        - admins
+      summary: Adds a new task
+      operationId: addTask
+      requestBody:
+        description: Task to add
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewTask'
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: success response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '401':
+          description: unauthorized response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedResponse'
+        default:
+          description: error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    put:
+      tags:
+        - admins
+      summary: Updates a task
+      operationId: updateTask
+      requestBody:
+        description: Task to update
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Task'
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: success response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '401':
+          description: unauthorized response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedResponse'
+        default:
+          description: error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
 
   /subtasks/{taskID}:
     get:
@@ -282,18 +616,138 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SubTask'
+    delete:
+      tags:
+        - admins
+      description: Deletes a sub task based on the given ID
+      operationId: deleteSubTask
+      parameters:
+        - in: path
+          name: subtaskID
+          description: The sub task ID
+          required: true
+          schema:
+            type: integer
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: success response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '401':
+          description: unauthorized response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedResponse'
+        default:
+          description: error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /subtask:
+    post:
+      tags:
+        - admins
+      summary: Adds a new sub task
+      operationId: addSubTask
+      requestBody:
+        description: Sub task to add
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewSubTask'
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: success response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '401':
+          description: unauthorized response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedResponse'
+        default:
+          description: error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    put:
+      tags:
+        - admins
+      summary: Updates a sub task
+      operationId: updateSubTask
+      requestBody:
+        description: Sub task to update
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SubTask'
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: success response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '401':
+          description: unauthorized response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedResponse'
+        default:
+          description: error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
 components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
   schemas:
+    Credentials:
+      type: object
+      required:
+        - username
+        - password
+      properties:
+        username:
+          type: string
+          example: "admin"
+        password:
+          type: string
+          example: "123"
+
     Roadmap:
       type: object
       required:
         - ID
         - Projectname
       properties:
-        id:
+        ID:
           type: integer
           example: 1
-        name:
+        Projectname:
           type: string
           example: "Example Roadmap"
 
@@ -320,6 +774,15 @@ components:
                                   type: array
                                   items:
                                     $ref: '#/components/schemas/SubTask'
+
+    NewRoadmap:
+      type: object
+      required:
+        - Projectname
+      properties:
+        Projectname:
+          type: string
+          example: "Example Roadmap"
 
     Milestone:
       type: object
@@ -361,6 +824,38 @@ components:
           enum:
             - 0
             - 1
+
+    NewMilestone:
+      type: object
+      required:
+        - RoadmapID
+        - VersionCode
+        - VersionName
+        - Title
+        - DueDate
+        - CompletionDate
+      properties:
+        RoadmapID:
+          type: integer
+          example: 2
+        VersionCode:
+          type: integer
+          example: 3
+        VersionName:
+          type: string
+          example: "v1.0.0"
+        Title:
+          type: string
+          example: "My awesome milestone"
+        DueDate:
+          type: string
+          format: date
+          example: "2019-05-30"
+        CompletionDate:
+          type: string
+          format: date
+          example: "2019-05-30"
+
     Task:
       type: object
       required:
@@ -387,6 +882,24 @@ components:
           enum:
             - 0
             - 1
+
+    NewTask:
+      type: object
+      required:
+        - MilestoneID
+        - Title
+        - Description
+      properties:
+        MilestoneID:
+          type: integer
+          example: 2
+        Title:
+          type: string
+          example: "My awesome task"
+        Description:
+          type: string
+          example: "Lorem Ipsum dolor sit amet"
+
     SubTask:
       type: object
       required:
@@ -413,3 +926,47 @@ components:
           enum:
             - 0
             - 1
+
+    NewSubTask:
+      type: object
+      required:
+        - TaskID
+        - Title
+        - Description
+      properties:
+        TaskID:
+          type: integer
+          example: 2
+        Title:
+          type: string
+          example: "My awesome sub task"
+        Description:
+          type: string
+          example: "Lorem Ipsum dolor sit amet"
+
+    UnauthorizedResponse:
+      description: Access token is missing or invalid
+      properties:
+        msg:
+          type: string
+          example: "Missing Authorization Header"
+    TokenResponse:
+      description: JSON web token
+      properties:
+        access_token:
+          type: string
+    SuccessResponse:
+      required:
+        - success
+      properties:
+        success:
+          type: boolean
+    ErrorResponse:
+      required:
+        - success
+        - msg
+      properties:
+        success:
+          type: boolean
+        msg:
+          type: string
