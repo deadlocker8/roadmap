@@ -3,6 +3,11 @@ from enum import Enum
 import psycopg2
 from psycopg2.extras import RealDictCursor
 
+from blueprints.RoadmapAPI import RoadmapParameters
+from blueprints.MilestoneAPI import MilestoneParameters
+from blueprints.TaskAPI import TaskParameters
+from blueprints.SubTaskAPI import SubTaskParameters
+
 
 class FetchType(Enum):
     NONE = 1
@@ -51,112 +56,115 @@ class Database:
 
     # ROADMAPS
     def get_roadmaps(self):
-        query = 'SELECT * FROM roadmaps ORDER BY "ID";'
+        query = f'SELECT * FROM roadmaps ORDER BY "{RoadmapParameters.ID.value}";'
         return self.__query(query)
 
     def get_roadmap(self, roadmapID):
-        query = 'SELECT "Projectname" FROM roadmaps WHERE "ID"=%s;'
+        query = f'SELECT {RoadmapParameters.PROJECT_NAME.value} FROM roadmaps WHERE "{RoadmapParameters.ID.value}"=%s;'
         return self.__query(query, roadmapID, fetch_type=FetchType.ONE)
 
     def add_roadmap(self, name):
-        query = 'INSERT INTO roadmaps ("Projectname") VALUES (%s);'
+        query = f'INSERT INTO roadmaps ("{RoadmapParameters.PROJECT_NAME.value}") VALUES (%s);'
         self.__query(query, name, fetch_type=FetchType.NONE)
 
     def update_roadmap(self, roadmapID, name):
-        query = 'UPDATE roadmaps SET "Projectname"=%s WHERE "ID"=%s;'
+        query = f'UPDATE roadmaps SET "{RoadmapParameters.PROJECT_NAME.value}"=%s WHERE "{RoadmapParameters.ID.value}"=%s;'
         self.__query(query, name, roadmapID, fetch_type=FetchType.NONE)
 
     def delete_roadmap(self, roadmapID):
-        query = 'DELETE FROM roadmaps WHERE "ID"=%s;'
+        query = f'DELETE FROM roadmaps WHERE "{RoadmapParameters.ID.value}"=%s;'
         self.__query(query, roadmapID, fetch_type=FetchType.NONE)
 
     # MILESTONES
     def get_all_milestones(self):
-        query = 'SELECT * FROM milestones ORDER BY "VersionCode" DESC;'
+        query = f'SELECT * FROM milestones ORDER BY "{MilestoneParameters.VERSION_CODE.value}" DESC;'
         return self.__query(query)
 
     def get_milestones(self, roadmapID):
-        query = 'SELECT * FROM milestones WHERE "RoadmapID"=%s ORDER BY "VersionCode" DESC;'
+        query = f'SELECT * FROM milestones WHERE "{MilestoneParameters.ROADMAP_ID.value}"=%s ORDER BY "{MilestoneParameters.VERSION_CODE.value}" DESC;'
         return self.__query(query, roadmapID)
 
     def get_open_milestones(self, roadmapID):
-        query = 'SELECT * FROM milestones WHERE "RoadmapID"=%s AND "Status"=0 ORDER BY "VersionCode" DESC;'
+        query = f'SELECT * FROM milestones WHERE "{MilestoneParameters.ROADMAP_ID.value}"=%s AND "Status"=0 ORDER BY "{MilestoneParameters.VERSION_CODE.value}" DESC;'
         return self.__query(query, roadmapID)
 
     def get_milestone(self, milestoneID):
-        query = 'SELECT * FROM milestones WHERE "ID"=%s;'
+        query = f'SELECT * FROM milestones WHERE "{MilestoneParameters.ID.value}"=%s;'
         return self.__query(query, milestoneID, fetch_type=FetchType.ONE)
 
     def get_latest_milestone(self, roadmapID):
-        query = 'SELECT * FROM milestones WHERE "RoadmapID"=%s AND "Status" = 1 ORDER BY "VersionCode" DESC;'
+        query = f'SELECT * FROM milestones WHERE "{MilestoneParameters.ROADMAP_ID.value}"=%s AND "{MilestoneParameters.STATUS.value}" = 1 ORDER BY "{MilestoneParameters.VERSION_CODE.value}" DESC;'
         return self.__query(query, roadmapID, fetch_type=FetchType.ONE)
 
     def add_milestone(self, roadmapID, versionCode, versionName, title, dueDate, completionDate):
-        query = 'INSERT INTO milestones ("RoadmapID", "VersionCode", "VersionName", "Title", "DueDate", "CompletionDate", "Status") VALUES (%s, %s, %s, %s, %s, %s, %s);'
-        self.__query(query, roadmapID, versionCode, versionName, title, dueDate, completionDate, 1, fetch_type=FetchType.NONE)
+        query = f'INSERT INTO milestones ("{MilestoneParameters.ROADMAP_ID.value}", "{MilestoneParameters.VERSION_CODE.value}", "{MilestoneParameters.VERSION_NAME.value}", "{MilestoneParameters.TITLE.value}", "{MilestoneParameters.DUE_DATE.value}", "{MilestoneParameters.COMPLETION_DATE.value}", "{MilestoneParameters.STATUS.value}") VALUES (%s, %s, %s, %s, %s, %s, %s);'
+        self.__query(query, roadmapID, versionCode, versionName, title, dueDate, completionDate, 1,
+                     fetch_type=FetchType.NONE)
 
-    def update_milestone(self, milestoneID, roadmapID, versionCode, versionName, title, dueDate, completionDate, status):
-        query = 'UPDATE milestones SET "RoadmapID"=%s, "VersionCode"=%s, "VersionName"=%s, "Title"=%s, "DueDate"=%s, "CompletionDate"=%s, "Status"=%s WHERE "ID"=%s;'
-        self.__query(query, roadmapID, versionCode, versionName, title, dueDate, completionDate, status, milestoneID, fetch_type=FetchType.NONE)
+    def update_milestone(self, milestoneID, roadmapID, versionCode, versionName, title, dueDate, completionDate,
+                         status):
+        query = f'UPDATE milestones SET "{MilestoneParameters.ROADMAP_ID.value}"=%s, "{MilestoneParameters.VERSION_CODE.value}"=%s, "{MilestoneParameters.VERSION_NAME.value}"=%s, "{MilestoneParameters.TITLE.value}"=%s, "{MilestoneParameters.DUE_DATE.value}"=%s, "{MilestoneParameters.COMPLETION_DATE.value}"=%s, "{MilestoneParameters.STATUS.value}"=%s WHERE "{MilestoneParameters.ID.value}"=%s;'
+        self.__query(query, roadmapID, versionCode, versionName, title, dueDate, completionDate, status, milestoneID,
+                     fetch_type=FetchType.NONE)
 
     def delete_milestone(self, milestoneID):
-        query = 'DELETE FROM milestones WHERE "ID"=%s;'
+        query = f'DELETE FROM milestones WHERE "{MilestoneParameters.ID.value}"=%s;'
         self.__query(query, milestoneID, fetch_type=FetchType.NONE)
 
     # TASKS
     def get_all_tasks(self):
-        query = 'SELECT * FROM tasks;'
+        query = f'SELECT * FROM tasks;'
         return self.__query(query)
 
     def get_tasks(self, milestoneID):
-        query = 'SELECT * FROM tasks WHERE "MilestoneID"=%s;'
+        query = f'SELECT * FROM tasks WHERE "{TaskParameters.MILESTONE_ID.value}"=%s;'
         return self.__query(query, milestoneID)
 
     def get_open_tasks(self, milestoneID):
-        query = 'SELECT * FROM tasks WHERE "MilestoneID"=%s AND "Status"=0;'
+        query = f'SELECT * FROM tasks WHERE "{TaskParameters.MILESTONE_ID.value}"=%s AND "{TaskParameters.STATUS.value}"=0;'
         return self.__query(query, milestoneID)
 
     def get_task(self, taskID):
-        query = 'SELECT * FROM tasks WHERE "ID"=%s;'
+        query = f'SELECT * FROM tasks WHERE "{TaskParameters.ID.value}"=%s;'
         return self.__query(query, taskID, fetch_type=FetchType.ONE)
 
     def add_task(self, milestoneID, title, description):
-        query = 'INSERT INTO tasks ("MilestoneID", "Title", "Description", "Status") VALUES (%s, %s, %s, %s);'
+        query = f'INSERT INTO tasks ("{TaskParameters.MILESTONE_ID.value}", "{TaskParameters.TITLE.value}", "{TaskParameters.DESCRIPTION.value}", "{TaskParameters.STATUS.value}") VALUES (%s, %s, %s, %s);'
         self.__query(query, milestoneID, title, description, 1, fetch_type=FetchType.NONE)
 
     def update_task(self, taskID, milestoneID, title, description, status):
-        query = 'UPDATE tasks SET "MilestoneID"=%s, "Title"=%s, "Description"=%s, "Status"=%s WHERE "ID"=%s;'
+        query = f'UPDATE tasks SET "{TaskParameters.MILESTONE_ID.value}"=%s, "{TaskParameters.TITLE.value}"=%s, "{TaskParameters.DESCRIPTION.value}"=%s, "{TaskParameters.STATUS.value}"=%s WHERE "{TaskParameters.ID.value}"=%s;'
         self.__query(query, milestoneID, title, description, status, taskID, fetch_type=FetchType.NONE)
 
     def delete_task(self, taskID):
-        query = 'DELETE FROM tasks WHERE "ID"=%s;'
+        query = f'DELETE FROM tasks WHERE "{TaskParameters.ID.value}"=%s;'
         self.__query(query, taskID, fetch_type=FetchType.NONE)
 
     # SUBTASKS
     def get_all_sub_tasks(self):
-        query = 'SELECT * FROM subtasks;'
+        query = f'SELECT * FROM subtasks;'
         return self.__query(query)
 
     def get_sub_tasks(self, taskID):
-        query = 'SELECT * FROM subtasks WHERE "TaskID"=%s;'
+        query = f'SELECT * FROM subtasks WHERE "{SubTaskParameters.TASK_ID.value}"=%s;'
         return self.__query(query, taskID)
 
     def get_open_sub_tasks(self, taskID):
-        query = 'SELECT * FROM subtasks WHERE "TaskID"=%s AND "Status"=0;'
+        query = f'SELECT * FROM subtasks WHERE "{SubTaskParameters.TASK_ID.value}"=%s AND "{SubTaskParameters.STATUS.value}"=0;'
         return self.__query(query, taskID)
 
     def get_sub_task(self, subTaskID):
-        query = 'SELECT * FROM subtasks WHERE "ID"=%s;'
+        query = f'SELECT * FROM subtasks WHERE "{SubTaskParameters.ID.value}"=%s;'
         return self.__query(query, subTaskID, fetch_type=FetchType.ONE)
 
     def add_sub_task(self, taskID, title, description):
-        query = 'INSERT INTO subtasks ("TaskID", "Title", "Description", "Status") VALUES (%s, %s, %s, %s);'
+        query = f'INSERT INTO subtasks ("{SubTaskParameters.TASK_ID.value}", "{SubTaskParameters.TITLE.value}", "{SubTaskParameters.DESCRIPTION.value}", "{SubTaskParameters.STATUS.value}") VALUES (%s, %s, %s, %s);'
         self.__query(query, taskID, title, description, 1, fetch_type=FetchType.NONE)
 
     def update_sub_task(self, subTaskID, taskID, title, description, status):
-        query = 'UPDATE subtasks SET "TaskID"=%s, "Title"=%s, "Description"=%s, "Status"=%s WHERE "ID"=%s;'
+        query = f'UPDATE subtasks SET "{SubTaskParameters.TASK_ID.value}"=%s, "{SubTaskParameters.TITLE.value}"=%s, "{SubTaskParameters.DESCRIPTION.value}"=%s, "{SubTaskParameters.STATUS.value}"=%s WHERE "{SubTaskParameters.ID.value}"=%s;'
         self.__query(query, taskID, title, description, status, subTaskID, fetch_type=FetchType.NONE)
 
     def delete_sub_task(self, subTaskID):
-        query = 'DELETE FROM subtasks WHERE "ID"=%s;'
+        query = f'DELETE FROM subtasks WHERE "{SubTaskParameters.ID.value}"=%s;'
         self.__query(query, subTaskID, fetch_type=FetchType.NONE)
