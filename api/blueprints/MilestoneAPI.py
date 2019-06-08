@@ -61,19 +61,13 @@ def construct_blueprint(database):
                                parameters[MilestoneParameters.COMPLETION_DATE.value])
         return jsonify({"success": True})
 
-    @milestone_api.route('/milestone', methods=['DELETE'])
+    @milestone_api.route('/milestone/<int:milestoneID>', methods=['DELETE'])
     @jwt_required
-    def delete_milestone():
-        try:
-            parameters = RequestValidator.validate(request, [MilestoneParameters.ID.value])
-        except ValidationError as e:
-            return e.response, 400
-
-        milestoneID = parameters[MilestoneParameters.ID.value]
+    def delete_mielstone(milestoneID):
         if not __milestone_exists(milestoneID):
-            return jsonify({"success": False, "msg": "No milestone with ID '{}' existing".format(milestoneID)}), 400
+            return jsonify({"success": False, "msg": "No milestone with id '{}' existing".format(milestoneID)}), 400
 
-        database.delete_milestone(milestoneID)
+        database.delete_roadmap(milestoneID)
         return jsonify({"success": True})
 
     @milestone_api.route('/milestone', methods=['PUT'])

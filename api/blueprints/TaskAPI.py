@@ -48,19 +48,13 @@ def construct_blueprint(database):
                           parameters[TaskParameters.DESCRIPTION.value])
         return jsonify({"success": True})
 
-    @task_api.route('/task', methods=['DELETE'])
+    @task_api.route('/task/<int:taskID>', methods=['DELETE'])
     @jwt_required
-    def delete_task():
-        try:
-            parameters = RequestValidator.validate(request, [TaskParameters.ID.value])
-        except ValidationError as e:
-            return e.response, 400
-
-        taskID = parameters[TaskParameters.ID.value]
+    def delete_task(taskID):
         if not __task_exists(taskID):
-            return jsonify({"success": False, "msg": "No task with ID '{}' existing".format(taskID)}), 400
+            return jsonify({"success": False, "msg": "No task with id '{}' existing".format(taskID)}), 400
 
-        database.delete_task(taskID)
+        database.delete_roadmap(taskID)
         return jsonify({"success": True})
 
     @task_api.route('/task', methods=['PUT'])

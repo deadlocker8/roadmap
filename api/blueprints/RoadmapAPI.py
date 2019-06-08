@@ -78,15 +78,9 @@ def construct_blueprint(database):
         database.add_roadmap(parameters[RoadmapParameters.PROJECT_NAME])
         return jsonify({"success": True})
 
-    @roadmap_api.route('/roadmap', methods=['DELETE'])
+    @roadmap_api.route('/roadmap/<int:roadmapID>', methods=['DELETE'])
     @jwt_required
-    def delete_roadmap():
-        try:
-            parameters = RequestValidator.validate(request, [RoadmapParameters.ID])
-        except ValidationError as e:
-            return e.response, 400
-
-        roadmapID = parameters[RoadmapParameters.ID]
+    def delete_roadmap(roadmapID):
         if not __roadmaps_exists(roadmapID):
             return jsonify({"success": False, "msg": "No roadmap with id '{}' existing".format(roadmapID)}), 400
 

@@ -48,19 +48,13 @@ def construct_blueprint(database):
                               parameters[SubTaskParameters.DESCRIPTION.value])
         return jsonify({"success": True})
 
-    @subtask_api.route('/subtask', methods=['DELETE'])
+    @subtask_api.route('/task/<int:taskID>', methods=['DELETE'])
     @jwt_required
-    def delete_sub_task():
-        try:
-            parameters = RequestValidator.validate(request, [SubTaskParameters.ID.value])
-        except ValidationError as e:
-            return e.response, 400
+    def delete_sub_task(subTaskID):
+        if not __subtask_exists(subTaskID):
+            return jsonify({"success": False, "msg": "No sub task with id '{}' existing".format(subTaskID)}), 400
 
-        subtaskID = parameters[SubTaskParameters.ID.value]
-        if not __subtask_exists(subtaskID):
-            return jsonify({"success": False, "msg": "No sub task with ID '{}' existing".format(subtaskID)}), 400
-
-        database.delete_sub_task(subtaskID)
+        database.delete_roadmap(subTaskID)
         return jsonify({"success": True})
 
     @subtask_api.route('/subtask', methods=['PUT'])
