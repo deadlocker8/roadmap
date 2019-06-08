@@ -73,7 +73,7 @@ def construct_blueprint(database):
         if not __milestone_exists(milestoneID):
             return jsonify({"success": False, "msg": "No milestone with ID '{}' existing".format(milestoneID)}), 400
 
-        database.delete_roadmap(milestoneID)
+        database.delete_milestone(milestoneID)
         return jsonify({"success": True})
 
     @milestone_api.route('/milestone', methods=['PUT'])

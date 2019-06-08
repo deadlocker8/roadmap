@@ -104,6 +104,10 @@ class Database:
         self.__query(query, milestoneID, fetch_type=FetchType.NONE)
 
     # TASKS
+    def get_all_tasks(self):
+        query = 'SELECT * FROM tasks;'
+        return self.__query(query)
+
     def get_tasks(self, milestoneID):
         query = 'SELECT * FROM tasks WHERE "MilestoneID"=%s;'
         return self.__query(query, milestoneID)
@@ -115,6 +119,18 @@ class Database:
     def get_task(self, taskID):
         query = 'SELECT * FROM tasks WHERE "ID"=%s;'
         return self.__query(query, taskID, fetch_type=FetchType.ONE)
+
+    def add_task(self, milestoneID, title, description):
+        query = 'INSERT INTO tasks ("MilestoneID", "Title", "Description", "Status") VALUES (%s, %s, %s, %s);'
+        self.__query(query, milestoneID, title, description, 1, fetch_type=FetchType.NONE)
+
+    def update_task(self, taskID, milestoneID, title, description, status):
+        query = 'UPDATE tasks SET "MilestoneID"=%s, "Title"=%s, "Description"=%s, "Status"=%s WHERE "ID"=%s;'
+        self.__query(query, milestoneID, title, description, status, taskID, fetch_type=FetchType.NONE)
+
+    def delete_task(self, taskID):
+        query = 'DELETE FROM tasks WHERE "ID"=%s;'
+        self.__query(query, taskID, fetch_type=FetchType.NONE)
 
     # SUBTASKS
     def get_sub_tasks(self, taskID):
