@@ -3,15 +3,14 @@ import json
 from flask import Flask, send_from_directory, request
 from flask import jsonify
 from flask_jwt_extended import (
-    JWTManager, jwt_required, create_access_token,
-    get_jwt_identity
+    JWTManager, create_access_token
 )
 from gevent.pywsgi import WSGIServer
 
-from RequestValidator import RequestValidator, ValidationError
-from blueprints import SubTaskAPI, MilestoneAPI, TaskAPI, RoadmapAPI
 from Database import Database
+from RequestValidator import RequestValidator, ValidationError
 from UserService import UserService
+from blueprints import SubTaskAPI, MilestoneAPI, TaskAPI, RoadmapAPI
 
 with open("settings.json", "r") as f:
     SETTINGS = json.load(f)
@@ -59,13 +58,6 @@ app.register_blueprint(RoadmapAPI.construct_blueprint(database))
 app.register_blueprint(MilestoneAPI.construct_blueprint(database))
 app.register_blueprint(TaskAPI.construct_blueprint(database))
 app.register_blueprint(SubTaskAPI.construct_blueprint(database))
-
-
-@app.route('/admin', methods=['GET'])
-@jwt_required
-def protected():
-    current_user = get_jwt_identity()
-    return jsonify(logged_in_as=current_user), 200
 
 
 if __name__ == "__main__":
