@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, date
 from enum import Enum
 
 from flask import Blueprint, jsonify, request
@@ -6,7 +6,7 @@ from flask_jwt_extended import jwt_required
 
 from RequestValidator import RequestValidator, ValidationError
 
-DEFAULT_DATE = datetime(2000, 1, 1, 0, 0, 0)
+DEFAULT_DATE = date(2000, 1, 1)
 
 
 class RoadmapParameters(Enum):
