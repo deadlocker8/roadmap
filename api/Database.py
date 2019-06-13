@@ -60,7 +60,7 @@ class Database:
         return self.__query(query)
 
     def get_roadmap(self, roadmapID):
-        query = f'SELECT {RoadmapParameters.PROJECT_NAME.value} FROM roadmaps WHERE "{RoadmapParameters.ID.value}"=%s;'
+        query = f'SELECT "{RoadmapParameters.PROJECT_NAME.value}" FROM roadmaps WHERE "{RoadmapParameters.ID.value}"=%s;'
         return self.__query(query, roadmapID, fetch_type=FetchType.ONE)
 
     def add_roadmap(self, name):
