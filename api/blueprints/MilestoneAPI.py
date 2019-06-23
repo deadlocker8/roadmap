@@ -3,6 +3,7 @@ from enum import Enum
 from flask import Blueprint, jsonify, request
 from flask_jwt_extended import jwt_required
 
+from DateFormatter import DateFormatter
 from RequestValidator import RequestValidator, ValidationError
 
 
@@ -21,24 +22,42 @@ class MilestoneParameters(Enum):
         return [m.value for m in MilestoneParameters]
 
 
+def prepare_milestone(milestone):
+    milestone[MilestoneParameters.DUE_DATE.value] = DateFormatter.format(
+        milestone[MilestoneParameters.DUE_DATE.value])
+    milestone[MilestoneParameters.COMPLETION_DATE.value] = DateFormatter.format(
+        milestone[MilestoneParameters.COMPLETION_DATE.value])
+    return milestone
+
+
 def construct_blueprint(database):
     milestone_api = Blueprint('milestone_api', __name__)
 
     @milestone_api.route('/milestones/<int:roadmapID>', methods=['GET'])
     def get_milestones(roadmapID):
-        return jsonify(database.get_milestones(roadmapID))
+        milestones = database.get_milestones(roadmapID)
+        results = []
+        for m in milestones.json:
+            results.append(prepare_milestone(m))
+        return jsonify(results)
 
     @milestone_api.route('/milestones/<int:roadmapID>/open', methods=['GET'])
     def get_open_milestones(roadmapID):
-        return jsonify(database.get_open_milestones(roadmapID))
+        milestones = database.get_open_milestones(roadmapID)
+        results = []
+        for m in milestones:
+            results.append(prepare_milestone(m))
+        return jsonify(results)
 
     @milestone_api.route('/milestones/<int:roadmapID>/latest', methods=['GET'])
     def get_latest_milestone(roadmapID):
-        return jsonify(database.get_latest_milestone(roadmapID))
+        milestone = database.get_latest_milestone(roadmapID)
+        return jsonify(prepare_milestone(milestone))
 
     @milestone_api.route('/milestone/<int:milestoneID>', methods=['GET'])
     def get_milestone(milestoneID):
-        return jsonify(database.get_milestone(milestoneID))
+        milestone = database.get_milestone(milestoneID)
+        return jsonify(prepare_milestone(milestone))
 
     @milestone_api.route('/milestone', methods=['POST'])
     @jwt_required
