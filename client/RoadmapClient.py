@@ -65,6 +65,11 @@ def roadmap_fragement_by_id(roadmapID):
     return render_template("roadmapFragment.html", roadmap=roadmap, localization=LOCALIZATION)
 
 
+@app.route("/admin/login")
+def login():
+    return render_template("login.html")
+
+
 if __name__ == "__main__":
     if SETTINGS["useSSL"]:
         http_server = WSGIServer((SETTINGS["listen"],
