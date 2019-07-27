@@ -20,14 +20,28 @@
             <div class="container">
                 <h2 class="center-align" id="headline">Login</h2>
                 <form action="{{ url_for('login') }}" method="post" onsubmit="return validateLoginForm()">
-                    <div class="row center-align">
+                    <div class="row center-align no-margin-bottom">
                         <div class="col s10 offset-s1 m6 offset-m3 l4 offset-l4">
                             <div class="input-field col s12">
-                                <input id="password" name="password" type="password">
+                                <input id="password" name="password" type="password" class="no-margin-bottom">
                                 <label for="password">Password</label>
                             </div>
                         </div>
                     </div>
+
+                    {% if message %}
+                        <div class="row no-margin-bottom">
+                            <div class="col s10 offset-s1 m6 offset-m3 l4 offset-l4 center-align">
+                                <table class="red-text login-message">
+                                    <tr>
+                                        <td><i class="material-icons">warning</i></td>
+                                        <td id="loginMessage">{{ message }}</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    {% endif %}
+
                     <div class="row center-align margin-top">
                         <div class="col s12 m8 offset-m2 l6 offset-l3">
                             <a class="waves-effect waves-light btn blue darken-3" href="{{ url_for('overview') }}"><i class="material-icons left">home</i>Home</a>

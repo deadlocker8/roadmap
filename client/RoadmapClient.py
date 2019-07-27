@@ -83,7 +83,7 @@ def loginPost():
     response = requests.post(build_url('login'), json=jsonData)
 
     if response.status_code == 401:
-        return render_template('error.html', message=LOCALIZATION['unauthorized'])
+        return render_template('login.html', message=LOCALIZATION['unauthorized'])
 
     if response.status_code == 200:
         token = response.json()["access_token"]
