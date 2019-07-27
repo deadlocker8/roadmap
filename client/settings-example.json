@@ -1,8 +1,9 @@
 {
     "listen": "0.0.0.0",
     "port": 11000,
+    "secret": "",
     "useSSL": false,
     "keyfile": "",
     "certfile": "",
-    "apiURL": "https://roadmaps.thecodelabs.de:10000"
+    "apiURL": ""
 }
