@@ -108,5 +108,5 @@ if __name__ == '__main__':
     else:
         http_server = WSGIServer((SETTINGS['listen'], SETTINGS['port']), app)
 
-    print('Listening on {}:{}'.format(SETTINGS['listen'], SETTINGS['port']))
+    print('Listening on {}:{}...'.format(SETTINGS['listen'], SETTINGS['port']))
     http_server.serve_forever()
