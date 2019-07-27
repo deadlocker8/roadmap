@@ -1,41 +1,7 @@
 <!DOCTYPE html>
-
-<?php
-if(!isset($_SESSION))
-{
-	session_start();
-}
-if(!isset($_SESSION['loggedIn']))
-{
-	header('Location: login.php');
-}
-
-include_once('../getLanguageJSON.php');
-include_once('../database.php');
-
-$db = new DB();
-$db->createTables();
-?>
 <html xmlns="http://www.w3.org/1999/html">
-	<head>
-		<meta charset="UTF-8"/>
-		<title>Roadmaps - Adminarea</title>
-		<!--Import Google Icon Font-->
-		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-		<!--Import materialize.css-->
-		<link type="text/css" rel="stylesheet" href="../../materialize/css/materialize.min.css" media="screen,projection"/>
-		<link type="text/css" rel="stylesheet" href="../../css/style.css"/>
-
-		<!--Import jQuery before materialize.js-->
-		<script type="text/javascript" src="../../js/jquery-2.2.4.min.js"></script>
-		<script type="text/javascript" src="../../materialize/js/materialize.min.js"></script>
-		<script type="text/javascript" src="../../js/main.js"></script>
-		<script type="text/javascript" src="../../js/ResizeSensor.js"></script>
-		<script type="text/javascript" src="../../js/ElementQueries.js"></script>
-
-		<!--Let browser know website is optimized for mobile-->
-		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-	</head>
+    {% import 'macros.html' as macros %}
+    {{ macros.headerFull() }}
 
 	<body class="grey lighten-3">
 		<a class="waves-effect waves-light btn blue darken-3 right" href="logout.php"><i class="material-icons left">lock</i>Logout</a>
