@@ -2,11 +2,13 @@ import json
 from datetime import datetime
 
 import requests
-from flask import Flask, render_template, redirect, request, session
+from flask import Flask, render_template, redirect, request, session, url_for
 from gevent.pywsgi import WSGIServer
 
 from AdminWrapper import require_api_token
 from Localization import LOCALIZATION
+from UrlBuilder import UrlBuilder
+from blueprints import Roadmaps
 
 with open('settings.json', 'r') as f:
     SETTINGS = json.load(f)
@@ -16,15 +18,15 @@ app.secret_key = SETTINGS['secret']
 
 DEFAULT_DATE = datetime(2000, 1, 1, 0, 0, 0)
 
+URL_BUILDER = UrlBuilder(SETTINGS['apiURL'])
 
-def build_url(*parts):
-    part = '/'.join(str(x) for x in parts)
-    return '{}/{}'.format(SETTINGS['apiURL'], part)
+
+app.register_blueprint(Roadmaps.construct_blueprint(URL_BUILDER))
 
 
 @app.route('/')
 def overview():
-    roadmaps = requests.get(build_url('roadmaps')).json()
+    roadmaps = requests.get(URL_BUILDER.build_url('roadmaps')).json()
     return render_template('overview.html', roadmaps=roadmaps)
 
 
@@ -43,7 +45,7 @@ def roadmap_by_id(roadmapID):
     if roadmapID < 1:
         return render_template('error.html', message=LOCALIZATION['error_param_invalid'])
 
-    roadmap = requests.get(build_url('roadmap', roadmapID, 'full')).json()
+    roadmap = requests.get(URL_BUILDER.build_url('roadmap', roadmapID, 'full')).json()
     if roadmap is None:
         return render_template('error.html', message=LOCALIZATION['error_roadmap_not_existing'])
 
@@ -60,7 +62,7 @@ def roadmap_fragement_by_id(roadmapID):
     if roadmapID < 1:
         return render_template('error.html', message=LOCALIZATION['error_param_invalid'])
 
-    roadmap = requests.get(build_url('roadmap', roadmapID, 'full')).json()
+    roadmap = requests.get(URL_BUILDER.build_url('roadmap', roadmapID, 'full')).json()
     if roadmap is None:
         return render_template('error.html', message=LOCALIZATION['error_roadmap_not_existing'])
 
@@ -80,7 +82,7 @@ def loginPost():
 
     jsonData = {'username': 'admin', 'password': password}
 
-    response = requests.post(build_url('login'), json=jsonData)
+    response = requests.post(URL_BUILDER.build_url('login'), json=jsonData)
 
     if response.status_code == 401:
         return render_template('login.html', message=LOCALIZATION['unauthorized'])
@@ -88,7 +90,7 @@ def loginPost():
     if response.status_code == 200:
         token = response.json()["access_token"]
         session['session_token'] = token
-        return render_template('admin/admin-roadmaps.html')
+        return redirect(url_for('admin_roadmaps.overview'))
 
     return render_template('error.html', message=response.json()["msg"])
 
@@ -99,9 +101,9 @@ def logout():
     return redirect('/')
 
 
-@app.route('/admin/edit')
+@app.route('/admin/milestones')
 @require_api_token
-def edit():
+def milestone_overview():
     return redirect('/')
 
 

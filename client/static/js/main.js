@@ -55,10 +55,10 @@ $(document).ready(function()
 
     $('.button-delete-roadmap').click(function()
     {
-        var r = confirm("Do you really want to delete this roadmap?");
-        if(r == true)
+        var response = confirm("Do you really want to delete this roadmap?");
+        if(response === true)
         {
-            deleteRoadmap(this.dataset.id);
+            header("location: " + this.href);
         }
     });
 
@@ -229,27 +229,6 @@ function editRoadmap(roadmap_ID, projectname)
                 }
             });
     }
-}
-
-function deleteRoadmap(roadmap_ID)
-{
-    $.post('../admin/helper/delete-roadmap.php',
-        {
-            "roadmap_ID": roadmap_ID,
-
-        }, function(data, error)
-        {
-            data = data.toString().trim();
-
-            if(data != "error")
-            {
-                window.location.href = "../admin/admin-roadmaps.php";
-            }
-            else
-            {
-                alert('An error occurred while deleting the roadmap with the ID ' + roadmap_ID);
-            }
-        });
 }
 
 function editMilestone(milestone_ID, roadmap_ID)
