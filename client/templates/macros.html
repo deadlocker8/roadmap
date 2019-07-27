@@ -21,6 +21,6 @@
 {%- endmacro %}
 
 {% macro adminLogin() -%}
-    <a class="btn-flat right" href="{{ url_for('login') }}">Login</a>
+    <a class="btn-flat right" href="{{ url_for('authentication.login') }}">Login</a>
     <div style="clear: both;"></div>
 {%- endmacro %}
