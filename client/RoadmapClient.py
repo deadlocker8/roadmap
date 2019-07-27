@@ -88,9 +88,15 @@ def loginPost():
     if response.status_code == 200:
         token = response.json()["access_token"]
         session['session_token'] = token
-        return render_template('overview.html')  # TODO
+        return render_template('admin/admin-roadmaps.html')
 
     return render_template('error.html', message=response.json()["msg"])
+
+
+@app.route('/admin/logout')
+def logout():
+    del session['session_token']
+    return redirect('/')
 
 
 @app.route('/admin/edit')
