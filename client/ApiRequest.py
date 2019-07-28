@@ -5,7 +5,7 @@ from Localization import LOCALIZATION
 
 class ApiRequest:
     @staticmethod
-    def send_api_request(url, method, argNames, formArgs):
+    def send_api_request(url, method, formArgs, argNames):
         jsonData = {}
         for name in argNames:
             jsonData[name] = formArgs.get(name)
