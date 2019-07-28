@@ -28,8 +28,8 @@ def construct_blueprint(urlBuilder):
     def add_post():
         success, response = ApiRequest.send_api_request(urlBuilder.build_url('milestone'),
                                                         requests.post, request.form,
-                                                        ['RoadmapID', 'VersionCode', 'VersionName', 'Title', 'DueDate',
-                                                         'CompletionDate', ])
+                                                        ['RoadmapID', 'VersionCode', 'VersionName',
+                                                         'Title', 'DueDate', 'CompletionDate', 'Status'])
         if not success:
             return response
         return redirect(url_for('admin_milestones.overview', roadmap_ID=request.form.get('RoadmapID')))
@@ -40,18 +40,18 @@ def construct_blueprint(urlBuilder):
         if not ID or int(ID) < 0:
             return render_template('error.html', message=LOCALIZATION['error_param_invalid'])
 
-        roadmap = requests.get(urlBuilder.build_url('roadmap', ID)).json()
-        roadmap['ID'] = ID
+        milestone = requests.get(urlBuilder.build_url('milestone', ID)).json()
         return render_template('admin/milestones/edit.html',
                                title='Edit Milestone',
-                               roadmap=roadmap,
+                               milestone=milestone,
                                form_url=url_for('admin_milestones.edit_post'))
 
     @milestones.route('/admin/milestones/edit', methods=['POST'])
     def edit_post():
         success, response = ApiRequest.send_api_request(urlBuilder.build_url('milestone'),
-                                                        requests.post, request.form,
-                                                        ['ID', 'Projectname'])
+                                                        requests.put, request.form,
+                                                        ['ID', 'RoadmapID', 'VersionCode', 'VersionName',
+                                                         'Title', 'DueDate', 'CompletionDate', 'Status'])
 
         if not success:
             return response
