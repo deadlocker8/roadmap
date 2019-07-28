@@ -59,10 +59,10 @@ $(document).ready(function()
 
     $('.button-delete-milestone').click(function()
     {
-        var r = confirm("Do you really want to delete this milestone?");
-        if(r == true)
+        var response = confirm("Do you really want to delete this milestone?");
+        if(response === true)
         {
-            deleteMilestone(this.dataset.id, this.dataset.roadmapid);
+            header("location: " + this.href);
         }
     });
 
@@ -118,14 +118,7 @@ $(document).ready(function()
 
 function isNull(object)
 {
-    if(object != "" && object != undefined)
-    {
-        return false;
-    }
-    else
-    {
-        return true;
-    }
+    return object === "" || object === undefined;
 }
 
 function hideElement(element, value)
@@ -155,108 +148,6 @@ function createTrainMap()
         lines[i].style.height = (height - 15) + "px";
         smallLines[i].style.height = (height - 2) + "px";
     }
-}
-
-function editMilestone(milestone_ID, roadmap_ID)
-{
-    var edit = document.getElementById('edit').innerHTML;
-    var versionCode = $('#version-code').val();
-    var versionName = $('#version-name').val();
-    var title = $('#title').val();
-    var dueDate = $('#due-date').val();
-    var doneDate = $('#done-date').val();
-    var done = document.getElementById("checkbox-done").checked;
-
-    if(isNull(versionCode))
-    {
-        alert("Version Code shouldn't be empty!");
-        return;
-    }
-
-    if(isNull(versionName))
-    {
-        alert("Version Name shouldn't be empty!");
-        return;
-    }
-
-    if(isNull(title))
-    {
-        alert("Title shouldn't be empty!");
-        return;
-    }
-
-    if(isNull(dueDate))
-    {
-        dueDate = "01.01.2000";
-    }
-
-    if(isNull(doneDate))
-    {
-        doneDate = "01.01.2000";
-    }
-
-    if(done)
-    {
-        done = 1;
-    }
-    else
-    {
-        done = 0;
-        doneDate = "01.01.2000";
-    }
-
-    $.post('../admin/helper/edit-milestone.php',
-        {
-            "version-code": versionCode,
-            "version-name": versionName,
-            "title": title,
-            "due-date": dueDate,
-            "done-date": doneDate,
-            "done": done,
-            "edit": edit,
-            "ID": milestone_ID,
-            "roadmap-ID": roadmap_ID
-
-        }, function(data, error)
-        {
-            data = data.toString().trim();
-            switch(data)
-            {
-                case "error":
-                    alert('An error occurred');
-                    break;
-                case "error-edit":
-                    alert('An error occurred while editing the roadmap with the ID ' + roadmap_ID);
-                    break;
-                case "error-insert":
-                    alert('An error occurred while inserting the new milestone');
-                    break;
-                default:
-                    window.location.href = "../admin/admin-milestones.php?id=" + roadmap_ID;
-                    break;
-            }
-        });
-}
-
-function deleteMilestone(milestone_ID, roadmap_ID)
-{
-    $.post('../admin/helper/delete-milestone.php',
-        {
-            "milestone_ID": milestone_ID,
-
-        }, function(data, error)
-        {
-            data = data.toString().trim();
-
-            if(data != "error")
-            {
-                window.location.href = "../admin/admin-milestones.php?id=" + roadmap_ID;
-            }
-            else
-            {
-                alert('An error occurred while deleting the milestone with the ID ' + milestone_ID);
-            }
-        });
 }
 
 function editTask(task_ID, milestone_ID)
@@ -429,6 +320,50 @@ function validateNewRoadmapForm()
         alert("Please enter a project name.");
         return false;
     }
+}
+function validateNewMilestoneForm()
+{
+    var versionCode = $('#version-code').val();
+    var versionName = $('#version-name').val();
+    var title = $('#title').val();
+    var dueDate = document.getElementById('due-date');
+    var doneDate = document.getElementById('done-date');
+    var done = document.getElementById('checkbox-done').checked;
+
+    if(isNull(versionCode))
+    {
+        alert("Version Code shouldn't be empty!");
+        return false;
+    }
+
+    if(isNull(versionName))
+    {
+        alert("Version Name shouldn't be empty!");
+        return false;
+    }
+
+    if(isNull(title))
+    {
+        alert("Title shouldn't be empty!");
+        return false;
+    }
+
+    if(isNull(dueDate.value))
+    {
+        dueDate.value = "01.01.2000";
+    }
+
+    if(isNull(doneDate.value))
+    {
+        doneDate.value = "01.01.2000";
+    }
+
+    if(!done)
+    {
+        doneDate.value = "01.01.2000";
+    }
+
+    return true;
 }
 
 function markAllTasksAsDone(milestone_ID)

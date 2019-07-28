@@ -37,7 +37,7 @@
                                             <td class="right-align">
                                                 <a class="btn-flat no-padding tooltipped" href="{{ url_for("admin_roadmaps.edit", ID=roadmap["ID"]) }}" data-position="bottom" data-delay="50" data-tooltip="Rename"><i class="material-icons left">edit</i></a>
                                                 <a class="btn-flat button-delete-roadmap no-padding tooltipped" href="{{ url_for("admin_roadmaps.delete", ID=roadmap["ID"]) }}" data-position="bottom" data-delay="50" data-tooltip="Delete"><i class="material-icons left">delete</i></a>
-                                                <a class="btn-flat no-padding tooltipped" href="{{ url_for("admin_milestones.overview", ID=roadmap["ID"]) }}" data-position="bottom" data-delay="50" data-tooltip="Edit Milestones"><i class="material-icons left">assignment</i></a>
+                                                <a class="btn-flat no-padding tooltipped" href="{{ url_for("admin_milestones.overview", roadmap_ID=roadmap["ID"]) }}" data-position="bottom" data-delay="50" data-tooltip="Edit Milestones"><i class="material-icons left">assignment</i></a>
                                             </td>
                                         </tr>
                                     {% endfor %}
