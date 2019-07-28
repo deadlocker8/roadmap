@@ -1,0 +1,35 @@
+<html xmlns="http://www.w3.org/1999/html">
+    {% import 'macros.html' as macros %}
+    {{ macros.headerFull("../..", title) }}
+
+	<body class="grey lighten-3">
+		<div id="main">
+			<div class="container">
+                <h2 class="center-align" id="headline">{{ title }}</h2>
+
+                <form action="{{ form_url }}" method="post" onsubmit="return validateNewRoadmapForm()">
+                    {% if roadmap %}
+                        <input type="hidden" name="ID" value="{{ roadmap["ID"] }}"/>
+                    {% endif %}
+
+                    <div class="row center-align">
+                        <div class="col s12 m8 offset-m2 l6 offset-l3">
+                            <div class="input-field col s12">
+                                <input id="project-name" name="Projectname" type="text" value="{% if roadmap %}{{ roadmap["Projectname"] }}{% endif %}"/>
+                                <label for="project-name">Project Name</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row center-align margin-top">
+                        <div class="col s12 m8 offset-m2 l6 offset-l3">
+                            <a class="waves-effect waves-light btn blue darken-3" href="{{ url_for("admin_roadmaps.overview") }}"><i class="material-icons left">arrow_back</i>Back</a>
+                            <button class="bwaves-effect waves-light btn blue darken-3 margin-left" type="submit" name="action">
+                                <i class="material-icons left">save</i>Save
+                            </button>
+                        </div>
+                    </div>
+                </form>
+			</div>
+		</div>
+	</body>
+</html>

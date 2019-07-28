@@ -33,11 +33,6 @@ $(document).ready(function()
         });
     }
 
-    $('.button-save-roadmap').click(function()
-    {
-        editRoadmap(this.dataset.id, $('#project-name').val());
-    });
-
     $('.button-save-milestone').click(function()
     {
         editMilestone(this.dataset.id, this.dataset.roadmapid);
@@ -159,75 +154,6 @@ function createTrainMap()
         var height = entries[i].offsetHeight;
         lines[i].style.height = (height - 15) + "px";
         smallLines[i].style.height = (height - 2) + "px";
-    }
-}
-
-function editRoadmap(roadmap_ID, projectname)
-{
-    if(isNull(projectname))
-    {
-        alert("Project Name shouldn't be empty!");
-        return;
-    }
-
-    if(roadmap_ID == "0")
-    {
-        //insert new roadmap
-
-        $.post('../admin/helper/edit-roadmap.php',
-            {
-                "project-name": projectname,
-                "edit": "false"
-
-            }, function(data, error)
-            {
-                data = data.toString().trim();
-                switch(data)
-                {
-                    case "error":
-                        alert('An error occurred');
-                        break;
-                    case "error-edit":
-                        alert('An error occurred while editing the roadmap with the ID ' + roadmap_ID);
-                        break;
-                    case "error-insert":
-                        alert('An error occurred while inserting the new roadmap');
-                        break;
-                    default:
-                        window.location.href = "../admin/admin-roadmaps.php";
-                        break;
-                }
-            });
-    }
-    else
-    {
-        //edit existing roadmap
-
-        $.post('../admin/helper/edit-roadmap.php',
-            {
-                "ID": roadmap_ID,
-                "project-name": projectname,
-                "edit": "true"
-
-            }, function(data, error)
-            {
-                data = data.toString().trim();
-                switch(data)
-                {
-                    case "error":
-                        alert('An error occurred');
-                        break;
-                    case "error-edit":
-                        alert('An error occurred while editing the roadmap with the ID ' + roadmap_ID);
-                        break;
-                    case "error-insert":
-                        alert('An error occurred while inserting the new roadmap');
-                        break;
-                    default:
-                        window.location.href = "../admin/admin-roadmaps.php";
-                        break;
-                }
-            });
     }
 }
 
@@ -490,6 +416,17 @@ function validateLoginForm()
     if(isNull(password))
     {
         alert("Please enter your password.");
+        return false;
+    }
+}
+
+function validateNewRoadmapForm()
+{
+    var projectName = $('#project-name').val();
+
+    if(isNull(projectName))
+    {
+        alert("Please enter a project name.");
         return false;
     }
 }
