@@ -22,8 +22,8 @@ def construct_blueprint(urlBuilder):
     @roadmaps.route('/admin/roadmaps/add', methods=['POST'])
     def add_post():
         success, response = ApiRequest.send_api_request(urlBuilder.build_url('roadmap'),
-                                               requests.post,
-                                               ['Projectname'], request.form)
+                                                        requests.post,
+                                                        ['Projectname'], request.form)
         if not success:
             return response
         return redirect(url_for('admin_roadmaps.overview'))
@@ -44,9 +44,9 @@ def construct_blueprint(urlBuilder):
     @roadmaps.route('/admin/roadmaps/edit', methods=['POST'])
     def edit_post():
         success, response = ApiRequest.send_api_request(urlBuilder.build_url('roadmap'),
-                                               requests.put,
-                                               ['ID', 'Projectname'],
-                                               request.form)
+                                                        requests.put,
+                                                        ['ID', 'Projectname'],
+                                                        request.form)
 
         if not success:
             return response
