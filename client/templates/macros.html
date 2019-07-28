@@ -24,3 +24,7 @@
     <a class="btn-flat right" href="{{ url_for('authentication.login') }}">Login</a>
     <div style="clear: both;"></div>
 {%- endmacro %}
+
+{% macro adminLogout() -%}
+    <a class="waves-effect waves-light btn blue darken-3 right" href="{{ url_for('authentication.logout') }}"><i class="material-icons left">lock</i>Logout</a>
+{%- endmacro %}

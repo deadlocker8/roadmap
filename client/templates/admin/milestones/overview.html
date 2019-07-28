@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+    {% import 'macros.html' as macros %}
+    {{ macros.headerFull("../..", "Milestones") }}
+
+    <body class="grey lighten-3">
+        <a class="waves-effect waves-light btn blue darken-3" href="{{ url_for("admin_roadmaps.overview") }}"><i class="material-icons left">arrow_back</i>Back</a>
+        {{ macros.adminLogout() }}
+        <div id="main">
+            <div class="container">
+                <h2 class="center-align truncate" id="headline"><?php echo $projectName;?></h2>
+                <h4 class="center-align" id="headline">Milestones</h4>
+
+                <div class="row">
+                    <div class="col s12 m8 offset-m2 l6 offset-l3 center-align">
+                        <a class="waves-effect waves-light btn blue darken-3" href="{{ url_for("admin_milestones.add") }}"><i class="material-icons left">add</i>New</a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12 m12 l12">
+                        <table class="bordered">
+                            <thead>
+                            <tr>
+                                <th data-field="id">Version Code</th>
+                                <th data-field="project-name">Version Name</th>
+                                <th data-field="project-name">Title</th>
+                                <th data-field="project-name">Due Date</th>
+                                <th data-field="project-name">Completion Date</th>
+                                <th data-field="project-name">Status</th>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                                {% if milestones|length > 0 %}
+                                    {% for milestone in milestones %}
+                                        <tr>
+                                            <td>{{ milestone["VersionCode"] }}</td>
+                                            <td>{{ milestone["VersionName"] }}</td>
+                                            <td>{{ milestone["Title"] }}</td>
+                                            <td>{{ milestone["DueDate"] }}</td>
+                                            <td>{{ milestone["CompletionDate"] }}</td>
+
+                                            {% if milestone["Status"] == 0 %}
+                                                <td><i class="material-icons red-text">build</i></td>
+                                            {% else %}
+                                                <td><i class="material-icons green-text">check</i></td>
+                                            {% endif %}
+
+                                            <td class="right-align">
+                                                <a class="btn-flat no-padding tooltipped" href="{{ url_for("admin_milestones.edit", ID=milestone["ID"]) }}" data-position="bottom" data-delay="50" data-tooltip="Edit"><i class="material-icons left">edit</i></a>
+                                                <a class="btn-flat button-delete-roadmap no-padding tooltipped" href="{{ url_for("admin_milestones.delete", ID=milestone["ID"]) }}" data-position="bottom" data-delay="50" data-tooltip="Delete"><i class="material-icons left">delete</i></a>
+                                                <a class="btn-flat no-padding tooltipped" href="{{ url_for("admin_milestones.overview", ID=milestone["ID"]) }}" data-position="bottom" data-delay="50" data-tooltip="Edit Tasks"><i class="material-icons left">assignment</i></a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                {% else %}
+                                    <tr>
+                                        <td colspan="2" class="center-align">No milestones available</td>
+                                    </tr>
+                                {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

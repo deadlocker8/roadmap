@@ -2,13 +2,12 @@ import json
 from datetime import datetime
 
 import requests
-from flask import Flask, render_template, redirect, request, session, url_for
+from flask import Flask, render_template, redirect
 from gevent.pywsgi import WSGIServer
 
-from AdminWrapper import require_api_token
 from Localization import LOCALIZATION
 from UrlBuilder import UrlBuilder
-from blueprints import Roadmaps, Authentication
+from blueprints import Roadmaps, Authentication, Milestones
 
 with open('settings.json', 'r') as f:
     SETTINGS = json.load(f)
@@ -20,9 +19,9 @@ DEFAULT_DATE = datetime(2000, 1, 1, 0, 0, 0)
 
 URL_BUILDER = UrlBuilder(SETTINGS['apiURL'])
 
-
 app.register_blueprint(Authentication.construct_blueprint(URL_BUILDER))
 app.register_blueprint(Roadmaps.construct_blueprint(URL_BUILDER))
+app.register_blueprint(Milestones.construct_blueprint(URL_BUILDER))
 
 
 @app.route('/')
@@ -68,12 +67,6 @@ def roadmap_fragement_by_id(roadmapID):
         return render_template('error.html', message=LOCALIZATION['error_roadmap_not_existing'])
 
     return render_template('roadmapFragment.html', roadmap=roadmap, localization=LOCALIZATION)
-
-
-@app.route('/admin/milestones')
-@require_api_token
-def milestone_overview():
-    return redirect('/')
 
 
 if __name__ == '__main__':
