@@ -83,11 +83,11 @@ def construct_blueprint(database):
 
     @milestone_api.route('/milestone/<int:milestoneID>', methods=['DELETE'])
     @jwt_required
-    def delete_mielstone(milestoneID):
+    def delete_milestone(milestoneID):
         if not __milestone_exists(milestoneID):
             return jsonify({"success": False, "msg": "No milestone with id '{}' existing".format(milestoneID)}), 400
 
-        database.delete_roadmap(milestoneID)
+        database.delete_milestone(milestoneID)
         return jsonify({"success": True})
 
     @milestone_api.route('/milestone', methods=['PUT'])
