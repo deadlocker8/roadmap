@@ -22,6 +22,13 @@ class MilestoneParameters(Enum):
         return [m.value for m in MilestoneParameters]
 
 
+def format_milestones(milestones):
+    result = []
+    for milestone in milestones:
+        result.append(prepare_milestone(milestone))
+    return result
+
+
 def prepare_milestone(milestone):
     milestone[MilestoneParameters.DUE_DATE.value] = DateFormatter.format(
         milestone[MilestoneParameters.DUE_DATE.value])
@@ -36,23 +43,17 @@ def construct_blueprint(database):
     @milestone_api.route('/milestones/<int:roadmapID>', methods=['GET'])
     def get_milestones(roadmapID):
         milestones = database.get_milestones(roadmapID)
-        results = []
-        for m in milestones.json:
-            results.append(prepare_milestone(m))
-        return jsonify(results)
+        return jsonify(format_milestones(milestones))
 
     @milestone_api.route('/milestones/<int:roadmapID>/open', methods=['GET'])
     def get_open_milestones(roadmapID):
         milestones = database.get_open_milestones(roadmapID)
-        results = []
-        for m in milestones:
-            results.append(prepare_milestone(m))
-        return jsonify(results)
+        return jsonify(format_milestones(milestones))
 
     @milestone_api.route('/milestones/<int:roadmapID>/latest', methods=['GET'])
     def get_latest_milestone(roadmapID):
-        milestone = database.get_latest_milestone(roadmapID)
-        return jsonify(prepare_milestone(milestone))
+        milestones = database.get_latest_milestone(roadmapID)
+        return jsonify(format_milestones(milestones))
 
     @milestone_api.route('/milestone/<int:milestoneID>', methods=['GET'])
     def get_milestone(milestoneID):
