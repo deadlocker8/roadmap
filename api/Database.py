@@ -96,9 +96,9 @@ class Database:
         query = f'SELECT * FROM milestones WHERE "{MilestoneParameters.ROADMAP_ID.value}"=%s AND "{MilestoneParameters.STATUS.value}" = 1 ORDER BY "{MilestoneParameters.VERSION_CODE.value}" DESC;'
         return self.__query(query, roadmapID, fetch_type=FetchType.ONE)
 
-    def add_milestone(self, roadmapID, versionCode, versionName, title, dueDate, completionDate):
+    def add_milestone(self, roadmapID, versionCode, versionName, title, dueDate, completionDate, status):
         query = f'INSERT INTO milestones ("{MilestoneParameters.ROADMAP_ID.value}", "{MilestoneParameters.VERSION_CODE.value}", "{MilestoneParameters.VERSION_NAME.value}", "{MilestoneParameters.TITLE.value}", "{MilestoneParameters.DUE_DATE.value}", "{MilestoneParameters.COMPLETION_DATE.value}", "{MilestoneParameters.STATUS.value}") VALUES (%s, %s, %s, %s, %s, %s, %s);'
-        self.__query(query, roadmapID, versionCode, versionName, title, dueDate, completionDate, 1,
+        self.__query(query, roadmapID, versionCode, versionName, title, dueDate, completionDate, status,
                      fetch_type=FetchType.NONE)
 
     def update_milestone(self, milestoneID, roadmapID, versionCode, versionName, title, dueDate, completionDate,
