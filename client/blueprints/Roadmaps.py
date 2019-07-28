@@ -35,7 +35,6 @@ def construct_blueprint(urlBuilder):
             return render_template('error.html', message=LOCALIZATION['error_param_invalid'])
 
         roadmap = requests.get(urlBuilder.build_url('roadmap', ID)).json()
-        roadmap['ID'] = ID
         return render_template('admin/roadmaps/edit.html',
                                title='Edit Roadmap',
                                roadmap=roadmap,
