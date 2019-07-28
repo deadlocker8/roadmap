@@ -1,6 +1,7 @@
 import requests
 from flask import Blueprint, render_template, redirect, url_for, request, session
 
+from ApiRequest import ApiRequest
 from Localization import LOCALIZATION
 
 
@@ -20,7 +21,7 @@ def construct_blueprint(urlBuilder):
 
     @roadmaps.route('/admin/roadmaps/add', methods=['POST'])
     def add_post():
-        success, response = __send_api_request(urlBuilder.build_url('roadmap'),
+        success, response = ApiRequest.send_api_request(urlBuilder.build_url('roadmap'),
                                                requests.post,
                                                ['Projectname'], request.form)
         if not success:
@@ -42,7 +43,7 @@ def construct_blueprint(urlBuilder):
 
     @roadmaps.route('/admin/roadmaps/edit', methods=['POST'])
     def edit_post():
-        success, response = __send_api_request(urlBuilder.build_url('roadmap'),
+        success, response = ApiRequest.send_api_request(urlBuilder.build_url('roadmap'),
                                                requests.put,
                                                ['ID', 'Projectname'],
                                                request.form)
@@ -57,20 +58,9 @@ def construct_blueprint(urlBuilder):
         if not ID or int(ID) < 0:
             return render_template('error.html', message=LOCALIZATION['error_param_invalid'])
 
-        success, response = __send_api_request(urlBuilder.build_url('roadmap', ID), requests.delete, [], {})
+        success, response = ApiRequest.send_api_request(urlBuilder.build_url('roadmap', ID), requests.delete, [], {})
         if not success:
             return response
         return redirect(url_for('admin_roadmaps.overview'))
-
-    def __send_api_request(url, method, argNames, formArgs):
-        jsonData = {}
-        for name in argNames:
-            jsonData[name] = formArgs.get(name)
-
-        response = method(url, json=jsonData, headers={'Authorization': 'Bearer  {}'.format(session['session_token'])})
-        if response.status_code != 200:
-            return False, render_template('error.html', message='{}: {}'.format(LOCALIZATION['error_general'],
-                                                                                response.json()['msg']))
-        return True, response.json()
 
     return roadmaps
