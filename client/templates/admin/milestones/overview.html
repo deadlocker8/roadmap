@@ -8,12 +8,12 @@
         {{ macros.adminLogout() }}
         <div id="main">
             <div class="container">
-                <h2 class="center-align truncate" id="headline"><?php echo $projectName;?></h2>
+                <h2 class="center-align truncate" id="headline">{{ roadmap["Projectname"] }}</h2>
                 <h4 class="center-align" id="headline">Milestones</h4>
 
                 <div class="row">
                     <div class="col s12 m8 offset-m2 l6 offset-l3 center-align">
-                        <a class="waves-effect waves-light btn blue darken-3" href="{{ url_for("admin_milestones.add", roadmap_ID=roadmap_ID) }}"><i class="material-icons left">add</i>New</a>
+                        <a class="waves-effect waves-light btn blue darken-3" href="{{ url_for("admin_milestones.add", roadmap_ID=roadmap["ID"]) }}"><i class="material-icons left">add</i>New</a>
                     </div>
                 </div>
                 <div class="row">
@@ -47,8 +47,8 @@
                                             {% endif %}
 
                                             <td class="right-align">
-                                                <a class="btn-flat no-padding tooltipped" href="{{ url_for("admin_milestones.edit", ID=milestone["ID"]) }}" data-position="bottom" data-delay="50" data-tooltip="Edit"><i class="material-icons left">edit</i></a>
-                                                <a class="btn-flat button-delete-milestone no-padding tooltipped" href="{{ url_for("admin_milestones.delete", ID=milestone["ID"], roadmap_ID=roadmap_ID) }}" data-position="bottom" data-delay="50" data-tooltip="Delete"><i class="material-icons left">delete</i></a>
+                                                <a class="btn-flat no-padding tooltipped" href="{{ url_for("admin_milestones.edit", ID=milestone["ID"], roadmap_ID=roadmap["ID"]) }}" data-position="bottom" data-delay="50" data-tooltip="Edit"><i class="material-icons left">edit</i></a>
+                                                <a class="btn-flat button-delete-milestone no-padding tooltipped" href="{{ url_for("admin_milestones.delete", ID=milestone["ID"], roadmap_ID=roadmap["ID"]) }}" data-position="bottom" data-delay="50" data-tooltip="Delete"><i class="material-icons left">delete</i></a>
                                                 <a class="btn-flat no-padding tooltipped" href="{{ url_for("admin_tasks.overview", milestone_ID=milestone["ID"]) }}" data-position="bottom" data-delay="50" data-tooltip="Edit Tasks"><i class="material-icons left">assignment</i></a>
                                             </td>
                                         </tr>

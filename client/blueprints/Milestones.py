@@ -14,8 +14,9 @@ def construct_blueprint(urlBuilder):
         if not roadmap_ID or int(roadmap_ID) < 0:
             return render_template('error.html', message=LOCALIZATION['error_param_invalid'])
 
+        roadmap = requests.get(urlBuilder.build_url('roadmap', roadmap_ID)).json()
         milestones = requests.get(urlBuilder.build_url('milestones', roadmap_ID)).json()
-        return render_template('admin/milestones/overview.html', milestones=milestones, roadmap_ID=roadmap_ID)
+        return render_template('admin/milestones/overview.html', milestones=milestones, roadmap=roadmap)
 
     @milestones.route('/admin/milestones/add', methods=['GET'])
     def add():
@@ -26,8 +27,11 @@ def construct_blueprint(urlBuilder):
 
     @milestones.route('/admin/milestones/add', methods=['POST'])
     def add_post():
+        params = dict(request.form)
+        params['Status'] = '1' if 'Status' in params else '0'
+
         success, response = ApiRequest.send_api_request(urlBuilder.build_url('milestone'),
-                                                        requests.post, request.form,
+                                                        requests.post, params,
                                                         ['RoadmapID', 'VersionCode', 'VersionName',
                                                          'Title', 'DueDate', 'CompletionDate', 'Status'])
         if not success:
@@ -43,19 +47,23 @@ def construct_blueprint(urlBuilder):
         milestone = requests.get(urlBuilder.build_url('milestone', ID)).json()
         return render_template('admin/milestones/edit.html',
                                title='Edit Milestone',
+                               roadmap_ID=request.args.get('roadmap_ID'),
                                milestone=milestone,
                                form_url=url_for('admin_milestones.edit_post'))
 
     @milestones.route('/admin/milestones/edit', methods=['POST'])
     def edit_post():
+        params = dict(request.form)
+        params['Status'] = '1' if 'Status' in params else '0'
+
         success, response = ApiRequest.send_api_request(urlBuilder.build_url('milestone'),
-                                                        requests.put, request.form,
+                                                        requests.put, params,
                                                         ['ID', 'RoadmapID', 'VersionCode', 'VersionName',
                                                          'Title', 'DueDate', 'CompletionDate', 'Status'])
 
         if not success:
             return response
-        return redirect(url_for('admin_milestones.overview', roadmap_ID=request.args.get('roadmap_ID')))
+        return redirect(url_for('admin_milestones.overview', roadmap_ID=params['RoadmapID']))
 
     @milestones.route('/admin/milestones/delete', methods=['GET'])
     def delete():
