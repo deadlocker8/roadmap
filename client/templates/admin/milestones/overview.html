@@ -49,7 +49,7 @@
                                             <td class="right-align">
                                                 <a class="btn-flat no-padding tooltipped" href="{{ url_for("admin_milestones.edit", ID=milestone["ID"]) }}" data-position="bottom" data-delay="50" data-tooltip="Edit"><i class="material-icons left">edit</i></a>
                                                 <a class="btn-flat button-delete-milestone no-padding tooltipped" href="{{ url_for("admin_milestones.delete", ID=milestone["ID"], roadmap_ID=roadmap_ID) }}" data-position="bottom" data-delay="50" data-tooltip="Delete"><i class="material-icons left">delete</i></a>
-                                                <a class="btn-flat no-padding tooltipped" href="{{ url_for("admin_milestones.overview", roadmap_ID=roadmap_ID) }}" data-position="bottom" data-delay="50" data-tooltip="Edit Tasks"><i class="material-icons left">assignment</i></a>
+                                                <a class="btn-flat no-padding tooltipped" href="{{ url_for("admin_tasks.overview", milestone_ID=milestone["ID"]) }}" data-position="bottom" data-delay="50" data-tooltip="Edit Tasks"><i class="material-icons left">assignment</i></a>
                                             </td>
                                         </tr>
                                     {% endfor %}

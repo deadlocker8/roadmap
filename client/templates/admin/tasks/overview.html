@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+    {% import 'macros.html' as macros %}
+    {{ macros.headerFull("../..", "Tasks") }}
+
+    <body class="grey lighten-3">
+        <a class="waves-effect waves-light btn blue darken-3" href="{{ url_for("admin_tasks.overview") }}"><i class="material-icons left">arrow_back</i>Back</a>
+        {{ macros.adminLogout() }}
+        <div id="main">
+            <div class="container">
+                <h2 class="center-align truncate" id="headline">{{ milestone["Title"] }}</h2>
+                <h4 class="center-align" id="headline">Tasks</h4>
+
+                <div class="row">
+                    <div class="col s12 m8 offset-m2 l6 offset-l3 center-align">
+                        <a class="waves-effect waves-light btn blue darken-3" href="{{ url_for("admin_tasks.add", milestone_ID=milestone["ID"]) }}"><i class="material-icons left">add</i>New</a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12 m12 l12">
+                        <table class="bordered">
+                            <thead>
+                            <tr>
+                                <th data-field="id">ID</th>
+                                <th data-field="project-name">Title</th>
+                                <th data-field="project-name">Status</th>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                                {% if tasks|length > 0 %}
+                                    {% for task in tasks %}
+                                        <tr>
+                                            <td>{{ task["ID"] }}</td>
+                                            <td>{{ task["Title"] }}</td>
+
+                                            {% if task["Status"] == 0 %}
+                                                <td><i class="material-icons red-text">build</i></td>
+                                            {% else %}
+                                                <td><i class="material-icons green-text">check</i></td>
+                                            {% endif %}
+
+                                            <td class="right-align">
+                                                <a class="btn-flat no-padding tooltipped" href="{{ url_for("admin_tasks.edit", ID=task["ID"]) }}" data-position="bottom" data-delay="50" data-tooltip="Edit"><i class="material-icons left">edit</i></a>
+                                                <a class="btn-flat button-delete-milestone no-padding tooltipped" href="{{ url_for("admin_tasks.delete", ID=task["ID"], milestone_ID=milestone["ID"]) }}" data-position="bottom" data-delay="50" data-tooltip="Delete"><i class="material-icons left">delete</i></a>
+                                                <a class="btn-flat no-padding tooltipped" href="{{ url_for("admin_tasks.overview", milestone_ID=milestone["ID"]) }}" data-position="bottom" data-delay="50" data-tooltip="Edit SubTasks"><i class="material-icons left">assignment</i></a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                {% else %}
+                                    <tr>
+                                        <td colspan="2" class="center-align">No tasks available</td>
+                                    </tr>
+                                {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

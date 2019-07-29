@@ -203,27 +203,6 @@ function editTask(task_ID, milestone_ID)
         });
 }
 
-function deleteTask(task_ID, milestone_ID)
-{
-    $.post('../admin/helper/delete-task.php',
-        {
-            "task_ID": task_ID,
-
-        }, function(data, error)
-        {
-            data = data.toString().trim();
-
-            if(data != "error")
-            {
-                window.location.href = "../admin/admin-tasks.php?id=" + milestone_ID;
-            }
-            else
-            {
-                alert('An error occurred while deleting the task with the ID ' + task_ID);
-            }
-        });
-}
-
 function editSubtask(subtask_ID, task_ID)
 {
     var edit = document.getElementById('edit').innerHTML;

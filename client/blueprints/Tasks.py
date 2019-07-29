@@ -10,12 +10,13 @@ def construct_blueprint(urlBuilder):
 
     @tasks.route('/admin/tasks/overview', methods=['GET'])
     def overview():
-        roadmap_ID = request.args.get('milestone_ID')
-        if not roadmap_ID or int(roadmap_ID) < 0:
+        milestone_ID = request.args.get('milestone_ID')
+        if not milestone_ID or int(milestone_ID) < 0:
             return render_template('error.html', message=LOCALIZATION['error_param_invalid'])
 
-        tasks = requests.get(urlBuilder.build_url('tasks', roadmap_ID)).json()
-        return render_template('admin/tasks/overview.html', tasks=tasks, roadmap_ID=roadmap_ID)
+        milestone = requests.get(urlBuilder.build_url('milestone', milestone_ID)).json()
+        tasks = requests.get(urlBuilder.build_url('tasks', milestone_ID)).json()
+        return render_template('admin/tasks/overview.html', tasks=tasks, milestone=milestone)
 
     @tasks.route('/admin/tasks/add', methods=['GET'])
     def add():
@@ -51,10 +52,11 @@ def construct_blueprint(urlBuilder):
         success, response = ApiRequest.send_api_request(urlBuilder.build_url('task'),
                                                         requests.put, request.form,
                                                         ['ID', 'MilestoneID', 'Title', 'Description', 'Status'])
-
         if not success:
             return response
-        return redirect(url_for('admin_tasks.overview', roadmap_ID=request.args.get('milestone_ID')))
+
+        milestone = requests.get(urlBuilder.build_url('milestone', request.args['milestone_ID'])).json()
+        return redirect(url_for('admin_tasks.overview', milestone=milestone))
 
     @tasks.route('/admin/tasks/delete', methods=['GET'])
     def delete():
@@ -65,6 +67,7 @@ def construct_blueprint(urlBuilder):
         success, response = ApiRequest.send_api_request(urlBuilder.build_url('task', ID), requests.delete, {}, [])
         if not success:
             return response
-        return redirect(url_for('admin_tasks.overview', roadmap_ID=request.args.get('milestone_ID')))
+
+        return redirect(url_for('admin_tasks.overview', milestone_ID=request.args['milestone_ID']))
 
     return tasks
