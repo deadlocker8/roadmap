@@ -56,7 +56,7 @@ def construct_blueprint(database):
         if not __task_exists(taskID):
             return jsonify({"success": False, "msg": "No task with id '{}' existing".format(taskID)}), 400
 
-        database.delete_roadmap(taskID)
+        database.delete_task(taskID)
         return jsonify({"success": True})
 
     @task_api.route('/task', methods=['PUT'])

@@ -56,7 +56,7 @@ def construct_blueprint(database):
         if not __subtask_exists(subTaskID):
             return jsonify({"success": False, "msg": "No sub task with id '{}' existing".format(subTaskID)}), 400
 
-        database.delete_roadmap(subTaskID)
+        database.delete_sub_task(subTaskID)
         return jsonify({"success": True})
 
     @subtask_api.route('/subtask', methods=['PUT'])
