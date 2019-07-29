@@ -69,7 +69,8 @@ def construct_blueprint(database):
                                                              MilestoneParameters.VERSION_NAME.value,
                                                              MilestoneParameters.TITLE.value,
                                                              MilestoneParameters.DUE_DATE.value,
-                                                             MilestoneParameters.COMPLETION_DATE.value])
+                                                             MilestoneParameters.COMPLETION_DATE.value,
+                                                             MilestoneParameters.STATUS.value])
         except ValidationError as e:
             return e.response, 400
 
