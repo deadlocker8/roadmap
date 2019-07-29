@@ -150,59 +150,6 @@ function createTrainMap()
     }
 }
 
-function editTask(task_ID, milestone_ID)
-{
-    var edit = document.getElementById('edit').innerHTML;
-    var title = $('#title').val();
-    var description = $('#description').val();
-    ;
-    var done = document.getElementById("checkbox-done").checked;
-
-    if(isNull(title))
-    {
-        alert("Title shouldn't be empty!");
-        return;
-    }
-
-    if(done)
-    {
-        done = 1;
-    }
-    else
-    {
-        done = 0;
-    }
-
-    $.post('../admin/helper/edit-task.php',
-        {
-            "title": title,
-            "description": description,
-            "done": done,
-            "edit": edit,
-            "ID": task_ID,
-            "milestone-ID": milestone_ID
-
-        }, function(data, error)
-        {
-            data = data.toString().trim();
-            switch(data)
-            {
-                case "error":
-                    alert('An error occurred');
-                    break;
-                case "error-edit":
-                    alert('An error occurred while editing the task with the ID ' + task_ID);
-                    break;
-                case "error-insert":
-                    alert('An error occurred while inserting the new task');
-                    break;
-                default:
-                    window.location.href = "../admin/admin-tasks.php?id=" + milestone_ID;
-                    break;
-            }
-        });
-}
-
 function editSubtask(subtask_ID, task_ID)
 {
     var edit = document.getElementById('edit').innerHTML;
@@ -300,6 +247,7 @@ function validateNewRoadmapForm()
         return false;
     }
 }
+
 function validateNewMilestoneForm()
 {
     var versionCode = $('#version-code').val();
@@ -340,6 +288,27 @@ function validateNewMilestoneForm()
     if(!done)
     {
         doneDate.value = "01.01.2000";
+    }
+
+    return true;
+}
+
+
+function validateNewTaskForm()
+{
+    var title = $('#title').val();
+    var description = document.getElementById('description');
+
+    if(isNull(title))
+    {
+        alert("Title shouldn't be empty!");
+        return false;
+    }
+
+    if(isNull(description))
+    {
+        alert("Description shouldn't be empty!");
+        return false;
     }
 
     return true;
