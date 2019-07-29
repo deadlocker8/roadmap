@@ -79,7 +79,7 @@ def construct_blueprint(database):
                                parameters[MilestoneParameters.TITLE.value],
                                parameters[MilestoneParameters.DUE_DATE.value],
                                parameters[MilestoneParameters.COMPLETION_DATE.value],
-                               parameters[MilestoneParameters.STSTUS.value])
+                               parameters[MilestoneParameters.STATUS.value])
         return jsonify({"success": True})
 
     @milestone_api.route('/milestone/<int:milestoneID>', methods=['DELETE'])
