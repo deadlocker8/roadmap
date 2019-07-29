@@ -39,13 +39,15 @@ def construct_blueprint(database):
         try:
             parameters = RequestValidator.validate(request, [TaskParameters.MILESTONE_ID.value,
                                                              TaskParameters.TITLE.value,
-                                                             TaskParameters.DESCRIPTION.value])
+                                                             TaskParameters.DESCRIPTION.value,
+                                                             TaskParameters.STATUS.value])
         except ValidationError as e:
             return e.response, 400
 
         database.add_task(parameters[TaskParameters.MILESTONE_ID.value],
                           parameters[TaskParameters.TITLE.value],
-                          parameters[TaskParameters.DESCRIPTION.value])
+                          parameters[TaskParameters.DESCRIPTION.value,
+                          parameters[TaskParameters.STATUS.value]])
         return jsonify({"success": True})
 
     @task_api.route('/task/<int:taskID>', methods=['DELETE'])
