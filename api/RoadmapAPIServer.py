@@ -12,6 +12,10 @@ from RequestValidator import RequestValidator, ValidationError
 from UserService import UserService
 from blueprints import SubTaskAPI, MilestoneAPI, TaskAPI, RoadmapAPI
 
+with open('version.json', 'r') as f:
+    VERSION = json.load(f)
+VERSION = VERSION['version']
+
 with open("settings.json", "r") as f:
     SETTINGS = json.load(f)
 SERVER_SETTINGS = SETTINGS["server"]
@@ -32,8 +36,7 @@ def index():
 
 @app.route('/version', methods=['GET'])
 def version():
-    with open("version.json", "r") as f:
-        return jsonify(json.load(f)["version"])
+    return jsonify(VERSION)
 
 
 @app.route('/login', methods=['POST'])
@@ -67,5 +70,6 @@ if __name__ == "__main__":
     else:
         http_server = WSGIServer((SERVER_SETTINGS["listen"], SERVER_SETTINGS["port"]), app)
 
-    print('Listening on {}:{}...'.format(SERVER_SETTINGS['listen'], SERVER_SETTINGS['port']))
+    print('RoadmapClient {}({}) - Listening on {}:{}...'.format(VERSION['name'], VERSION['code'],
+                                                                SERVER_SETTINGS['listen'], SERVER_SETTINGS['port']))
     http_server.serve_forever()
