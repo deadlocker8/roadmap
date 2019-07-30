@@ -7,30 +7,25 @@
 			<div class="container">
                 <h2 class="center-align" id="headline">{{ title }}</h2>
 
-                <form action="{{ form_url }}" method="post" onsubmit="return validateNewMilestoneForm()">
-                    <input type="hidden" name="RoadmapID" value="{{ roadmap_ID }}"/>
-                    {% if milestone %}
-                        <input type="hidden" name="ID" value="{{ milestone["ID"] }}"/>
+                <form action="{{ form_url }}" method="post" onsubmit="return validateNewTaskForm()">
+                    <input type="hidden" name="MilestoneID" value="{{ milestone_ID }}"/>
+                    {% if task %}
+                        <input type="hidden" name="ID" value="{{ task["ID"] }}"/>
                     {% endif %}
 
                     <div class="row center-align">
-                        <div class="col s6 m4 offset-m2 l3 offset-l3">
+                        <div class="col s12 m8 offset-m2 l6 offset-l3">
                             <div class="input-field col s12">
-                                <input id="version-code" name="VersionCode" type="text" value="{% if milestone %}{{ milestone["VersionCode"] }}{% endif %}">
-                                <label for="version-code">Version Code</label>
-                            </div>
-                        </div>
-                        <div class="col s6 m4 l3">
-                            <div class="input-field col s12">
-                                <input id="version-name" name="VersionName" type="text" value="{% if milestone %}{{ milestone["VersionName"] }}{% endif %}">
-                                <label for="version-name">Version Name</label>
+                                <input id="title" name="Title" type="text" value="{% if task %}{{ task["Title"] }}{% endif %}">
+                                <label for="title">Title</label>
                             </div>
                         </div>
                     </div>
+
                     <div class="row center-align">
                         <div class="col s12 m8 offset-m2 l6 offset-l3">
                             <div class="input-field col s12">
-                                <input id="title" name="Title" type="text" value="{% if milestone %}{{ milestone["Title"] }}{% endif %}">
+                                <input id="title" name="Description" type="text" value="{% if task %}{{ task["Description"] }}{% endif %}">
                                 <label for="title">Title</label>
                             </div>
                         </div>
@@ -38,32 +33,15 @@
                     <div class="row center-align">
                         <div class="col s12 m8 offset-m2 l6 offset-l3">
                             <div class="col s12 left-align">
-                                <label for="due-date" style="font-size: 1rem;">Due Date</label>
-                                <input type="date" class="datepicker" id="due-date" name="DueDate" value="{% if milestone %}{{ milestone["DueDate"] }}{% endif %}">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row center-align">
-                        <div class="col s12 m8 offset-m2 l6 offset-l3">
-                            <div class="col s12 left-align">
-                                <input type="checkbox" id="checkbox-done" name="Status" {% if milestone and milestone["Status"] == 1 %}checked{% endif %}/>
+                                <input type="checkbox" id="checkbox-done" name="Status" {% if task and task["Status"] == 1 %}checked{% endif %}/>
                                 <label for="checkbox-done">Done</label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row center-align {% if not milestone or milestone["Status"] == 0 %}hide{% endif %}" id="row-done-date">
-                        <div class="col s12 m8 offset-m2 l6 offset-l3">
-                            <div class="col s12 left-align">
-                                <label for="done-date" style="font-size: 1rem;">Completion Date</label>
-                                <input type="date" class="datepicker" id="done-date" name="CompletionDate" value="{% if milestone %}{{ milestone["CompletionDate"] }}{% endif %}"/>
                             </div>
                         </div>
                     </div>
 
                     <div class="row center-align margin-top">
                         <div class="col s12 m8 offset-m2 l6 offset-l3">
-                            <a class="waves-effect waves-light btn blue darken-3" href="{{ url_for("admin_milestones.overview", roadmap_ID=roadmap_ID) }}"><i class="material-icons left">arrow_back</i>Back</a>
+                            <a class="waves-effect waves-light btn blue darken-3" href="{{ url_for("admin_tasks.overview", milestone_ID=milestone_ID) }}"><i class="material-icons left">arrow_back</i>Back</a>
                             <button class="bwaves-effect waves-light btn blue darken-3 margin-left" type="submit" name="action">
                                 <i class="material-icons left">save</i>Save
                             </button>

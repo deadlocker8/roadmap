@@ -22,18 +22,21 @@ def construct_blueprint(urlBuilder):
     def add():
         return render_template('admin/tasks/edit.html',
                                title='New Task',
-                               roadmap_ID=request.args.get('roadmap_ID'),
+                               milestone_ID=request.args.get('milestone_ID'),
                                form_url=url_for('admin_tasks.add_post'))
 
     @tasks.route('/admin/tasks/add', methods=['POST'])
     def add_post():
+        params = dict(request.form)
+        params['Status'] = '1' if 'Status' in params else '0'
+
         success, response = ApiRequest.send_api_request(urlBuilder.build_url('task'),
-                                                        requests.post, request.form,
+                                                        requests.post, params,
                                                         ['MilestoneID', 'Title', 'Description', 'Status'])
 
         if not success:
             return response
-        return redirect(url_for('admin_tasks.overview', roadmap_ID=request.form.get('MilestoneID')))
+        return redirect(url_for('admin_tasks.overview', milestone_ID=request.form.get('MilestoneID')))
 
     @tasks.route('/admin/tasks/edit', methods=['GET'])
     def edit():
@@ -41,22 +44,24 @@ def construct_blueprint(urlBuilder):
         if not ID or int(ID) < 0:
             return render_template('error.html', message=LOCALIZATION['error_param_invalid'])
 
-        task = requests.get(urlBuilder.build_url('milestone', ID)).json()
+        task = requests.get(urlBuilder.build_url('task', ID)).json()
         return render_template('admin/tasks/edit.html',
                                title='Edit Task',
+                               milestone_ID=request.args.get('milestone_ID'),
                                task=task,
                                form_url=url_for('admin_tasks.edit_post'))
 
     @tasks.route('/admin/tasks/edit', methods=['POST'])
     def edit_post():
+        params = dict(request.form)
+        params['Status'] = '1' if 'Status' in params else '0'
+
         success, response = ApiRequest.send_api_request(urlBuilder.build_url('task'),
-                                                        requests.put, request.form,
+                                                        requests.put, params,
                                                         ['ID', 'MilestoneID', 'Title', 'Description', 'Status'])
         if not success:
             return response
-
-        milestone = requests.get(urlBuilder.build_url('milestone', request.args['milestone_ID'])).json()
-        return redirect(url_for('admin_tasks.overview', milestone=milestone))
+        return redirect(url_for('admin_tasks.overview', milestone_ID=params['MilestoneID']))
 
     @tasks.route('/admin/tasks/delete', methods=['GET'])
     def delete():
@@ -68,6 +73,6 @@ def construct_blueprint(urlBuilder):
         if not success:
             return response
 
-        return redirect(url_for('admin_tasks.overview', milestone_ID=request.args['milestone_ID']))
+        return redirect(url_for('admin_tasks.overview', milestone_ID=request.args.get('milestone_ID')))
 
     return tasks

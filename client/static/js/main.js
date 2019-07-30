@@ -68,10 +68,10 @@ $(document).ready(function()
 
     $('.button-delete-task').click(function()
     {
-        var r = confirm("Do you really want to delete this task?");
-        if(r == true)
+        var response = confirm("Do you really want to delete this task?");
+        if(response === true)
         {
-            deleteTask(this.dataset.id, this.dataset.milestoneid);
+            header("location: " + this.href);
         }
     });
 

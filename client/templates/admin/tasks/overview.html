@@ -41,8 +41,8 @@
                                             {% endif %}
 
                                             <td class="right-align">
-                                                <a class="btn-flat no-padding tooltipped" href="{{ url_for("admin_tasks.edit", ID=task["ID"]) }}" data-position="bottom" data-delay="50" data-tooltip="Edit"><i class="material-icons left">edit</i></a>
-                                                <a class="btn-flat button-delete-milestone no-padding tooltipped" href="{{ url_for("admin_tasks.delete", ID=task["ID"], milestone_ID=milestone["ID"]) }}" data-position="bottom" data-delay="50" data-tooltip="Delete"><i class="material-icons left">delete</i></a>
+                                                <a class="btn-flat no-padding tooltipped" href="{{ url_for("admin_tasks.edit", ID=task["ID"], milestone_ID=milestone["ID"]) }}" data-position="bottom" data-delay="50" data-tooltip="Edit"><i class="material-icons left">edit</i></a>
+                                                <a class="btn-flat button-delete-task no-padding tooltipped" href="{{ url_for("admin_tasks.delete", ID=task["ID"], milestone_ID=milestone["ID"]) }}" data-position="bottom" data-delay="50" data-tooltip="Delete"><i class="material-icons left">delete</i></a>
                                                 <a class="btn-flat no-padding tooltipped" href="{{ url_for("admin_tasks.overview", milestone_ID=milestone["ID"]) }}" data-position="bottom" data-delay="50" data-tooltip="Edit SubTasks"><i class="material-icons left">assignment</i></a>
                                             </td>
                                         </tr>
