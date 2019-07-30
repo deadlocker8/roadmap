@@ -128,9 +128,9 @@ class Database:
         query = f'SELECT * FROM tasks WHERE "{TaskParameters.ID.value}"=%s;'
         return self.__query(query, taskID, fetch_type=FetchType.ONE)
 
-    def add_task(self, milestoneID, title, description):
+    def add_task(self, milestoneID, title, description, status):
         query = f'INSERT INTO tasks ("{TaskParameters.MILESTONE_ID.value}", "{TaskParameters.TITLE.value}", "{TaskParameters.DESCRIPTION.value}", "{TaskParameters.STATUS.value}") VALUES (%s, %s, %s, %s);'
-        self.__query(query, milestoneID, title, description, 1, fetch_type=FetchType.NONE)
+        self.__query(query, milestoneID, title, description, status, fetch_type=FetchType.NONE)
 
     def update_task(self, taskID, milestoneID, title, description, status):
         query = f'UPDATE tasks SET "{TaskParameters.MILESTONE_ID.value}"=%s, "{TaskParameters.TITLE.value}"=%s, "{TaskParameters.DESCRIPTION.value}"=%s, "{TaskParameters.STATUS.value}"=%s WHERE "{TaskParameters.ID.value}"=%s;'
@@ -157,9 +157,9 @@ class Database:
         query = f'SELECT * FROM subtasks WHERE "{SubTaskParameters.ID.value}"=%s;'
         return self.__query(query, subTaskID, fetch_type=FetchType.ONE)
 
-    def add_sub_task(self, taskID, title, description):
+    def add_sub_task(self, taskID, title, description, status):
         query = f'INSERT INTO subtasks ("{SubTaskParameters.TASK_ID.value}", "{SubTaskParameters.TITLE.value}", "{SubTaskParameters.DESCRIPTION.value}", "{SubTaskParameters.STATUS.value}") VALUES (%s, %s, %s, %s);'
-        self.__query(query, taskID, title, description, 1, fetch_type=FetchType.NONE)
+        self.__query(query, taskID, title, description, status, fetch_type=FetchType.NONE)
 
     def update_sub_task(self, subTaskID, taskID, title, description, status):
         query = f'UPDATE subtasks SET "{SubTaskParameters.TASK_ID.value}"=%s, "{SubTaskParameters.TITLE.value}"=%s, "{SubTaskParameters.DESCRIPTION.value}"=%s, "{SubTaskParameters.STATUS.value}"=%s WHERE "{SubTaskParameters.ID.value}"=%s;'

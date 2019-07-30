@@ -46,8 +46,8 @@ def construct_blueprint(database):
 
         database.add_task(parameters[TaskParameters.MILESTONE_ID.value],
                           parameters[TaskParameters.TITLE.value],
-                          parameters[TaskParameters.DESCRIPTION.value,
-                          parameters[TaskParameters.STATUS.value]])
+                          parameters[TaskParameters.DESCRIPTION.value],
+                          parameters[TaskParameters.STATUS.value])
         return jsonify({"success": True})
 
     @task_api.route('/task/<int:taskID>', methods=['DELETE'])
