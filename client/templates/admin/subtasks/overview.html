@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+    {% import 'macros.html' as macros %}
+    {{ macros.headerFull("../..", "SubTasks") }}
+
+    <body class="grey lighten-3">
+        <a class="waves-effect waves-light btn blue darken-3" href="{{ url_for("admin_subtasks.overview") }}"><i class="material-icons left">arrow_back</i>Back</a>
+        {{ macros.adminLogout() }}
+        <div id="main">
+            <div class="container">
+                <h2 class="center-align truncate" id="headline">{{ task["Title"] }}</h2>
+                <h4 class="center-align" id="headline">SubTasks</h4>
+
+                <div class="row">
+                    <div class="col s12 m8 offset-m2 l6 offset-l3 center-align">
+                        <a class="waves-effect waves-light btn blue darken-3" href="{{ url_for("admin_subtasks.add", task_ID=task["ID"]) }}"><i class="material-icons left">add</i>New</a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12 m12 l12">
+                        <table class="bordered">
+                            <thead>
+                            <tr>
+                                <th data-field="id">ID</th>
+                                <th data-field="project-name">Title</th>
+                                <th data-field="project-name">Status</th>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                                {% if subtasks|length > 0 %}
+                                    {% for subtask in subtasks %}
+                                        <tr>
+                                            <td>{{ subtask["ID"] }}</td>
+                                            <td>{{ subtask["Title"] }}</td>
+
+                                            {% if subtask["Status"] == 0 %}
+                                                <td><i class="material-icons red-text">build</i></td>
+                                            {% else %}
+                                                <td><i class="material-icons green-text">check</i></td>
+                                            {% endif %}
+
+                                            <td class="right-align">
+                                                <a class="btn-flat no-padding tooltipped" href="{{ url_for("admin_subtasks.edit", ID=subtask["ID"], task_ID=task["ID"]) }}" data-position="bottom" data-delay="50" data-tooltip="Edit"><i class="material-icons left">edit</i></a>
+                                                <a class="btn-flat button-delete-task no-padding tooltipped" href="{{ url_for("admin_subtasks.delete", ID=subtask["ID"], task_ID=task["ID"]) }}" data-position="bottom" data-delay="50" data-tooltip="Delete"><i class="material-icons left">delete</i></a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                {% else %}
+                                    <tr>
+                                        <td colspan="2" class="center-align">No sub tasks available</td>
+                                    </tr>
+                                {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

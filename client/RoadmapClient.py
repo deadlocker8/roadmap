@@ -7,7 +7,7 @@ from gevent.pywsgi import WSGIServer
 
 from Localization import LOCALIZATION
 from UrlBuilder import UrlBuilder
-from blueprints import Roadmaps, Authentication, Milestones, Tasks
+from blueprints import Roadmaps, Authentication, Milestones, Tasks, SubTasks
 
 with open('settings.json', 'r') as f:
     SETTINGS = json.load(f)
@@ -23,6 +23,7 @@ app.register_blueprint(Authentication.construct_blueprint(URL_BUILDER))
 app.register_blueprint(Roadmaps.construct_blueprint(URL_BUILDER))
 app.register_blueprint(Milestones.construct_blueprint(URL_BUILDER))
 app.register_blueprint(Tasks.construct_blueprint(URL_BUILDER))
+app.register_blueprint(SubTasks.construct_blueprint(URL_BUILDER))
 
 
 @app.route('/')
