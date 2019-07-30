@@ -11,7 +11,7 @@ $(document).ready(function()
         //getting the next element
         var $content = $header.next();
 
-        //open up the content needed - toggle the slide- if visible, slide up, if not slidedown.
+        //open up the content needed - toggle the slide- if visible, slide up, if not slide down.
         $content.slideToggle(200);
     });
 
@@ -32,21 +32,6 @@ $(document).ready(function()
             createTrainMap();
         });
     }
-
-    $('.button-save-milestone').click(function()
-    {
-        editMilestone(this.dataset.id, this.dataset.roadmapid);
-    });
-
-    $('.button-save-task').click(function()
-    {
-        editTask(this.dataset.id, this.dataset.milestoneid);
-    });
-
-    $('.button-save-subtask').click(function()
-    {
-        editSubtask(this.dataset.id, this.dataset.taskid);
-    });
 
     $('.button-delete-roadmap').click(function()
     {
@@ -108,11 +93,6 @@ $(document).ready(function()
         formatSubmit: 'yyyy-mm-dd'
     });
 
-    $('#button-mark-all-as-done').click(function()
-    {
-        markAllTasksAsDone(this.dataset.milestoneid);
-    });
-
     createTrainMap();
 });
 
@@ -123,7 +103,7 @@ function isNull(object)
 
 function hideElement(element, value)
 {
-    if(value == true)
+    if(value === true)
     {
         element.classList.add("hide");
     }
@@ -235,25 +215,4 @@ function validateNewTaskForm()
     }
 
     return true;
-}
-
-function markAllTasksAsDone(milestone_ID)
-{
-    $.post('../admin/helper/mark-all-tasks-as-done.php',
-        {
-            "milestoneID": milestone_ID
-
-        }, function(data, error)
-        {
-            data = data.toString().trim();
-
-            if(data != "error" && data != "bad_login")
-            {
-                window.location.href = "../admin/admin-tasks.php?id=" + milestone_ID;
-            }
-            else
-            {
-                alert('An error occurred while marking all tasks as done');
-            }
-        });
 }
