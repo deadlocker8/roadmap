@@ -4,7 +4,7 @@
     {{ macros.headerFull("../..", "Tasks") }}
 
     <body class="grey lighten-3">
-        <a class="waves-effect waves-light btn blue darken-3" href="{{ url_for("admin_tasks.overview") }}"><i class="material-icons left">arrow_back</i>Back</a>
+        <a class="waves-effect waves-light btn blue darken-3" href="{{ url_for("admin_milestones.overview", roadmap_ID=milestone["RoadmapID"]) }}"><i class="material-icons left">arrow_back</i>Back</a>
         {{ macros.adminLogout() }}
         <div id="main">
             <div class="container">
