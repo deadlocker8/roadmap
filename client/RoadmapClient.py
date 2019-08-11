@@ -56,7 +56,7 @@ def roadmap_by_id(roadmapID):
 
 
 @app.route('/roadmap/<roadmapID>/fragment')
-def roadmap_fragement_by_id(roadmapID):
+def roadmap_fragment_by_id(roadmapID):
     success, response = __check_roadmap(roadmapID)
     if success:
         return render_template('roadmapFragment.html', roadmap=response, localization=LOCALIZATION)

@@ -1,6 +1,7 @@
 import requests
 from flask import Blueprint, render_template, redirect, url_for, request, session
 
+from AdminWrapper import require_api_token
 from ApiRequest import ApiRequest
 from Localization import LOCALIZATION
 
@@ -9,6 +10,7 @@ def construct_blueprint(urlBuilder):
     milestones = Blueprint('admin_milestones', __name__)
 
     @milestones.route('/admin/milestones/overview', methods=['GET'])
+    @require_api_token
     def overview():
         roadmap_ID = request.args.get('roadmap_ID')
         if not roadmap_ID or int(roadmap_ID) < 0:
@@ -19,6 +21,7 @@ def construct_blueprint(urlBuilder):
         return render_template('admin/milestones/overview.html', milestones=milestones, roadmap=roadmap)
 
     @milestones.route('/admin/milestones/add', methods=['GET'])
+    @require_api_token
     def add():
         return render_template('admin/milestones/edit.html',
                                title='New Milestone',
@@ -26,6 +29,7 @@ def construct_blueprint(urlBuilder):
                                form_url=url_for('admin_milestones.add_post'))
 
     @milestones.route('/admin/milestones/add', methods=['POST'])
+    @require_api_token
     def add_post():
         params = dict(request.form)
         params['Status'] = '1' if 'Status' in params else '0'
@@ -39,6 +43,7 @@ def construct_blueprint(urlBuilder):
         return redirect(url_for('admin_milestones.overview', roadmap_ID=request.form.get('RoadmapID')))
 
     @milestones.route('/admin/milestones/edit', methods=['GET'])
+    @require_api_token
     def edit():
         ID = request.args.get('ID')
         if not ID or int(ID) < 0:
@@ -52,6 +57,7 @@ def construct_blueprint(urlBuilder):
                                form_url=url_for('admin_milestones.edit_post'))
 
     @milestones.route('/admin/milestones/edit', methods=['POST'])
+    @require_api_token
     def edit_post():
         params = dict(request.form)
         params['Status'] = '1' if 'Status' in params else '0'
@@ -66,6 +72,7 @@ def construct_blueprint(urlBuilder):
         return redirect(url_for('admin_milestones.overview', roadmap_ID=params['RoadmapID']))
 
     @milestones.route('/admin/milestones/delete', methods=['GET'])
+    @require_api_token
     def delete():
         ID = request.args.get('ID')
         if not ID or int(ID) < 0:
