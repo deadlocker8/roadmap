@@ -36,7 +36,8 @@ def construct_blueprint(urlBuilder):
 
         success, response = ApiRequest.send_api_request(urlBuilder.build_url('subtask'),
                                                         requests.post, params,
-                                                        ['TaskID', 'Title', 'Description', 'Status'])
+                                                        [('TaskID', int), ('Title', str), ('Description', str),
+                                                         ('Status', int)])
 
         if not success:
             return response
@@ -64,7 +65,8 @@ def construct_blueprint(urlBuilder):
 
         success, response = ApiRequest.send_api_request(urlBuilder.build_url('subtask'),
                                                         requests.put, params,
-                                                        ['ID', 'TaskID', 'Title', 'Description', 'Status'])
+                                                        [('ID', int), ('TaskID', int), ('Title', str),
+                                                         ('Description', str), ('Status', int)])
         if not success:
             return response
         return redirect(url_for('admin_subtasks.overview', task_ID=params['TaskID']))

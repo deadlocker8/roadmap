@@ -5,10 +5,10 @@ from Localization import LOCALIZATION
 
 class ApiRequest:
     @staticmethod
-    def send_api_request(url, method, formArgs, argNames):
+    def send_api_request(url, method, formArgs, argDefinitions):
         jsonData = {}
-        for name in argNames:
-            jsonData[name] = formArgs.get(name)
+        for name, castType in argDefinitions:
+            jsonData[name] = castType(formArgs.get(name))
 
         response = method(url, json=jsonData, headers={'Authorization': 'Bearer  {}'.format(session['session_token'])})
         if response.status_code == 401:

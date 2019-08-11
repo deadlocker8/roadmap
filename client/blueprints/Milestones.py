@@ -36,8 +36,9 @@ def construct_blueprint(urlBuilder):
 
         success, response = ApiRequest.send_api_request(urlBuilder.build_url('milestone'),
                                                         requests.post, params,
-                                                        ['RoadmapID', 'VersionCode', 'VersionName',
-                                                         'Title', 'DueDate', 'CompletionDate', 'Status'])
+                                                        [('RoadmapID', int), ('VersionCode', int), ('VersionName', str),
+                                                         ('Title', str), ('DueDate', str), ('CompletionDate', str),
+                                                         ('Status', int)])
         if not success:
             return response
         return redirect(url_for('admin_milestones.overview', roadmap_ID=request.form.get('RoadmapID')))
@@ -64,8 +65,9 @@ def construct_blueprint(urlBuilder):
 
         success, response = ApiRequest.send_api_request(urlBuilder.build_url('milestone'),
                                                         requests.put, params,
-                                                        ['ID', 'RoadmapID', 'VersionCode', 'VersionName',
-                                                         'Title', 'DueDate', 'CompletionDate', 'Status'])
+                                                        [('ID', int), ('RoadmapID', int), ('VersionCode', int),
+                                                         ('VersionName', str), ('Title', str), ('DueDate', str),
+                                                         ('CompletionDate', str), ('Status', int)])
 
         if not success:
             return response

@@ -36,7 +36,8 @@ def construct_blueprint(urlBuilder):
 
         success, response = ApiRequest.send_api_request(urlBuilder.build_url('task'),
                                                         requests.post, params,
-                                                        ['MilestoneID', 'Title', 'Description', 'Status'])
+                                                        [('MilestoneID', int), ('Title', str), ('Description', str),
+                                                         ('Status', int)])
 
         if not success:
             return response
@@ -64,7 +65,8 @@ def construct_blueprint(urlBuilder):
 
         success, response = ApiRequest.send_api_request(urlBuilder.build_url('task'),
                                                         requests.put, params,
-                                                        ['ID', 'MilestoneID', 'Title', 'Description', 'Status'])
+                                                        [('ID', int), ('MilestoneID', int), ('Title', str),
+                                                         ('Description', str), ('Status', int)])
         if not success:
             return response
         return redirect(url_for('admin_tasks.overview', milestone_ID=params['MilestoneID']))
