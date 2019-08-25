@@ -51,6 +51,12 @@ def construct_blueprint(urlBuilder):
             return render_template('error.html', message=LOCALIZATION['error_param_invalid'])
 
         milestone = requests.get(urlBuilder.build_url('milestone', ID)).json()
+        if milestone['DueDate'] == '-':
+            milestone['DueDate'] = ''
+
+        if milestone['CompletionDate'] == '-':
+            milestone['CompletionDate'] = ''
+
         return render_template('admin/milestones/edit.html',
                                title='Edit Milestone',
                                roadmap_ID=request.args.get('roadmap_ID'),
