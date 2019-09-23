@@ -148,9 +148,9 @@
                 {% for subtask in task["subtasks"] %}
                     <li>
                         {% if subtask["Status"] == 0 %}
-                            <div class="collapsible-header bold"><span class="left">{{ loop.index + 1 }}</span><i class="material-icons red-text margin-left">build</i>{{ subtask["Title"] }}</div>
+                            <div class="collapsible-header bold"><span class="left">{{ loop.index }}</span><i class="material-icons red-text margin-left">build</i>{{ subtask["Title"] }}</div>
                         {% else %}
-                            <div class="collapsible-header bold"><span class="left">{{ loop.index + 1 }}</span><i class="material-icons green-text margin-left">check</i>{{ subtask["Title"] }}</div>
+                            <div class="collapsible-header bold"><span class="left">{{ loop.index }}</span><i class="material-icons green-text margin-left">check</i>{{ subtask["Title"] }}</div>
                         {% endif %}
                         <div class="collapsible-body"><p>{{ subtask["Description"] }}</p></div>
                     </li>
