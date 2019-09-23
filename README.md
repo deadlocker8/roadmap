@@ -11,18 +11,18 @@ Allows you to create multiple roadmaps for your projects and displays them in a 
 - subtasks
 - descriptions for each task and subtask
 - progress bar for upcoming, currently not finished, milestones
-- separated api server and client for rendering the roadmaps
+- separated api server and client (webserver) for rendering the roadmaps
 
 ### Installation
 
-### #API Server
+#### API Server
 1. Set up a fresh PostgreSQL database.
 2. Install the API server pipenv `pipenv install`
 3. Adjust your settings in `settings.json`  
   -  `keyfile` and `certfile` in the section `server` must only be filled if `useSSL` is set to `true`.  
   - `secret` must be filled with a random string to ensure a secure login.
 
-#### Client Server (Renders the roadmaps)
+#### Client (Renders the roadmaps)
 1. Install the Client pipenv `pipenv install`
 3. Copy `settings-example.json` to `settings.json`
 3. Adjust your settings in `settings.json`  
