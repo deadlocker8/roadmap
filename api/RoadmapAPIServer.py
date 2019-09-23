@@ -1,3 +1,4 @@
+import datetime
 import json
 
 from flask import Flask, send_from_directory, request
@@ -53,7 +54,8 @@ def login():
     if password != parameters["password"]:
         return jsonify({"success": False, "msg": "Bad credentials"}), 401
 
-    access_token = create_access_token(identity=parameters["username"])
+    expires = datetime.timedelta(hours=1)
+    access_token = create_access_token(identity=parameters["username"], expires_delta=expires)
     return jsonify(access_token=access_token), 200
 
 
