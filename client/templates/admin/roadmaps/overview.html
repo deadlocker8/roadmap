@@ -32,7 +32,7 @@
                                         <tr>
                                             <td>{{ roadmap["ID"] }}</td>
                                             <td>
-                                                <a class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Open Roadmap" href="{{ url_for("roadmap", id=roadmap["ID"]) }}">{{ roadmap["Projectname"] }}</a>
+                                                <a class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Open Roadmap" href="{{ url_for("roadmap_by_id", roadmapID=roadmap["ID"]) }}">{{ roadmap["Projectname"] }}</a>
                                             </td>
                                             <td class="right-align">
                                                 <a class="btn-flat no-padding tooltipped" href="{{ url_for("admin_roadmaps.edit", ID=roadmap["ID"]) }}" data-position="bottom" data-delay="50" data-tooltip="Rename"><i class="material-icons left">edit</i></a>
