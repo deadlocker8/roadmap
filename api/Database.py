@@ -113,15 +113,15 @@ class Database:
 
     # TASKS
     def get_all_tasks(self):
-        query = f'SELECT * FROM tasks ORDER BY "{TaskParameters.ID}";'
+        query = f'SELECT * FROM tasks ORDER BY "{TaskParameters.ID.value}";'
         return self.__query(query)
 
     def get_tasks(self, milestoneID):
-        query = f'SELECT * FROM tasks WHERE "{TaskParameters.MILESTONE_ID.value}"=%s ORDER BY "{TaskParameters.ID}";'
+        query = f'SELECT * FROM tasks WHERE "{TaskParameters.MILESTONE_ID.value}"=%s ORDER BY "{TaskParameters.ID.value}";'
         return self.__query(query, milestoneID)
 
     def get_open_tasks(self, milestoneID):
-        query = f'SELECT * FROM tasks WHERE "{TaskParameters.MILESTONE_ID.value}"=%s AND "{TaskParameters.STATUS.value}"=0 ORDER BY "{TaskParameters.ID}";'
+        query = f'SELECT * FROM tasks WHERE "{TaskParameters.MILESTONE_ID.value}"=%s AND "{TaskParameters.STATUS.value}"=0 ORDER BY "{TaskParameters.ID.value}";'
         return self.__query(query, milestoneID)
 
     def get_task(self, taskID):
@@ -142,15 +142,15 @@ class Database:
 
     # SUBTASKS
     def get_all_sub_tasks(self):
-        query = f'SELECT * FROM subtasks ORDER BY "{SubTaskParameters.ID}";'
+        query = f'SELECT * FROM subtasks ORDER BY "{SubTaskParameters.ID.value}";'
         return self.__query(query)
 
     def get_sub_tasks(self, taskID):
-        query = f'SELECT * FROM subtasks WHERE "{SubTaskParameters.TASK_ID.value}"=%s ORDER BY "{SubTaskParameters.ID}";'
+        query = f'SELECT * FROM subtasks WHERE "{SubTaskParameters.TASK_ID.value}"=%s ORDER BY "{SubTaskParameters.ID.value}";'
         return self.__query(query, taskID)
 
     def get_open_sub_tasks(self, taskID):
-        query = f'SELECT * FROM subtasks WHERE "{SubTaskParameters.TASK_ID.value}"=%s AND "{SubTaskParameters.STATUS.value}"=0 ORDER BY "{SubTaskParameters.ID}";'
+        query = f'SELECT * FROM subtasks WHERE "{SubTaskParameters.TASK_ID.value}"=%s AND "{SubTaskParameters.STATUS.value}"=0 ORDER BY "{SubTaskParameters.ID.value}";'
         return self.__query(query, taskID)
 
     def get_sub_task(self, subTaskID):
