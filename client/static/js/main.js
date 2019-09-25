@@ -33,7 +33,7 @@ $(document).ready(function()
         });
     }
 
-    $('.button-delete-roadmap').click(function()
+    $('.button-delete-roadmap').click(function(event)
     {
         var response = confirm("Do you really want to delete this roadmap?");
         if(response === true)
@@ -42,7 +42,7 @@ $(document).ready(function()
         }
     });
 
-    $('.button-delete-milestone').click(function()
+    $('.button-delete-milestone').click(function(event)
     {
         var response = confirm("Do you really want to delete this milestone?");
         if(response === true)
@@ -51,7 +51,7 @@ $(document).ready(function()
         }
     });
 
-    $('.button-delete-task').click(function()
+    $('.button-delete-task').click(function(event)
     {
         var response = confirm("Do you really want to delete this task?");
         if(response === true)
@@ -60,7 +60,7 @@ $(document).ready(function()
         }
     });
 
-    $('.button-delete-subtask').click(function()
+    $('.button-delete-subtask').click(function(event)
     {
         var response = confirm("Do you really want to delete this subtask?");
         if(response === true)
