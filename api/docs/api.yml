@@ -4,7 +4,7 @@ servers:
     url: https://roadmaps.thecodelabs.de:10000/
 info:
   description: The Official Roadmaps API
-  version: "2.3.7"
+  version: "2.4.0"
   title: Roadmaps API
 tags:
   - name: admins
@@ -378,6 +378,41 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Milestone'
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: success response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '401':
+          description: unauthorized response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnauthorizedResponse'
+        default:
+          description: error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /milestone/{milestoneID}/close:
+    post:
+      tags:
+        - admins
+      summary: Closes a milestone and all corresponding tasks and sub tasks
+      operationId: closeMilestone
+      parameters:
+        - in: path
+          name: milestoneID
+          description: The milestone ID
+          required: true
+          schema:
+            type: integer
       security:
         - BearerAuth: []
       responses:
