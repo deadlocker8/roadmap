@@ -1,0 +1,15 @@
+version: '3.7'
+
+services:
+  postgres:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      POSTGRES_USER: roadmaps
+      POSTGRES_PASSWORD: 12345
+      POSTGRES_DB: roadmaps
+    ports:
+      - "5433:5432"
+    volumes:
+      - "./data:/var/lib/postgresql/data"
