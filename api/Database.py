@@ -1,4 +1,5 @@
 from enum import Enum
+from sqlite3.dbapi2 import Date
 
 import psycopg2
 from psycopg2.extras import RealDictCursor
@@ -107,6 +108,10 @@ class Database:
         self.__query(query, roadmapID, versionCode, versionName, title, dueDate, completionDate, status, milestoneID,
                      fetch_type=FetchType.NONE)
 
+    def finish_milestone(self, milestoneID):
+        query = f'UPDATE milestones SET "{MilestoneParameters.COMPLETION_DATE.value}"=%s, "{MilestoneParameters.STATUS.value}"=%s WHERE "{MilestoneParameters.ID.value}"=%s;'
+        self.__query(query, Date.today(), 1, milestoneID, fetch_type=FetchType.NONE)
+
     def delete_milestone(self, milestoneID):
         query = f'DELETE FROM milestones WHERE "{MilestoneParameters.ID.value}"=%s;'
         self.__query(query, milestoneID, fetch_type=FetchType.NONE)
@@ -136,6 +141,10 @@ class Database:
         query = f'UPDATE tasks SET "{TaskParameters.MILESTONE_ID.value}"=%s, "{TaskParameters.TITLE.value}"=%s, "{TaskParameters.DESCRIPTION.value}"=%s, "{TaskParameters.STATUS.value}"=%s WHERE "{TaskParameters.ID.value}"=%s;'
         self.__query(query, milestoneID, title, description, status, taskID, fetch_type=FetchType.NONE)
 
+    def finish_task(self, taskID):
+        query = f'UPDATE tasks SET "{TaskParameters.STATUS.value}"=%s WHERE "{TaskParameters.ID.value}"=%s;'
+        self.__query(query, 1, taskID, fetch_type=FetchType.NONE)
+
     def delete_task(self, taskID):
         query = f'DELETE FROM tasks WHERE "{TaskParameters.ID.value}"=%s;'
         self.__query(query, taskID, fetch_type=FetchType.NONE)
@@ -164,6 +173,10 @@ class Database:
     def update_sub_task(self, subTaskID, taskID, title, description, status):
         query = f'UPDATE subtasks SET "{SubTaskParameters.TASK_ID.value}"=%s, "{SubTaskParameters.TITLE.value}"=%s, "{SubTaskParameters.DESCRIPTION.value}"=%s, "{SubTaskParameters.STATUS.value}"=%s WHERE "{SubTaskParameters.ID.value}"=%s;'
         self.__query(query, taskID, title, description, status, subTaskID, fetch_type=FetchType.NONE)
+
+    def finish_sub_task(self, subTaskID):
+        query = f'UPDATE subtasks SET "{SubTaskParameters.STATUS.value}"=%s WHERE "{SubTaskParameters.ID.value}"=%s;'
+        self.__query(query, 1, subTaskID, fetch_type=FetchType.NONE)
 
     def delete_sub_task(self, subTaskID):
         query = f'DELETE FROM subtasks WHERE "{SubTaskParameters.ID.value}"=%s;'

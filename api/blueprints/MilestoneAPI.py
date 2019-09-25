@@ -5,6 +5,8 @@ from flask_jwt_extended import jwt_required
 
 from DateFormatter import DateFormatter
 from RequestValidator import RequestValidator, ValidationError
+from blueprints.SubTaskAPI import SubTaskParameters
+from blueprints.TaskAPI import TaskParameters
 
 
 class MilestoneParameters(Enum):
@@ -81,6 +83,25 @@ def construct_blueprint(database):
                                parameters[MilestoneParameters.DUE_DATE.value],
                                parameters[MilestoneParameters.COMPLETION_DATE.value],
                                parameters[MilestoneParameters.STATUS.value])
+        return jsonify({"success": True})
+
+    @milestone_api.route("/milestone/<int:milestoneID>/close", methods=['POST'])
+    @jwt_required
+    def close_milestone(milestoneID):
+        if not __milestone_exists(milestoneID):
+            return jsonify({"success": False, "msg": "No milestone with id '{}' existing".format(milestoneID)}), 400
+
+        database.finish_milestone(milestoneID)
+
+        tasks = database.get_tasks(milestoneID)
+        for task in tasks:
+            task_id = task[TaskParameters.ID.value]
+            database.finish_task(task_id)
+
+            sub_tasks = database.get_sub_tasks(task_id)
+            for sub_task in sub_tasks:
+                database.finish_sub_task(sub_task[SubTaskParameters.ID.value])
+
         return jsonify({"success": True})
 
     @milestone_api.route('/milestone/<int:milestoneID>', methods=['DELETE'])
