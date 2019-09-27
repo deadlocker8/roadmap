@@ -35,38 +35,22 @@ $(document).ready(function()
 
     $('.button-delete-roadmap').click(function(event)
     {
-        var response = confirm("Do you really want to delete this roadmap?");
-        if(response === true)
-        {
-            header("location: " + this.href);
-        }
+        confirmDelete("Do you really want to delete this roadmap?", this.href, event);
     });
 
     $('.button-delete-milestone').click(function(event)
     {
-        var response = confirm("Do you really want to delete this milestone?");
-        if(response === true)
-        {
-            header("location: " + this.href);
-        }
+        confirmDelete("Do you really want to delete this milestone?", this.href, event);
     });
 
     $('.button-delete-task').click(function(event)
     {
-        var response = confirm("Do you really want to delete this task?");
-        if(response === true)
-        {
-            header("location: " + this.href);
-        }
+        confirmDelete("Do you really want to delete this task?", this.href, event);
     });
 
     $('.button-delete-subtask').click(function(event)
     {
-        var response = confirm("Do you really want to delete this subtask?");
-        if(response === true)
-        {
-            header("location: " + this.href);
-        }
+        confirmDelete("Do you really want to delete this subtask?", this.href, event);
     });
 
     $('#checkbox-done').click(function()
@@ -95,6 +79,19 @@ $(document).ready(function()
 
     createTrainMap();
 });
+
+function confirmDelete(message, redirectURL, event)
+{
+    var response = confirm(message);
+    if(response === true)
+    {
+        header("location: " + redirectURL);
+    }
+    else
+    {
+        event.preventDefault();
+    }
+}
 
 function isNull(object)
 {
