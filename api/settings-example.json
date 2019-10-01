@@ -1,7 +1,7 @@
 {
     "database": {
         "host": "127.0.0.1",
-        "port": "5433",
+        "port": "5432",
         "databaseName": "roadmaps",
         "user": "roadmaps",
         "password": "12345"
@@ -12,7 +12,7 @@
         "useSSL": false,
         "keyfile": "",
         "certfile": "",
-        "secret": "KulYdiZJTEvUxNKyseaX"
+        "secret": ""
     },
     "users": [
         {
