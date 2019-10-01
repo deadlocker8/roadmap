@@ -1,4 +1,4 @@
 /.idea/
-client/settings.json
+settings.json
 
 docker/postgres/data
