@@ -3,6 +3,7 @@
 import yaml
 import json
 import sys
+import re
 
 TEMPLATE = """
 <!DOCTYPE html>
@@ -61,6 +62,8 @@ window.onload = function() {
 </html>
 """
 
+VERSION_PATTERN = r'"version": "\d+.\d+.\d+"'
+
 if len(sys.argv) != 3:
     print('Invalid number of args')
     print('Usage: swagger-to-html.py source.yml destination.html')
@@ -68,7 +71,17 @@ if len(sys.argv) != 3:
 
 with open(sys.argv[1], "r") as inputFile:
     spec = yaml.load(inputFile, Loader=yaml.FullLoader)
-    spec = TEMPLATE % ("Roadmaps API", json.dumps(spec))
+    spec = json.dumps(spec)
+
+    with open('../version.json', 'r') as f:
+        VERSION = json.load(f)
+    VERSION = VERSION['version']
+
+    versionNameShort = VERSION['name'].replace('v', '')
+    print('Setting version number to "{}"'.format(versionNameShort))
+    spec = re.sub(VERSION_PATTERN, '"version": "{}"'.format(versionNameShort), spec, flags=re.S)
+
+    spec = TEMPLATE % ("Roadmaps API", spec)
     with open(sys.argv[2], "w") as f:
         f.write(spec)
         print("DONE")
