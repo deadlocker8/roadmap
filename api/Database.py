@@ -29,6 +29,8 @@ class Database:
 
         self.__connect()
 
+        self.__create_tables()
+
     def __connect(self):
         self.__connection = psycopg2.connect(user=self.__user,
                                              password=self.__password,
@@ -55,7 +57,69 @@ class Database:
         if fetch_type == FetchType.ALL:
             return self.__cursor.fetchall()
 
-    # ROADMAPS
+    def __create_tables(self):
+        self.__create_table_roadmaps()
+        self.__create_table_milestones()
+        self.__create_table_tasks()
+        self.__create_table_subtasks()
+
+    def __create_table_roadmaps(self):
+        query = 'CREATE SEQUENCE IF NOT EXISTS "roadmaps_ID_seq"'
+        self.__query(query, fetch_type=FetchType.NONE)
+
+        queryTable = f'CREATE TABLE IF NOT EXISTS "public"."roadmaps" ' \
+                     f'("{RoadmapParameters.ID.value}" int4 NOT NULL DEFAULT ' \
+                     f'nextval(\'"roadmaps_ID_seq"\'::regclass),' \
+                     f'"{RoadmapParameters.PROJECT_NAME.value}" text NOT NULL, ' \
+                     f'PRIMARY KEY ("{RoadmapParameters.ID.value}"));'
+        self.__query(queryTable, fetch_type=FetchType.NONE)
+
+    def __create_table_milestones(self):
+        query = 'CREATE SEQUENCE IF NOT EXISTS "milestones_ID_seq"'
+        self.__query(query, fetch_type=FetchType.NONE)
+
+        queryTable = f'CREATE TABLE IF NOT EXISTS "public"."milestones" ' \
+                     f'("{MilestoneParameters.ID.value}" int4 NOT NULL DEFAULT ' \
+                     f'nextval(\'"milestones_ID_seq"\'::regclass),' \
+                     f'"{MilestoneParameters.ROADMAP_ID.value}" int4 NOT NULL, ' \
+                     f'"{MilestoneParameters.VERSION_CODE.value}" int4 NOT NULL, ' \
+                     f'"{MilestoneParameters.VERSION_NAME.value}" text NOT NULL, ' \
+                     f'"{MilestoneParameters.TITLE.value}" text NOT NULL, ' \
+                     f'"{MilestoneParameters.DUE_DATE.value}" date NOT NULL, ' \
+                     f'"{MilestoneParameters.COMPLETION_DATE.value}" date NOT NULL, ' \
+                     f'"{MilestoneParameters.STATUS.value}" int4 NOT NULL, ' \
+                     f'PRIMARY KEY ("{MilestoneParameters.ID.value}"));'
+        self.__query(queryTable, fetch_type=FetchType.NONE)
+
+    def __create_table_tasks(self):
+        query = 'CREATE SEQUENCE IF NOT EXISTS "tasks_ID_seq"'
+        self.__query(query, fetch_type=FetchType.NONE)
+
+        queryTable = f'CREATE TABLE IF NOT EXISTS "public"."tasks" ' \
+                     f'("{TaskParameters.ID.value}" int4 NOT NULL DEFAULT ' \
+                     f'nextval(\'"tasks_ID_seq"\'::regclass),' \
+                     f'"{TaskParameters.MILESTONE_ID.value}" int4 NOT NULL, ' \
+                     f'"{TaskParameters.TITLE.value}" text NOT NULL, ' \
+                     f'"{TaskParameters.DESCRIPTION.value}" text NOT NULL, ' \
+                     f'"{TaskParameters.STATUS.value}" int4 NOT NULL, ' \
+                     f'PRIMARY KEY ("{TaskParameters.ID.value}"));'
+        self.__query(queryTable, fetch_type=FetchType.NONE)
+
+    def __create_table_subtasks(self):
+        query = 'CREATE SEQUENCE IF NOT EXISTS "subtasks_ID_seq"'
+        self.__query(query, fetch_type=FetchType.NONE)
+
+        queryTable = f'CREATE TABLE IF NOT EXISTS "public"."subtasks" ' \
+                     f'("{SubTaskParameters.ID.value}" int4 NOT NULL DEFAULT ' \
+                     f'nextval(\'"subtasks_ID_seq"\'::regclass),' \
+                     f'"{SubTaskParameters.TASK_ID.value}" int4 NOT NULL, ' \
+                     f'"{SubTaskParameters.TITLE.value}" text NOT NULL, ' \
+                     f'"{SubTaskParameters.DESCRIPTION.value}" text NOT NULL, ' \
+                     f'"{SubTaskParameters.STATUS.value}" int4 NOT NULL, ' \
+                     f'PRIMARY KEY ("{SubTaskParameters.ID.value}"));'
+        self.__query(queryTable, fetch_type=FetchType.NONE)
+
+# ROADMAPS
     def get_roadmaps(self):
         query = f'SELECT * FROM roadmaps ORDER BY "{RoadmapParameters.ID.value}";'
         return self.__query(query)
