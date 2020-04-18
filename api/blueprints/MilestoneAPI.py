@@ -55,6 +55,9 @@ def construct_blueprint(database):
     @milestone_api.route('/milestones/<int:roadmapID>/latest', methods=['GET'])
     def get_latest_milestone(roadmapID):
         milestone = database.get_latest_milestone(roadmapID)
+        if milestone is None:
+            return 'No closed milestones existing for roadmap with ID "{}"'.format(roadmapID), 400
+
         return jsonify(prepare_milestone(milestone))
 
     @milestone_api.route('/milestone/<int:milestoneID>', methods=['GET'])
