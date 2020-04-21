@@ -1,7 +1,7 @@
 openapi: 3.0.0
 servers:
   - description: Roadmaps API Server
-    url: https://roadmaps.thecodelabs.de:10000/
+    url: https://roadmaps.thecodelabs.de/api
 info:
   description: The Official Roadmaps API
   version: "2.4.0"
