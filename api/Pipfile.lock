@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "1aaa3c81cbaa411a612d61507c5ee3b1093c021977a99472b39661b380700170"
+            "sha256": "8217206c84c7464d990a1d9955f2a7d271997ed4a052584a0f63c3d387d0359f"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -11,6 +11,11 @@
             {
                 "name": "pypi",
                 "url": "https://pypi.python.org/simple",
+                "verify_ssl": true
+            },
+            {
+                "name": "TheCodeLabs",
+                "url": "https://pypi.thecodedev.de",
                 "verify_ssl": true
             }
         ]
@@ -52,10 +57,10 @@
         },
         "click": {
             "hashes": [
-                "sha256:8a18b4ea89d8820c5d0c7da8a64b2c324b4dabb695804dbfea19b9be9d88c0cc",
-                "sha256:e345d143d80bf5ee7534056164e5e112ea5e22716bbb1ce727941f4c8b471b9a"
+                "sha256:d2b5255c7c6349bc1bd1e59e08cd12acbbd63ce649f2588755783aa94dfb6b1a",
+                "sha256:dacca89f4bfadd5de3d7489b7c8a566eee0d3676333fbb50030263894c38c0dc"
             ],
-            "version": "==7.1.1"
+            "version": "==7.1.2"
         },
         "flask": {
             "hashes": [
@@ -220,6 +225,20 @@
                 "sha256:8f3cd2e254d8f793e7f3d6d9df77b92252b52637291d0f0da013c76ea2724b6c"
             ],
             "version": "==1.14.0"
+        },
+        "thecodelabs-baseutils": {
+            "hashes": [
+                "sha256:daab1cf2480b3c1352ef94f78774d4c4c8759d91a6c50b113bcb1c73081263cb"
+            ],
+            "index": "pypi",
+            "version": "==1.0.0"
+        },
+        "thecodelabs-flaskutils": {
+            "hashes": [
+                "sha256:98833b87fd1b0b42a7ad6ac9de3b79676623cc21b0fabc940863412e8ee40961"
+            ],
+            "index": "pypi",
+            "version": "==1.0.2"
         },
         "werkzeug": {
             "hashes": [
