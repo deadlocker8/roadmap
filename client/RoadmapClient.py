@@ -8,8 +8,8 @@ from TheCodeLabs_FlaskUtils import FlaskBaseApp
 from flask import render_template, redirect
 
 from logic import Constants
-from Localization import LOCALIZATION
-from UrlBuilder import UrlBuilder
+from logic.Localization import LOCALIZATION
+from logic.UrlBuilder import UrlBuilder
 from blueprints import Roadmaps, Authentication, Milestones, Tasks, SubTasks
 
 LOGGER = DefaultLogger().create_logger_if_not_exists(Constants.APP_NAME)

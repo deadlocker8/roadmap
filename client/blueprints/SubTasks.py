@@ -1,9 +1,9 @@
 import requests
 from flask import Blueprint, render_template, redirect, url_for, request
 
-from AdminWrapper import require_api_token
-from ApiRequest import ApiRequest
-from Localization import LOCALIZATION
+from logic.AdminWrapper import require_api_token
+from logic.ApiRequest import ApiRequest
+from logic.Localization import LOCALIZATION
 
 
 def construct_blueprint(urlBuilder):

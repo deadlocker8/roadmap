@@ -1,6 +1,6 @@
 from flask import render_template, session, redirect, url_for
 
-from Localization import LOCALIZATION
+from logic.Localization import LOCALIZATION
 
 
 class ApiRequest:

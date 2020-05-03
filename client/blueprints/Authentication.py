@@ -1,7 +1,7 @@
 import requests
 from flask import Blueprint, render_template, redirect, url_for, request, session
 
-from Localization import LOCALIZATION
+from logic.Localization import LOCALIZATION
 
 
 def construct_blueprint(urlBuilder):
