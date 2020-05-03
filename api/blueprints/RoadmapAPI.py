@@ -9,8 +9,8 @@ from RequestValidator import RequestValidator, ValidationError
 
 
 class RoadmapParameters(Enum):
-    ID = "ID"
-    PROJECT_NAME = "Projectname"
+    ID = 'ID'
+    PROJECT_NAME = 'Projectname'
 
 
 def construct_blueprint(database):
@@ -27,33 +27,33 @@ def construct_blueprint(database):
     @roadmap_api.route('/roadmap/<int:roadmapID>/full', methods=['GET'])
     def get_roadmap_full(roadmapID):
         roadmap = database.get_roadmap(roadmapID)
-        roadmap["milestones"] = database.get_milestones(roadmapID)
+        roadmap['milestones'] = database.get_milestones(roadmapID)
 
         numberOfOpenMilestones = 0
-        for milestone in roadmap["milestones"]:
-            milestone["DueDate"] = DateFormatter.format(milestone["DueDate"])
-            milestone["CompletionDate"] = DateFormatter.format(milestone["CompletionDate"])
+        for milestone in roadmap['milestones']:
+            milestone['DueDate'] = DateFormatter.format(milestone['DueDate'])
+            milestone['CompletionDate'] = DateFormatter.format(milestone['CompletionDate'])
 
-            if milestone["Status"] == 0:
+            if milestone['Status'] == 0:
                 numberOfOpenMilestones += 1
 
-            milestone["tasks"] = database.get_tasks(milestone[RoadmapParameters.ID.value])
+            milestone['tasks'] = database.get_tasks(milestone[RoadmapParameters.ID.value])
 
             numberOfOpenTasks = 0
-            for task in milestone["tasks"]:
-                task["subtasks"] = database.get_sub_tasks(task[RoadmapParameters.ID.value])
+            for task in milestone['tasks']:
+                task['subtasks'] = database.get_sub_tasks(task[RoadmapParameters.ID.value])
 
                 numberOfOpenSubTasks = 0
-                for subtask in task["subtasks"]:
-                    if subtask["Status"] == 0:
+                for subtask in task['subtasks']:
+                    if subtask['Status'] == 0:
                         numberOfOpenSubTasks += 1
-                task["numberOfOpenSubTasks"] = numberOfOpenSubTasks
+                task['numberOfOpenSubTasks'] = numberOfOpenSubTasks
 
-                if task["Status"] == 0:
+                if task['Status'] == 0:
                     numberOfOpenTasks += 1
-            milestone["numberOfOpenTasks"] = numberOfOpenTasks
+            milestone['numberOfOpenTasks'] = numberOfOpenTasks
 
-        roadmap["numberOfOpenMilestones"] = numberOfOpenMilestones
+        roadmap['numberOfOpenMilestones'] = numberOfOpenMilestones
         return jsonify(roadmap)
 
     @roadmap_api.route('/roadmap', methods=['POST'])
@@ -65,19 +65,19 @@ def construct_blueprint(database):
             return e.response, 400
 
         if __name_already_used(parameters[RoadmapParameters.PROJECT_NAME.value]):
-            return jsonify({"success": False, "msg": "A roadmap with this name already exists"}), 400
+            return jsonify({'success': False, 'msg': 'A roadmap with this name already exists'}), 400
 
         database.add_roadmap(parameters[RoadmapParameters.PROJECT_NAME.value])
-        return jsonify({"success": True})
+        return jsonify({'success': True})
 
     @roadmap_api.route('/roadmap/<int:roadmapID>', methods=['DELETE'])
     @jwt_required
     def delete_roadmap(roadmapID):
         if not __roadmaps_exists(roadmapID):
-            return jsonify({"success": False, "msg": "No roadmap with id '{}' existing".format(roadmapID)}), 400
+            return jsonify({'success': False, 'msg': "No roadmap with id '{}' existing".format(roadmapID)}), 400
 
         database.delete_roadmap(roadmapID)
-        return jsonify({"success": True})
+        return jsonify({'success': True})
 
     @roadmap_api.route('/roadmap', methods=['PUT'])
     @jwt_required
@@ -90,14 +90,14 @@ def construct_blueprint(database):
 
         roadmapID = parameters[RoadmapParameters.ID.value]
         if not __roadmaps_exists(roadmapID):
-            return jsonify({"success": False, "msg": "No roadmap with ID '{}' existing".format(roadmapID)}), 400
+            return jsonify({'success': False, 'msg': "No roadmap with ID '{}' existing".format(roadmapID)}), 400
 
         if __name_already_used(parameters[RoadmapParameters.PROJECT_NAME.value]):
-            return jsonify({"success": False, "msg": "A roadmap with this name already exists"}), 400
+            return jsonify({'success': False, 'msg': 'A roadmap with this name already exists'}), 400
 
         database.update_roadmap(parameters[RoadmapParameters.ID.value],
                                 parameters[RoadmapParameters.PROJECT_NAME.value])
-        return jsonify({"success": True})
+        return jsonify({'success': True})
 
     def __roadmaps_exists(roadmapID):
         roadmapID = int(roadmapID)

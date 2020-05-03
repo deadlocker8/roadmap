@@ -7,11 +7,11 @@ from RequestValidator import RequestValidator, ValidationError
 
 
 class TaskParameters(Enum):
-    ID = "ID"
-    MILESTONE_ID = "MilestoneID"
-    TITLE = "Title"
-    DESCRIPTION = "Description"
-    STATUS = "Status"
+    ID = 'ID'
+    MILESTONE_ID = 'MilestoneID'
+    TITLE = 'Title'
+    DESCRIPTION = 'Description'
+    STATUS = 'Status'
 
     @staticmethod
     def get_values():
@@ -48,16 +48,16 @@ def construct_blueprint(database):
                           parameters[TaskParameters.TITLE.value],
                           parameters[TaskParameters.DESCRIPTION.value],
                           parameters[TaskParameters.STATUS.value])
-        return jsonify({"success": True})
+        return jsonify({'success': True})
 
     @task_api.route('/task/<int:taskID>', methods=['DELETE'])
     @jwt_required
     def delete_task(taskID):
         if not __task_exists(taskID):
-            return jsonify({"success": False, "msg": "No task with id '{}' existing".format(taskID)}), 400
+            return jsonify({'success': False, 'msg': "No task with id '{}' existing".format(taskID)}), 400
 
         database.delete_task(taskID)
-        return jsonify({"success": True})
+        return jsonify({'success': True})
 
     @task_api.route('/task', methods=['PUT'])
     @jwt_required
@@ -69,14 +69,14 @@ def construct_blueprint(database):
 
         taskID = parameters[TaskParameters.ID.value]
         if not __task_exists(taskID):
-            return jsonify({"success": False, "msg": "No task with ID '{}' existing".format(taskID)}), 400
+            return jsonify({'success': False, 'msg': "No task with ID '{}' existing".format(taskID)}), 400
 
         database.update_task(taskID,
                              parameters[TaskParameters.MILESTONE_ID.value],
                              parameters[TaskParameters.TITLE.value],
                              parameters[TaskParameters.DESCRIPTION.value],
                              parameters[TaskParameters.STATUS.value])
-        return jsonify({"success": True})
+        return jsonify({'success': True})
 
     def __task_exists(taskID):
         taskID = int(taskID)

@@ -7,11 +7,11 @@ from RequestValidator import RequestValidator, ValidationError
 
 
 class SubTaskParameters(Enum):
-    ID = "ID"
-    TASK_ID = "TaskID"
-    TITLE = "Title"
-    DESCRIPTION = "Description"
-    STATUS = "Status"
+    ID = 'ID'
+    TASK_ID = 'TaskID'
+    TITLE = 'Title'
+    DESCRIPTION = 'Description'
+    STATUS = 'Status'
 
     @staticmethod
     def get_values():
@@ -48,16 +48,16 @@ def construct_blueprint(database):
                               parameters[SubTaskParameters.TITLE.value],
                               parameters[SubTaskParameters.DESCRIPTION.value],
                               parameters[SubTaskParameters.STATUS.value])
-        return jsonify({"success": True})
+        return jsonify({'success': True})
 
     @subtask_api.route('/subtask/<int:subTaskID>', methods=['DELETE'])
     @jwt_required
     def delete_sub_task(subTaskID):
         if not __subtask_exists(subTaskID):
-            return jsonify({"success": False, "msg": "No sub task with id '{}' existing".format(subTaskID)}), 400
+            return jsonify({'success': False, 'msg': "No sub task with id '{}' existing".format(subTaskID)}), 400
 
         database.delete_sub_task(subTaskID)
-        return jsonify({"success": True})
+        return jsonify({'success': True})
 
     @subtask_api.route('/subtask', methods=['PUT'])
     @jwt_required
@@ -69,14 +69,14 @@ def construct_blueprint(database):
 
         subtaskID = parameters[SubTaskParameters.ID.value]
         if not __subtask_exists(subtaskID):
-            return jsonify({"success": False, "msg": "No sub task with ID '{}' existing".format(subtaskID)}), 400
+            return jsonify({'success': False, 'msg': "No sub task with ID '{}' existing".format(subtaskID)}), 400
 
         database.update_sub_task(subtaskID,
                                  parameters[SubTaskParameters.TASK_ID.value],
                                  parameters[SubTaskParameters.TITLE.value],
                                  parameters[SubTaskParameters.DESCRIPTION.value],
                                  parameters[SubTaskParameters.STATUS.value])
-        return jsonify({"success": True})
+        return jsonify({'success': True})
 
     def __subtask_exists(subtaskID):
         subtaskID = int(subtaskID)

@@ -10,14 +10,14 @@ from blueprints.TaskAPI import TaskParameters
 
 
 class MilestoneParameters(Enum):
-    ID = "ID"
-    ROADMAP_ID = "RoadmapID"
-    VERSION_CODE = "VersionCode"
-    VERSION_NAME = "VersionName"
-    TITLE = "Title"
-    DUE_DATE = "DueDate"
-    COMPLETION_DATE = "CompletionDate"
-    STATUS = "Status"
+    ID = 'ID'
+    ROADMAP_ID = 'RoadmapID'
+    VERSION_CODE = 'VersionCode'
+    VERSION_NAME = 'VersionName'
+    TITLE = 'Title'
+    DUE_DATE = 'DueDate'
+    COMPLETION_DATE = 'CompletionDate'
+    STATUS = 'Status'
 
     @staticmethod
     def get_values():
@@ -86,13 +86,13 @@ def construct_blueprint(database):
                                parameters[MilestoneParameters.DUE_DATE.value],
                                parameters[MilestoneParameters.COMPLETION_DATE.value],
                                parameters[MilestoneParameters.STATUS.value])
-        return jsonify({"success": True})
+        return jsonify({'success': True})
 
-    @milestone_api.route("/milestone/<int:milestoneID>/close", methods=['POST'])
+    @milestone_api.route('/milestone/<int:milestoneID>/close', methods=['POST'])
     @jwt_required
     def close_milestone(milestoneID):
         if not __milestone_exists(milestoneID):
-            return jsonify({"success": False, "msg": "No milestone with id '{}' existing".format(milestoneID)}), 400
+            return jsonify({'success': False, 'msg': "No milestone with id '{}' existing".format(milestoneID)}), 400
 
         database.finish_milestone(milestoneID)
 
@@ -105,16 +105,16 @@ def construct_blueprint(database):
             for sub_task in sub_tasks:
                 database.finish_sub_task(sub_task[SubTaskParameters.ID.value])
 
-        return jsonify({"success": True})
+        return jsonify({'success': True})
 
     @milestone_api.route('/milestone/<int:milestoneID>', methods=['DELETE'])
     @jwt_required
     def delete_milestone(milestoneID):
         if not __milestone_exists(milestoneID):
-            return jsonify({"success": False, "msg": "No milestone with id '{}' existing".format(milestoneID)}), 400
+            return jsonify({'success': False, 'msg': "No milestone with id '{}' existing".format(milestoneID)}), 400
 
         database.delete_milestone(milestoneID)
-        return jsonify({"success": True})
+        return jsonify({'success': True})
 
     @milestone_api.route('/milestone', methods=['PUT'])
     @jwt_required
@@ -126,7 +126,7 @@ def construct_blueprint(database):
 
         milestoneID = parameters[MilestoneParameters.ID.value]
         if not __milestone_exists(milestoneID):
-            return jsonify({"success": False, "msg": "No milestone with ID '{}' existing".format(milestoneID)}), 400
+            return jsonify({'success': False, 'msg': "No milestone with ID '{}' existing".format(milestoneID)}), 400
 
         database.update_milestone(milestoneID,
                                   parameters[MilestoneParameters.ROADMAP_ID.value],
@@ -136,7 +136,7 @@ def construct_blueprint(database):
                                   parameters[MilestoneParameters.DUE_DATE.value],
                                   parameters[MilestoneParameters.COMPLETION_DATE.value],
                                   parameters[MilestoneParameters.STATUS.value])
-        return jsonify({"success": True})
+        return jsonify({'success': True})
 
     def __milestone_exists(milestoneID):
         milestoneID = int(milestoneID)

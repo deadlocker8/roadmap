@@ -22,33 +22,33 @@ LOGGER = DefaultLogger().create_logger_if_not_exists(Constants.APP_NAME)
 class RoadmapApi(FlaskBaseApp):
     def __init__(self, appName: str, rootDir: str, logger: logging.Logger, settingsPath: str):
         super().__init__(appName, rootDir, logger, settingsPath=settingsPath)
-        self._database = Database(self._settings["database"])
-        self._userService = UserService(self._settings["users"])
+        self._database = Database(self._settings['database'])
+        self._userService = UserService(self._settings['users'])
 
     def _register_blueprints(self, app):
-        app.config["JWT_SECRET_KEY"] = self._serverSettings["secret"]
+        app.config['JWT_SECRET_KEY'] = self._serverSettings['secret']
         jwt = JWTManager(app)
 
         @app.route('/')
         def index():
-            return send_from_directory("docs", "api.html")
+            return send_from_directory('docs', 'api.html')
 
         @app.route('/login', methods=['POST'])
         def login():
             try:
-                parameters = RequestValidator.validate(request, ["username", "password"])
+                parameters = RequestValidator.validate(request, ['username', 'password'])
             except ValidationError as e:
                 return e.response, 400
 
-            password = self._userService.get_password_by_username(parameters["username"])
+            password = self._userService.get_password_by_username(parameters['username'])
             if password is None:
-                return jsonify({"success": False, "msg": "Unknown username"}), 401
+                return jsonify({'success': False, 'msg': 'Unknown username'}), 401
 
-            if password != parameters["password"]:
-                return jsonify({"success": False, "msg": "Bad credentials"}), 401
+            if password != parameters['password']:
+                return jsonify({'success': False, 'msg': 'Bad credentials'}), 401
 
             expires = datetime.timedelta(hours=1)
-            access_token = create_access_token(identity=parameters["username"], expires_delta=expires)
+            access_token = create_access_token(identity=parameters['username'], expires_delta=expires)
             return jsonify(access_token=access_token), 200
 
         app.register_blueprint(RoadmapAPI.construct_blueprint(self._database))
@@ -57,6 +57,6 @@ class RoadmapApi(FlaskBaseApp):
         app.register_blueprint(SubTaskAPI.construct_blueprint(self._database))
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     roadmapApi = RoadmapApi(Constants.APP_NAME, os.path.dirname(__file__), LOGGER, 'settings.json')
     roadmapApi.start_server()
