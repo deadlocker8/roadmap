@@ -21,7 +21,7 @@ LOGGER = DefaultLogger().create_logger_if_not_exists(Constants.APP_NAME)
 
 class RoadmapApi(FlaskBaseApp):
     def __init__(self, appName: str, rootDir: str, logger: logging.Logger, settingsPath: str):
-        super().__init__(appName, rootDir, logger, settingsPath=settingsPath)
+        super().__init__(appName, rootDir, logger, settingsPath=settingsPath, serveFavicon=False)
         self._database = Database(self._settings['database'])
         self._userService = UserService(self._settings['users'])
 
