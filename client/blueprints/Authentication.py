@@ -25,11 +25,11 @@ def construct_blueprint(urlBuilder):
             return render_template('login.html', message=LOCALIZATION['unauthorized'])
 
         if response.status_code == 200:
-            token = response.json()["access_token"]
+            token = response.json()['access_token']
             session['session_token'] = token
             return redirect(url_for('admin_roadmaps.overview'))
 
-        return render_template('error.html', message=response.json()["msg"])
+        return render_template('error.html', message=response.json()['msg'])
 
     @authentication.route('/admin/logout')
     def logout():
