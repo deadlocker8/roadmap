@@ -10,10 +10,10 @@ from flask_jwt_extended import (
     JWTManager, create_access_token
 )
 
-import Constants
-from Database import Database
-from RequestValidator import RequestValidator, ValidationError
-from UserService import UserService
+from logic import Constants
+from logic.Database import Database
+from logic.RequestValidator import RequestValidator, ValidationError
+from logic.UserService import UserService
 from blueprints import SubTaskAPI, MilestoneAPI, TaskAPI, RoadmapAPI
 
 LOGGER = DefaultLogger().create_logger_if_not_exists(Constants.APP_NAME)

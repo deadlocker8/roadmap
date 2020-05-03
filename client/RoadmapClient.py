@@ -7,7 +7,7 @@ from TheCodeLabs_BaseUtils import DefaultLogger
 from TheCodeLabs_FlaskUtils import FlaskBaseApp
 from flask import render_template, redirect
 
-import Constants
+from logic import Constants
 from Localization import LOCALIZATION
 from UrlBuilder import UrlBuilder
 from blueprints import Roadmaps, Authentication, Milestones, Tasks, SubTasks

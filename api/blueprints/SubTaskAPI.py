@@ -3,7 +3,7 @@ from enum import Enum
 from flask import Blueprint, jsonify, request
 from flask_jwt_extended import jwt_required
 
-from RequestValidator import RequestValidator, ValidationError
+from logic.RequestValidator import RequestValidator, ValidationError
 
 
 class SubTaskParameters(Enum):
