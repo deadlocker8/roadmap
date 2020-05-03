@@ -1,94 +1,76 @@
-import json
+import logging
+import os
 from datetime import datetime
 
 import requests
-from flask import Flask, render_template, redirect, jsonify
-from gevent.pywsgi import WSGIServer
+from TheCodeLabs_BaseUtils import DefaultLogger
+from TheCodeLabs_FlaskUtils import FlaskBaseApp
+from flask import render_template, redirect
 
+import Constants
 from Localization import LOCALIZATION
 from UrlBuilder import UrlBuilder
 from blueprints import Roadmaps, Authentication, Milestones, Tasks, SubTasks
 
-with open('version.json', 'r') as f:
-    VERSION = json.load(f)
-VERSION = VERSION['version']
-
-with open('settings.json', 'r') as f:
-    SETTINGS = json.load(f)
-
-app = Flask(__name__)
-app.secret_key = SETTINGS['secret']
-
-DEFAULT_DATE = datetime(2000, 1, 1, 0, 0, 0)
-
-URL_BUILDER = UrlBuilder(SETTINGS['apiURL'])
-
-app.register_blueprint(Authentication.construct_blueprint(URL_BUILDER))
-app.register_blueprint(Roadmaps.construct_blueprint(URL_BUILDER))
-app.register_blueprint(Milestones.construct_blueprint(URL_BUILDER))
-app.register_blueprint(Tasks.construct_blueprint(URL_BUILDER))
-app.register_blueprint(SubTasks.construct_blueprint(URL_BUILDER))
+LOGGER = DefaultLogger().create_logger_if_not_exists(Constants.APP_NAME)
 
 
-@app.route('/version', methods=['GET'])
-def version():
-    return jsonify(VERSION)
+class RoadmapClient(FlaskBaseApp):
+    DEFAULT_DATE = datetime(2000, 1, 1, 0, 0, 0)
 
+    def __init__(self, appName: str, rootDir: str, logger: logging.Logger, settingsPath: str):
+        super().__init__(appName, rootDir, logger, settingsPath=settingsPath)
+        self._urlBuilder = UrlBuilder(self._serverSettings['apiURL'])
 
-@app.route('/')
-def overview():
-    roadmaps = requests.get(URL_BUILDER.build_url('roadmaps')).json()
-    return render_template('overview.html', roadmaps=roadmaps)
+    def _register_blueprints(self, app):
+        app.register_blueprint(Authentication.construct_blueprint(self._urlBuilder))
+        app.register_blueprint(Roadmaps.construct_blueprint(self._urlBuilder))
+        app.register_blueprint(Milestones.construct_blueprint(self._urlBuilder))
+        app.register_blueprint(Tasks.construct_blueprint(self._urlBuilder))
+        app.register_blueprint(SubTasks.construct_blueprint(self._urlBuilder))
 
+        @app.route('/')
+        def overview():
+            roadmaps = requests.get(self._urlBuilder.build_url('roadmaps')).json()
+            return render_template('overview.html', roadmaps=roadmaps)
 
-@app.route('/roadmap/')
-def roadmap():
-    return redirect('/')
+        @app.route('/roadmap/')
+        def roadmap():
+            return redirect('/')
 
+        @app.route('/roadmap/<roadmapID>')
+        def roadmap_by_id(roadmapID):
+            success, response = self.__check_roadmap(roadmapID, self._urlBuilder)
+            if success:
+                return render_template('index.html', roadmap=response, localization=LOCALIZATION)
 
-@app.route('/roadmap/<roadmapID>')
-def roadmap_by_id(roadmapID):
-    success, response = __check_roadmap(roadmapID)
-    if success:
-        return render_template('index.html', roadmap=response, localization=LOCALIZATION)
+            return response
 
-    return response
+        @app.route('/roadmap/<roadmapID>/fragment')
+        def roadmap_fragment_by_id(roadmapID):
+            success, response = self.__check_roadmap(roadmapID, self._urlBuilder)
+            if success:
+                return render_template('roadmapFragment.html', roadmap=response, localization=LOCALIZATION)
 
+            return response
 
-@app.route('/roadmap/<roadmapID>/fragment')
-def roadmap_fragment_by_id(roadmapID):
-    success, response = __check_roadmap(roadmapID)
-    if success:
-        return render_template('roadmapFragment.html', roadmap=response, localization=LOCALIZATION)
+    @staticmethod
+    def __check_roadmap(cls, roadmapID, urlBuilder):
+        try:
+            roadmapID = int(roadmapID)
+        except ValueError:
+            return False, render_template('error.html', message=LOCALIZATION['error_param_invalid'])
 
-    return response
+        if roadmapID < 1:
+            return False, render_template('error.html', message=LOCALIZATION['error_param_invalid'])
 
+        roadmap = requests.get(urlBuilder.build_url('roadmap', roadmapID, 'full')).json()
+        if roadmap is None:
+            return False, render_template('error.html', message=LOCALIZATION['error_roadmap_not_existing'])
 
-def __check_roadmap(roadmapID):
-    try:
-        roadmapID = int(roadmapID)
-    except ValueError:
-        return False, render_template('error.html', message=LOCALIZATION['error_param_invalid'])
-
-    if roadmapID < 1:
-        return False, render_template('error.html', message=LOCALIZATION['error_param_invalid'])
-
-    roadmap = requests.get(URL_BUILDER.build_url('roadmap', roadmapID, 'full')).json()
-    if roadmap is None:
-        return False, render_template('error.html', message=LOCALIZATION['error_roadmap_not_existing'])
-
-    return True, roadmap
+        return True, roadmap
 
 
 if __name__ == '__main__':
-    if SETTINGS['useSSL']:
-        http_server = WSGIServer((SETTINGS['listen'],
-                                  SETTINGS['port']), app,
-                                 keyfile=SETTINGS['keyfile'],
-                                 certfile=SETTINGS['certfile'])
-    else:
-        http_server = WSGIServer((SETTINGS['listen'], SETTINGS['port']), app)
-
-    print('RoadmapClient {}({}) - Listening on {}:{}...'.format(VERSION['name'], VERSION['code'],
-                                                                SETTINGS['listen'], SETTINGS['port']))
-    http_server.serve_forever()
+    roadmapClient = RoadmapClient(Constants.APP_NAME, os.path.dirname(__file__), LOGGER, 'settings.json')
+    roadmapClient.start_server()
