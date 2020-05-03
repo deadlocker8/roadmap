@@ -4,7 +4,7 @@ servers:
     url: https://roadmaps.thecodelabs.de/api
 info:
   description: The Official Roadmaps API
-  version: "2.6.0"
+  version: "2.7.0"
   title: Roadmaps API
 tags:
   - name: admins
