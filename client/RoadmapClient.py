@@ -55,7 +55,7 @@ class RoadmapClient(FlaskBaseApp):
             return response
 
     @staticmethod
-    def __check_roadmap(cls, roadmapID, urlBuilder):
+    def __check_roadmap(roadmapID, urlBuilder):
         try:
             roadmapID = int(roadmapID)
         except ValueError:
