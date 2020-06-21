@@ -60,9 +60,15 @@ $(document).ready(function()
         {
             hideElement(document.getElementById("row-done-date"), false);
 
-            var $input = $('#done-date').pickadate();
-            var picker = $input.pickadate('picker');
-            picker.set('select', new Date());
+            let elements = document.querySelector('#done-date');
+            M.Datepicker.init(elements, {
+                selectMonths: true, // Creates a dropdown to control month
+                selectYears: 15, // Creates a dropdown of 15 years to control year
+                format: 'dd.mm.yyyy',
+                formatSubmit: 'yyyy-mm-dd',
+                setDefaultDate: true,
+                defaultDate: new Date()
+            });
         }
         else
         {
@@ -70,12 +76,13 @@ $(document).ready(function()
         }
     });
 
-    $('.datepicker').pickadate({
+    let datePickers = document.querySelectorAll('.datepicker');
+     M.Datepicker.init(datePickers, {
         selectMonths: true, // Creates a dropdown to control month
         selectYears: 15, // Creates a dropdown of 15 years to control year
         format: 'dd.mm.yyyy',
         formatSubmit: 'yyyy-mm-dd'
-    });
+     });
 
     createTrainMap();
 });

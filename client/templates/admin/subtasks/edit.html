@@ -33,8 +33,10 @@
                     <div class="row center-align">
                         <div class="col s12 m8 offset-m2 l6 offset-l3">
                             <div class="col s12 left-align">
-                                <input type="checkbox" id="checkbox-done" name="Status" {% if subtask and subtask["Status"] == 1 %}checked{% endif %}/>
-                                <label for="checkbox-done">Done</label>
+                                <label>
+                                    <input type="checkbox" id="checkbox-done" name="Status" {% if subtask and subtask["Status"] == 1 %}checked{% endif %}/>
+                                    <span>Done</span>
+                                </label>
                             </div>
                         </div>
                     </div>

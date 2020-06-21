@@ -1,5 +1,5 @@
 .bold {
-    font-weight: 500 !important;
+    font-weight: 600 !important;
 }
 
 .no-margin-bottom {
@@ -128,4 +128,25 @@
 .login-message {
     width: auto;
     margin: auto;
+}
+
+.card-title {
+    line-height: 48px !important;
+}
+
+.milestone-content .collapsible-header {
+    line-height: 45px !important;
+    padding: 0 1rem;
+    position: relative;
+}
+
+.milestone-content .collapsible-body {
+    padding: 0;
+}
+
+.subtask-status-count {
+    position: absolute;
+    right: 15px;
+    top: 0;
+    font-weight: bold;
 }
