@@ -64,10 +64,10 @@ $(document).ready(function()
             M.Datepicker.init(elements, {
                 selectMonths: true, // Creates a dropdown to control month
                 selectYears: 15, // Creates a dropdown of 15 years to control year
-                format: 'dd.mm.yyyy',
-                formatSubmit: 'yyyy-mm-dd',
+                format: 'yyyy-mm-dd',
                 setDefaultDate: true,
-                defaultDate: new Date()
+                defaultDate: new Date(),
+                showClearBtn: true
             });
         }
         else
@@ -78,10 +78,10 @@ $(document).ready(function()
 
     let datePickers = document.querySelectorAll('.datepicker');
      M.Datepicker.init(datePickers, {
-        selectMonths: true, // Creates a dropdown to control month
-        selectYears: 15, // Creates a dropdown of 15 years to control year
-        format: 'dd.mm.yyyy',
-        formatSubmit: 'yyyy-mm-dd'
+        selectMonths: true,
+        selectYears: 15,
+        format: 'yyyy-mm-dd',
+        showClearBtn: true
      });
 
     createTrainMap();
