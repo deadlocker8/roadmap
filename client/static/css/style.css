@@ -144,6 +144,10 @@
     padding: 0;
 }
 
+.task-content .collapsible-body {
+    padding: 1.5rem;
+}
+
 .subtask-status-count {
     position: absolute;
     right: 15px;
