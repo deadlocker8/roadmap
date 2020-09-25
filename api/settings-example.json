@@ -19,5 +19,8 @@
             "name": "admin",
             "password": "123"
         }
-    ]
+    ],
+    "api": {
+        "url": "http://localhost:10003"
+    }
 }

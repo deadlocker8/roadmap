@@ -1,10 +1,12 @@
 import datetime
+import json
 import logging
 import os
 
+import yaml
 from TheCodeLabs_BaseUtils import DefaultLogger
 from TheCodeLabs_FlaskUtils import FlaskBaseApp
-from flask import jsonify
+from flask import jsonify, render_template
 from flask import send_from_directory, request
 from flask_jwt_extended import (
     JWTManager, create_access_token
@@ -31,7 +33,15 @@ class RoadmapApi(FlaskBaseApp):
 
         @app.route('/')
         def index():
-            return send_from_directory('docs', 'api.html')
+            yamlPath = os.path.join(Constants.ROOT_DIR, 'docs', 'api.yml')
+            with open(yamlPath, 'r') as yamlFile:
+                specification = yaml.load(yamlFile, Loader=yaml.FullLoader)
+
+            specification['servers'][0]['url'] = self._settings['api']['url']
+            specification['info']['version'] = self._version['name']
+
+            specification = json.dumps(specification)
+            return render_template('api.html', appName="Roadmaps", openApiSpecification=specification)
 
         @app.route('/login', methods=['POST'])
         def login():
