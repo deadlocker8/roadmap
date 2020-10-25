@@ -22,11 +22,12 @@
                             <thead>
                             <tr>
                                 <th data-field="id">Version Code</th>
-                                <th data-field="project-name">Version Name</th>
+                                <th data-field="project-version">Version Name</th>
                                 <th data-field="project-name">Title</th>
-                                <th data-field="project-name">Due Date</th>
-                                <th data-field="project-name">Completion Date</th>
-                                <th data-field="project-name">Status</th>
+                                <th data-field="project-due_date">Due Date</th>
+                                <th data-field="project-completion_date">Completion Date</th>
+                                <th data-field="project-status">Status</th>
+                                <th data-field="actions"></th>
                             </tr>
                             </thead>
 
@@ -55,7 +56,7 @@
                                     {% endfor %}
                                 {% else %}
                                     <tr>
-                                        <td colspan="2" class="center-align">No milestones available</td>
+                                        <td colspan="7" class="center-align">No milestones available</td>
                                     </tr>
                                 {% endif %}
                             </tbody>
