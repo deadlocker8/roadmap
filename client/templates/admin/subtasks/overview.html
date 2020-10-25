@@ -23,7 +23,8 @@
                             <tr>
                                 <th data-field="id">ID</th>
                                 <th data-field="project-name">Title</th>
-                                <th data-field="project-name">Status</th>
+                                <th data-field="project-status">Status</th>
+                                <th data-field="actions"></th>
                             </tr>
                             </thead>
 
@@ -48,7 +49,7 @@
                                     {% endfor %}
                                 {% else %}
                                     <tr>
-                                        <td colspan="2" class="center-align">No sub tasks available</td>
+                                        <td colspan="4" class="center-align">No sub tasks available</td>
                                     </tr>
                                 {% endif %}
                             </tbody>
