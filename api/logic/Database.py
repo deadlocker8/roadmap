@@ -71,6 +71,7 @@ class Database:
                      f'("{RoadmapParameters.ID.value}" int4 NOT NULL DEFAULT ' \
                      f'nextval(\'"roadmaps_ID_seq"\'::regclass),' \
                      f'"{RoadmapParameters.PROJECT_NAME.value}" text NOT NULL, ' \
+                     f'"{RoadmapParameters.HIDDEN.value}" boolean NOT NULL DEFAULT false, ' \
                      f'PRIMARY KEY ("{RoadmapParameters.ID.value}"));'
         self.__query(queryTable, fetch_type=FetchType.NONE)
 
@@ -124,6 +125,10 @@ class Database:
         query = f'SELECT * FROM roadmaps ORDER BY "{RoadmapParameters.ID.value}";'
         return self.__query(query)
 
+    def get_visible_roadmaps(self):
+        query = f'SELECT * FROM roadmaps WHERE "{RoadmapParameters.HIDDEN.value}"=FALSE ORDER BY "{RoadmapParameters.ID.value}";'
+        return self.__query(query)
+
     def get_roadmap(self, roadmapID):
         query = f'SELECT * FROM roadmaps WHERE "{RoadmapParameters.ID.value}"=%s;'
         return self.__query(query, roadmapID, fetch_type=FetchType.ONE)
@@ -132,9 +137,9 @@ class Database:
         query = f'INSERT INTO roadmaps ("{RoadmapParameters.PROJECT_NAME.value}") VALUES (%s);'
         self.__query(query, name, fetch_type=FetchType.NONE)
 
-    def update_roadmap(self, roadmapID, name):
-        query = f'UPDATE roadmaps SET "{RoadmapParameters.PROJECT_NAME.value}"=%s WHERE "{RoadmapParameters.ID.value}"=%s;'
-        self.__query(query, name, roadmapID, fetch_type=FetchType.NONE)
+    def update_roadmap(self, roadmapID, name, hidden):
+        query = f'UPDATE roadmaps SET "{RoadmapParameters.PROJECT_NAME.value}"=%s, "{RoadmapParameters.HIDDEN.value}"=%s WHERE "{RoadmapParameters.ID.value}"=%s;'
+        self.__query(query, name, hidden, roadmapID, fetch_type=FetchType.NONE)
 
     def delete_roadmap(self, roadmapID):
         query = f'DELETE FROM roadmaps WHERE "{RoadmapParameters.ID.value}"=%s;'

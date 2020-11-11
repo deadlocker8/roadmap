@@ -19,11 +19,21 @@
                                 <label for="project-name">Project Name</label>
                             </div>
                         </div>
+                    <div class="col s12 m8 offset-m2 l6 offset-l3">
+                        <div class="input-field col s12">
+                            <p>
+                                <label>
+                                    <input id="Hidden" name="Hidden" type="checkbox"
+                                            {% if roadmap and roadmap["Hidden"] %} checked="checked" {% endif %}/>
+                                    <span>Hidden</span>
+                                </label>
+                            </p>
+                        </div>
                     </div>
                     <div class="row center-align margin-top">
                         <div class="col s12 m8 offset-m2 l6 offset-l3">
                             <a class="waves-effect waves-light btn blue darken-3" href="{{ url_for("admin_roadmaps.overview") }}"><i class="material-icons left">arrow_back</i>Back</a>
-                            <button class="bwaves-effect waves-light btn blue darken-3 margin-left" type="submit" name="action">
+                            <button class="waves-effect waves-light btn blue darken-3 margin-left" type="submit" name="action">
                                 <i class="material-icons left">save</i>Save
                             </button>
                         </div>
