@@ -21,8 +21,8 @@ class DatabaseMigrator:
         currentVersion = self._database.get_version()
 
         while currentVersion < latestVersion:
-            currentVersion = self._database.get_version()
             self.__migrate_version(currentVersion)
+            currentVersion = self._database.get_version()
 
         if latestVersion == currentVersion:
             LOGGER.debug(f'Database version: {latestVersion} (latest)')
