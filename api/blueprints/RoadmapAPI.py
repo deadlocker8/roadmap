@@ -20,10 +20,10 @@ def construct_blueprint(database):
     @jwt_optional
     def get_visible_roadmaps():
         user = get_jwt_identity()
-        if user is not None:
-            return jsonify(database.get_roadmaps())
-        else:
+        if user is None:
             return jsonify(database.get_visible_roadmaps())
+        else:
+            return jsonify(database.get_roadmaps())
 
     @roadmap_api.route('/roadmap/<int:roadmapID>', methods=['GET'])
     @jwt_optional
@@ -32,7 +32,7 @@ def construct_blueprint(database):
 
         user = get_jwt_identity()
         if roadmap['Hidden'] and user is None:
-                return jsonify({'success': False, 'msg': 'A roadmap with this id not exists'}), 404
+            return jsonify({'success': False, 'msg': 'A roadmap with this id not exist'}), 404
         return jsonify(roadmap)
 
     @roadmap_api.route('/roadmap/<int:roadmapID>/full', methods=['GET'])
@@ -43,7 +43,7 @@ def construct_blueprint(database):
 
         user = get_jwt_identity()
         if roadmap['Hidden'] and user is None:
-            return jsonify({'success': False, 'msg': 'A roadmap with this id not exists'}), 404
+            return jsonify({'success': False, 'msg': 'A roadmap with this id not exist'}), 404
 
         numberOfOpenMilestones = 0
         for milestone in roadmap['milestones']:

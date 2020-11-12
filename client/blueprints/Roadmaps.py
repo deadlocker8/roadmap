@@ -12,9 +12,8 @@ def construct_blueprint(urlBuilder):
     @roadmaps.route('/admin/roadmaps/overview', methods=['GET'])
     @require_api_token
     def overview():
-        _, roadmaps = ApiRequest.send_api_request(urlBuilder.build_url('roadmaps'), requests.get, {}, [])
-        print(roadmaps)
-        return render_template('admin/roadmaps/overview.html', roadmaps=roadmaps)
+        _, roadmapsData = ApiRequest.send_api_request(urlBuilder.build_url('roadmaps'), requests.get, {}, [])
+        return render_template('admin/roadmaps/overview.html', roadmaps=roadmapsData)
 
     @roadmaps.route('/admin/roadmaps/add', methods=['GET'])
     @require_api_token

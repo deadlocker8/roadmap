@@ -19,15 +19,17 @@
                                 <label for="project-name">Project Name</label>
                             </div>
                         </div>
-                    <div class="col s12 m8 offset-m2 l6 offset-l3">
-                        <div class="input-field col s12">
-                            <p>
-                                <label>
-                                    <input id="Hidden" name="Hidden" type="checkbox"
-                                            {% if roadmap and roadmap["Hidden"] %} checked="checked" {% endif %}/>
-                                    <span>Hidden</span>
-                                </label>
-                            </p>
+
+                        <div class="col s12 m8 offset-m2 l6 offset-l3">
+                            <div class="input-field col s12">
+                                <p>
+                                    <label>
+                                        <input id="Hidden" name="Hidden" type="checkbox"
+                                                {% if roadmap and roadmap["Hidden"] %} checked="checked" {% endif %}/>
+                                        <span>Hidden</span>
+                                    </label>
+                                </p>
+                            </div>
                         </div>
                     </div>
                     <div class="row center-align margin-top">
