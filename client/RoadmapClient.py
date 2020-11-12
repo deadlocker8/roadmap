@@ -64,7 +64,11 @@ class RoadmapClient(FlaskBaseApp):
         if roadmapID < 1:
             return False, render_template('error.html', message=LOCALIZATION['error_param_invalid'])
 
-        roadmap = requests.get(urlBuilder.build_url('roadmap', roadmapID, 'full')).json()
+        response = requests.get(urlBuilder.build_url('roadmap', roadmapID, 'full'))
+        if response.status_code != 200:
+            return False, render_template('error.html', message=LOCALIZATION['error_roadmap_not_existing'])
+
+        roadmap = response.json()
         if roadmap is None:
             return False, render_template('error.html', message=LOCALIZATION['error_roadmap_not_existing'])
 

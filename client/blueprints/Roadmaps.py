@@ -12,8 +12,8 @@ def construct_blueprint(urlBuilder):
     @roadmaps.route('/admin/roadmaps/overview', methods=['GET'])
     @require_api_token
     def overview():
-        roadmaps = requests.get(urlBuilder.build_url('roadmaps')).json()
-        return render_template('admin/roadmaps/overview.html', roadmaps=roadmaps)
+        _, roadmapsData = ApiRequest.send_api_request(urlBuilder.build_url('roadmaps'), requests.get, {}, [])
+        return render_template('admin/roadmaps/overview.html', roadmaps=roadmapsData)
 
     @roadmaps.route('/admin/roadmaps/add', methods=['GET'])
     @require_api_token
@@ -39,7 +39,7 @@ def construct_blueprint(urlBuilder):
         if not ID or int(ID) < 0:
             return render_template('error.html', message=LOCALIZATION['error_param_invalid'])
 
-        roadmap = requests.get(urlBuilder.build_url('roadmap', ID)).json()
+        _, roadmap = ApiRequest.send_api_request(urlBuilder.build_url('roadmap', ID), requests.get, {}, [])
         return render_template('admin/roadmaps/edit.html',
                                title='Edit Roadmap',
                                roadmap=roadmap,
@@ -49,8 +49,8 @@ def construct_blueprint(urlBuilder):
     @require_api_token
     def edit_post():
         success, response = ApiRequest.send_api_request(urlBuilder.build_url('roadmap'),
-                                                        requests.post, request.form,
-                                                        [('ID', int), ('Projectname', str)])
+                                                        requests.put, request.form,
+                                                        [('ID', int), ('Projectname', str), ('Hidden', bool)])
 
         if not success:
             return response
