@@ -5,7 +5,7 @@ from datetime import datetime
 import requests
 from TheCodeLabs_BaseUtils import DefaultLogger
 from TheCodeLabs_FlaskUtils import FlaskBaseApp
-from flask import render_template, redirect
+from flask import render_template, redirect, session
 
 from logic import Constants
 from logic.Localization import LOCALIZATION
@@ -64,7 +64,11 @@ class RoadmapClient(FlaskBaseApp):
         if roadmapID < 1:
             return False, render_template('error.html', message=LOCALIZATION['error_param_invalid'])
 
-        response = requests.get(urlBuilder.build_url('roadmap', roadmapID, 'full'))
+        headers = {}
+        if session:
+            headers = {'Authorization': 'Bearer  {}'.format(session['session_token'])}
+
+        response = requests.get(urlBuilder.build_url('roadmap', roadmapID, 'full'), headers=headers)
         if response.status_code != 200:
             return False, render_template('error.html', message=LOCALIZATION['error_roadmap_not_existing'])
 
