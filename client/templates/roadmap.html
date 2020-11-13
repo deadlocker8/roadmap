@@ -1,4 +1,4 @@
-{% macro createTrainmapMedAndUp(localization, numberOfOpenMilestones, numberOfMilestones) -%}
+{% macro createTrainmapMedAndUp(localization, numberOfOpenMilestones, numberOfMilestones, includeStartNode) -%}
     {% for i in range(numberOfOpenMilestones) %}
         <div class="train-circle train-circle-light"></div>
         {% if numberOfOpenMilestones != numberOfMilestones or i != (numberOfOpenMilestones-1) %}
@@ -12,9 +12,19 @@
             <div class="train-line"></div>
         {% endif %}
     {% endfor %}
+
+    {% if includeStartNode %}
+        {% if numberOfMilestones == numberOfOpenMilestones %}
+            <div class="train-line dotted"></div>
+            <div class="train-circle train-circle-light"></div>
+        {% else %}
+            <div class="train-line"></div>
+            <div class="train-circle blue"></div>
+        {% endif %}
+    {% endif %}
 {%- endmacro %}
 
-{% macro createTrainmapSmall(localization, numberOfOpenMilestones, numberOfMilestones) -%}
+{% macro createTrainmapSmall(localization, numberOfOpenMilestones, numberOfMilestones, includeStartNode) -%}
     {% for i in range(numberOfOpenMilestones) %}
         <div class="train-circle train-circle-light train-circle-small"></div>
         {% if numberOfOpenMilestones != numberOfMilestones or i != (numberOfOpenMilestones-1) %}
@@ -28,6 +38,16 @@
             <div class="train-line train-line-small"></div>
         {% endif %}
     {% endfor %}
+
+    {% if includeStartNode %}
+        {% if numberOfMilestones == numberOfOpenMilestones %}
+            <div class="train-line dotted-small train-line-small"></div>
+            <div class="train-circle train-circle-light train-circle-small"></div>
+        {% else %}
+            <div class="train-line train-line-small"></div>
+            <div class="train-circle blue train-circle-small"></div>
+        {% endif %}
+    {% endif %}
 {%- endmacro %}
 
 {% macro printMilestoneIndevAndNoTasks(localization, milestone, color) -%}
@@ -210,10 +230,10 @@
                     <div class="row">
                         <div class="col s1 m2 l2 offset-m1 offset-l1 no-padding">
                             <div class="hide-on-small-only trainmap">
-                                {{ createTrainmapMedAndUp(localization, roadmap["numberOfOpenMilestones"], roadmap["milestones"]|length) }}
+                                {{ createTrainmapMedAndUp(localization, roadmap["numberOfOpenMilestones"], roadmap["milestones"]|length, roadmap["StartDate"] != "-") }}
                             </div>
                             <div class="hide-on-med-and-up trainmap-small">
-                                {{ createTrainmapSmall(localization, roadmap["numberOfOpenMilestones"], roadmap["milestones"]|length) }}
+                                {{ createTrainmapSmall(localization, roadmap["numberOfOpenMilestones"], roadmap["milestones"]|length, roadmap["StartDate"] != "-") }}
                             </div>
                         </div>
                         <div class="col s11 m7 l6">
@@ -244,6 +264,10 @@
                                     {% endif %}
                                 {% endif %}
                             {% endfor %}
+
+                            {% if roadmap["StartDate"] != "-" %}
+                                {{ printStartNode(localization, roadmap["StartDate"]) }}
+                            {% endif %}
                         </div>
                     </div>
                 </div>
@@ -251,3 +275,14 @@
         </div>
     </div>
  {%- endmacro %}
+
+{% macro printStartNode(localization, startDate) -%}
+    <div class="card padding white milestone">
+        <div class="card-content no-padding">
+            <div class="{{ color }} center-align">
+                <span class="card-title bold padding-left-and-right truncate no-margin-bottom">{{ localization["start"] }} - {{ startDate }}</span>
+            </div>
+        </div>
+    </div>
+{%- endmacro %}
+

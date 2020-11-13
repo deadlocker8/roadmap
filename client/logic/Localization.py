@@ -9,5 +9,6 @@ LOCALIZATION = {
     'error_task_not_existing': 'ERROR: no task with this ID existing',
     'error_subtask_not_existing': 'ERROR: no subtask with this ID existing',
     'error_no_milestones': 'ERROR: no milestones for this roadmap',
-    'unauthorized': 'Invalid password'
+    'unauthorized': 'Invalid password',
+    'start': 'Start'
 }
