@@ -148,11 +148,17 @@ function validateLoginForm()
 function validateNewRoadmapForm()
 {
     var projectName = $('#project-name').val();
+    var startDate = document.getElementById('start-date');
 
     if(isNull(projectName))
     {
         alert("Please enter a project name.");
         return false;
+    }
+
+    if(isNull(startDate.value))
+    {
+        startDate.value = "01.01.2000";
     }
 }
 

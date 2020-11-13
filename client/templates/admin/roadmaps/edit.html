@@ -20,6 +20,15 @@
                             </div>
                         </div>
 
+                        <div class="row center-align">
+                            <div class="col s12 m8 offset-m2 l6 offset-l3">
+                                <div class="col s12 left-align">
+                                    <label for="start-date" style="font-size: 1rem;">Due Date</label>
+                                    <input type="text" class="datepicker" id="start-date" name="StartDate" value="{% if roadmap %}{{ roadmap["StartDate"] }}{% endif %}">
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="col s12 m8 offset-m2 l6 offset-l3">
                             <div class="input-field col s12">
                                 <p>

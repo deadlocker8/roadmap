@@ -40,6 +40,10 @@ def construct_blueprint(urlBuilder):
             return render_template('error.html', message=LOCALIZATION['error_param_invalid'])
 
         _, roadmap = ApiRequest.send_api_request(urlBuilder.build_url('roadmap', ID), requests.get, {}, [])
+
+        if roadmap['StartDate'] == '-':
+            roadmap['StartDate'] = ''
+
         return render_template('admin/roadmaps/edit.html',
                                title='Edit Roadmap',
                                roadmap=roadmap,
@@ -50,7 +54,8 @@ def construct_blueprint(urlBuilder):
     def edit_post():
         success, response = ApiRequest.send_api_request(urlBuilder.build_url('roadmap'),
                                                         requests.put, request.form,
-                                                        [('ID', int), ('Projectname', str), ('Hidden', bool)])
+                                                        [('ID', int), ('Projectname', str),
+                                                         ('Hidden', bool), ('StartDate', str)])
 
         if not success:
             return response
