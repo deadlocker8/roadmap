@@ -11,6 +11,20 @@ class RoadmapParameters(Enum):
     ID = 'ID'
     PROJECT_NAME = 'Projectname'
     HIDDEN = 'Hidden'
+    START_DATE = 'StartDate'
+
+
+def format_roadmaps(roadmaps):
+    result = []
+    for roadmap in roadmaps:
+        result.append(prepare_roadmap(roadmap))
+    return result
+
+
+def prepare_roadmap(roadmap):
+    roadmap[RoadmapParameters.START_DATE.value] = DateFormatter.format(
+        roadmap[RoadmapParameters.START_DATE.value])
+    return roadmap
 
 
 def construct_blueprint(database):
@@ -21,9 +35,9 @@ def construct_blueprint(database):
     def get_visible_roadmaps():
         user = get_jwt_identity()
         if user is None:
-            return jsonify(database.get_visible_roadmaps())
+            return jsonify(format_roadmaps(database.get_visible_roadmaps()))
         else:
-            return jsonify(database.get_roadmaps())
+            return jsonify(format_roadmaps(database.get_roadmaps()))
 
     @roadmap_api.route('/roadmap/<int:roadmapID>', methods=['GET'])
     @jwt_optional
@@ -33,12 +47,12 @@ def construct_blueprint(database):
         user = get_jwt_identity()
         if roadmap['Hidden'] and user is None:
             return jsonify({'success': False, 'msg': 'A roadmap with this id not exist'}), 404
-        return jsonify(roadmap)
+        return jsonify(prepare_roadmap(roadmap))
 
     @roadmap_api.route('/roadmap/<int:roadmapID>/full', methods=['GET'])
     @jwt_optional
     def get_roadmap_full(roadmapID):
-        roadmap = database.get_roadmap(roadmapID)
+        roadmap = prepare_roadmap(database.get_roadmap(roadmapID))
         roadmap['milestones'] = database.get_milestones(roadmapID)
 
         user = get_jwt_identity()
@@ -76,14 +90,16 @@ def construct_blueprint(database):
     @jwt_required
     def add_roadmap():
         try:
-            parameters = RequestValidator.validate(request, [RoadmapParameters.PROJECT_NAME.value])
+            parameters = RequestValidator.validate(request, [RoadmapParameters.PROJECT_NAME.value,
+                                                             RoadmapParameters.START_DATE.value])
         except ValidationError as e:
             return e.response, 400
 
         if __name_already_used(parameters[RoadmapParameters.PROJECT_NAME.value]):
             return jsonify({'success': False, 'msg': 'A roadmap with this name already exists'}), 400
 
-        database.add_roadmap(parameters[RoadmapParameters.PROJECT_NAME.value])
+        database.add_roadmap(parameters[RoadmapParameters.PROJECT_NAME.value],
+                             parameters[RoadmapParameters.START_DATE.value])
         return jsonify({'success': True})
 
     @roadmap_api.route('/roadmap/<int:roadmapID>', methods=['DELETE'])
@@ -102,7 +118,8 @@ def construct_blueprint(database):
             parameters = RequestValidator.validate(request, [
                 RoadmapParameters.ID.value,
                 RoadmapParameters.PROJECT_NAME.value,
-                RoadmapParameters.HIDDEN.value
+                RoadmapParameters.HIDDEN.value,
+                RoadmapParameters.START_DATE.value
             ])
         except ValidationError as e:
             return e.response, 400
@@ -113,7 +130,8 @@ def construct_blueprint(database):
 
         database.update_roadmap(parameters[RoadmapParameters.ID.value],
                                 parameters[RoadmapParameters.PROJECT_NAME.value],
-                                parameters[RoadmapParameters.HIDDEN.value])
+                                parameters[RoadmapParameters.HIDDEN.value],
+                                parameters[RoadmapParameters.START_DATE.value])
         return jsonify({'success': True})
 
     def __roadmaps_exists(roadmapID):

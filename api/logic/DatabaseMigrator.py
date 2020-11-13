@@ -45,4 +45,18 @@ class DatabaseMigrator:
             self._database.update_version(2)
             return
 
+        if currentVersion == 2:
+            LOGGER.debug('Migrating database from version 2 to 3...')
+
+            queryColumnExists = f'SELECT EXISTS (SELECT 1 FROM information_schema.columns ' \
+                                f'WHERE table_name=\'roadmaps\' AND column_name=\'{RoadmapParameters.START_DATE.value}\');'
+            exists = self._database._query(queryColumnExists, fetch_type=FetchType.ONE)
+
+            if not exists['exists']:
+                query = f'ALTER TABLE "roadmaps" ADD "{RoadmapParameters.START_DATE.value}" date NOT NULL default \'01.01.2000\';'
+                self._database._query(query, fetch_type=FetchType.NONE)
+
+            self._database.update_version(3)
+            return
+
         raise ValueError(f'No migration handler for version {currentVersion} defined')

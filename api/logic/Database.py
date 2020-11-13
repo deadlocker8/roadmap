@@ -18,7 +18,7 @@ class FetchType(Enum):
 
 
 class Database:
-    VERSION = 2
+    VERSION = 3
 
     def __init__(self, database_settings):
         self.__host = database_settings["host"]
@@ -162,13 +162,13 @@ class Database:
         query = f'SELECT * FROM roadmaps WHERE "{RoadmapParameters.ID.value}"=%s;'
         return self._query(query, roadmapID, fetch_type=FetchType.ONE)
 
-    def add_roadmap(self, name):
-        query = f'INSERT INTO roadmaps ("{RoadmapParameters.PROJECT_NAME.value}") VALUES (%s);'
-        self._query(query, name, fetch_type=FetchType.NONE)
+    def add_roadmap(self, name, startDate):
+        query = f'INSERT INTO roadmaps ("{RoadmapParameters.PROJECT_NAME.value}", "{RoadmapParameters.START_DATE.value}") VALUES (%s, %s);'
+        self._query(query, name, startDate, fetch_type=FetchType.NONE)
 
-    def update_roadmap(self, roadmapID, name, hidden):
-        query = f'UPDATE roadmaps SET "{RoadmapParameters.PROJECT_NAME.value}"=%s, "{RoadmapParameters.HIDDEN.value}"=%s WHERE "{RoadmapParameters.ID.value}"=%s;'
-        self._query(query, name, hidden, roadmapID, fetch_type=FetchType.NONE)
+    def update_roadmap(self, roadmapID, name, hidden, startDate):
+        query = f'UPDATE roadmaps SET "{RoadmapParameters.PROJECT_NAME.value}"=%s, "{RoadmapParameters.HIDDEN.value}"=%s,"{RoadmapParameters.START_DATE.value}"=%s WHERE "{RoadmapParameters.ID.value}"=%s;'
+        self._query(query, name, hidden, startDate, roadmapID, fetch_type=FetchType.NONE)
 
     def delete_roadmap(self, roadmapID):
         query = f'DELETE FROM roadmaps WHERE "{RoadmapParameters.ID.value}"=%s;'
