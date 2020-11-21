@@ -85,6 +85,8 @@ $(document).ready(function()
      });
 
     createTrainMap();
+
+    $('.tooltipped').tooltip();
 });
 
 function confirmDelete(message, redirectURL, event)
