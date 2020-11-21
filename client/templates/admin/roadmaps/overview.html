@@ -22,6 +22,7 @@
                             <thead>
                                 <tr>
                                     <th data-field="id">ID</th>
+                                    <th data-field=""><i class="material-icons left">public</i></th>
                                     <th data-field="project-name">Project Name</th>
                                     <th data-field="actions"></th>
                                 </tr>
@@ -32,6 +33,12 @@
                                     {% for roadmap in roadmaps %}
                                         <tr>
                                             <td>{{ roadmap["ID"] }}</td>
+                                            {% if roadmap["Hidden"] %}
+                                                <td><i class="material-icons left">lock</i></td>
+                                            {% else %}
+                                                <td><i class="material-icons left">public</i></td>
+                                            {% endif %}
+
                                             <td>
                                                 <a class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Open Roadmap" href="{{ url_for("roadmap_by_id", roadmapID=roadmap["ID"]) }}">{{ roadmap["Projectname"] }}</a>
                                             </td>
