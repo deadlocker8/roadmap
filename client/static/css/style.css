@@ -134,6 +134,10 @@
     line-height: 48px !important;
 }
 
+.roadmapHidden i {
+    color: #343434;
+}
+
 .milestone-content .collapsible-header {
     line-height: 45px !important;
     padding: 0 1rem;
