@@ -21,8 +21,8 @@
                         <table class="bordered">
                             <thead>
                                 <tr>
+                                    <th data-field="visibility"></th>
                                     <th data-field="id">ID</th>
-                                    <th data-field=""><i class="material-icons left">public</i></th>
                                     <th data-field="project-name">Project Name</th>
                                     <th data-field="actions"></th>
                                 </tr>
@@ -32,12 +32,12 @@
                                 {% if roadmaps|length > 0 %}
                                     {% for roadmap in roadmaps %}
                                         <tr>
-                                            <td>{{ roadmap["ID"] }}</td>
                                             {% if roadmap["Hidden"] %}
-                                                <td class="roadmapHidden"><i class="material-icons left">lock</i></td>
+                                                <td class="roadmapHidden"><i class="material-icons">lock</i></td>
                                             {% else %}
-                                                <td class="roadmapHidden"><i class="material-icons left">public</i></td>
+                                                <td class="roadmapHidden"><i class="material-icons">public</i></td>
                                             {% endif %}
+                                            <td>{{ roadmap["ID"] }}</td>
 
                                             <td>
                                                 <a class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Open Roadmap" href="{{ url_for("roadmap_by_id", roadmapID=roadmap["ID"]) }}">{{ roadmap["Projectname"] }}</a>
