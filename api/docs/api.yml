@@ -809,6 +809,8 @@ components:
       required:
         - ID
         - Projectname
+        - StartDate
+        - Hidden
       properties:
         ID:
           type: integer
@@ -816,6 +818,12 @@ components:
         Projectname:
           type: string
           example: "Example Roadmap"
+        StartDate:
+          type: string
+          example: "10.03.2021"
+        Hidden:
+          type: boolean
+          example: false
 
     RoadmapFull:
       allOf:
@@ -844,15 +852,15 @@ components:
     NewRoadmap:
       type: object
       required:
-        - ID
         - Projectname
+        - StartDate
       properties:
-        ID:
-          type: integer
-          example: 1
         Projectname:
           type: string
           example: "Example Roadmap"
+        StartDate:
+          type: string
+          example: "10.03.2021"
 
     Milestone:
       type: object
