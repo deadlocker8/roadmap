@@ -91,7 +91,8 @@ def construct_blueprint(database):
     def add_roadmap():
         try:
             parameters = RequestValidator.validate(request, [RoadmapParameters.PROJECT_NAME.value,
-                                                             RoadmapParameters.START_DATE.value])
+                                                             RoadmapParameters.START_DATE.value,
+                                                             RoadmapParameters.HIDDEN.value])
         except ValidationError as e:
             return e.response, 400
 
@@ -99,7 +100,8 @@ def construct_blueprint(database):
             return jsonify({'success': False, 'msg': 'A roadmap with this name already exists'}), 400
 
         database.add_roadmap(parameters[RoadmapParameters.PROJECT_NAME.value],
-                             parameters[RoadmapParameters.START_DATE.value])
+                             parameters[RoadmapParameters.START_DATE.value],
+                             parameters[RoadmapParameters.HIDDEN.value])
         return jsonify({'success': True})
 
     @roadmap_api.route('/roadmap/<int:roadmapID>', methods=['DELETE'])

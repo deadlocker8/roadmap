@@ -27,7 +27,9 @@ def construct_blueprint(urlBuilder):
     def add_post():
         success, response = ApiRequest.send_api_request(urlBuilder.build_url('roadmap'),
                                                         requests.post, request.form,
-                                                        [('Projectname', str)])
+                                                        [('Projectname', str),
+                                                         ('StartDate', str),
+                                                         ('Hidden', bool)])
         if not success:
             return response
         return redirect(url_for('admin_roadmaps.overview'))

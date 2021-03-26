@@ -162,9 +162,9 @@ class Database:
         query = f'SELECT * FROM roadmaps WHERE "{RoadmapParameters.ID.value}"=%s;'
         return self._query(query, roadmapID, fetch_type=FetchType.ONE)
 
-    def add_roadmap(self, name, startDate):
-        query = f'INSERT INTO roadmaps ("{RoadmapParameters.PROJECT_NAME.value}", "{RoadmapParameters.START_DATE.value}") VALUES (%s, %s);'
-        self._query(query, name, startDate, fetch_type=FetchType.NONE)
+    def add_roadmap(self, name, startDate, hidden):
+        query = f'INSERT INTO roadmaps ("{RoadmapParameters.PROJECT_NAME.value}", "{RoadmapParameters.START_DATE.value}", "{RoadmapParameters.HIDDEN.value}") VALUES (%s, %s, %s);'
+        self._query(query, name, startDate, hidden, fetch_type=FetchType.NONE)
 
     def update_roadmap(self, roadmapID, name, hidden, startDate):
         query = f'UPDATE roadmaps SET "{RoadmapParameters.PROJECT_NAME.value}"=%s, "{RoadmapParameters.HIDDEN.value}"=%s,"{RoadmapParameters.START_DATE.value}"=%s WHERE "{RoadmapParameters.ID.value}"=%s;'
