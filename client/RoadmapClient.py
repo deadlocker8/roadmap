@@ -3,7 +3,7 @@ import os
 from datetime import datetime
 
 import requests
-from TheCodeLabs_BaseUtils import DefaultLogger
+from TheCodeLabs_BaseUtils.DefaultLogger import DefaultLogger
 from TheCodeLabs_FlaskUtils import FlaskBaseApp
 from flask import render_template, redirect, session
 
