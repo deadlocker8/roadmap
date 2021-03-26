@@ -4,19 +4,19 @@ import logging
 import os
 
 import yaml
-from TheCodeLabs_BaseUtils import DefaultLogger
+from TheCodeLabs_BaseUtils.DefaultLogger import DefaultLogger
 from TheCodeLabs_FlaskUtils import FlaskBaseApp
 from flask import jsonify, render_template
-from flask import send_from_directory, request
+from flask import request
 from flask_jwt_extended import (
     JWTManager, create_access_token
 )
 
+from blueprints import SubTaskAPI, MilestoneAPI, TaskAPI, RoadmapAPI
 from logic import Constants
 from logic.Database import Database
 from logic.RequestValidator import RequestValidator, ValidationError
 from logic.UserService import UserService
-from blueprints import SubTaskAPI, MilestoneAPI, TaskAPI, RoadmapAPI
 
 LOGGER = DefaultLogger().create_logger_if_not_exists(Constants.APP_NAME)
 

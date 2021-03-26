@@ -66,7 +66,7 @@ def construct_blueprint(database):
         return jsonify(prepare_milestone(milestone))
 
     @milestone_api.route('/milestone', methods=['POST'])
-    @jwt_required
+    @jwt_required()
     def add_milestone():
         try:
             parameters = RequestValidator.validate(request, [MilestoneParameters.ROADMAP_ID.value,
@@ -89,7 +89,7 @@ def construct_blueprint(database):
         return jsonify({'success': True})
 
     @milestone_api.route('/milestone/<int:milestoneID>/close', methods=['POST'])
-    @jwt_required
+    @jwt_required()
     def close_milestone(milestoneID):
         if not __milestone_exists(milestoneID):
             return jsonify({'success': False, 'msg': "No milestone with id '{}' existing".format(milestoneID)}), 400
@@ -108,7 +108,7 @@ def construct_blueprint(database):
         return jsonify({'success': True})
 
     @milestone_api.route('/milestone/<int:milestoneID>', methods=['DELETE'])
-    @jwt_required
+    @jwt_required()
     def delete_milestone(milestoneID):
         if not __milestone_exists(milestoneID):
             return jsonify({'success': False, 'msg': "No milestone with id '{}' existing".format(milestoneID)}), 400
@@ -117,7 +117,7 @@ def construct_blueprint(database):
         return jsonify({'success': True})
 
     @milestone_api.route('/milestone', methods=['PUT'])
-    @jwt_required
+    @jwt_required()
     def update_milestone():
         try:
             parameters = RequestValidator.validate(request, MilestoneParameters.get_values())

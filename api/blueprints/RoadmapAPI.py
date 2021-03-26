@@ -1,7 +1,7 @@
 from enum import Enum
 
 from flask import Blueprint, jsonify, request
-from flask_jwt_extended import jwt_required, jwt_optional, get_jwt_identity
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
 from logic.DateFormatter import DateFormatter
 from logic.RequestValidator import RequestValidator, ValidationError
@@ -31,7 +31,7 @@ def construct_blueprint(database):
     roadmap_api = Blueprint('roadmap_api', __name__)
 
     @roadmap_api.route('/roadmaps', methods=['GET'])
-    @jwt_optional
+    @jwt_required(optional=True)
     def get_visible_roadmaps():
         user = get_jwt_identity()
         if user is None:
@@ -40,7 +40,7 @@ def construct_blueprint(database):
             return jsonify(format_roadmaps(database.get_roadmaps()))
 
     @roadmap_api.route('/roadmap/<int:roadmapID>', methods=['GET'])
-    @jwt_optional
+    @jwt_required(optional=True)
     def get_roadmap(roadmapID):
         roadmap = database.get_roadmap(roadmapID)
 
@@ -50,7 +50,7 @@ def construct_blueprint(database):
         return jsonify(prepare_roadmap(roadmap))
 
     @roadmap_api.route('/roadmap/<int:roadmapID>/full', methods=['GET'])
-    @jwt_optional
+    @jwt_required(optional=True)
     def get_roadmap_full(roadmapID):
         roadmap = prepare_roadmap(database.get_roadmap(roadmapID))
         roadmap['milestones'] = database.get_milestones(roadmapID)
@@ -87,7 +87,7 @@ def construct_blueprint(database):
         return jsonify(roadmap)
 
     @roadmap_api.route('/roadmap', methods=['POST'])
-    @jwt_required
+    @jwt_required()
     def add_roadmap():
         try:
             parameters = RequestValidator.validate(request, [RoadmapParameters.PROJECT_NAME.value,
@@ -103,7 +103,7 @@ def construct_blueprint(database):
         return jsonify({'success': True})
 
     @roadmap_api.route('/roadmap/<int:roadmapID>', methods=['DELETE'])
-    @jwt_required
+    @jwt_required()
     def delete_roadmap(roadmapID):
         if not __roadmaps_exists(roadmapID):
             return jsonify({'success': False, 'msg': "No roadmap with id '{}' existing".format(roadmapID)}), 400
@@ -112,7 +112,7 @@ def construct_blueprint(database):
         return jsonify({'success': True})
 
     @roadmap_api.route('/roadmap', methods=['PUT'])
-    @jwt_required
+    @jwt_required()
     def update_roadmap():
         try:
             parameters = RequestValidator.validate(request, [

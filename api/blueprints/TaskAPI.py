@@ -34,7 +34,7 @@ def construct_blueprint(database):
         return jsonify(database.get_task(taskID))
 
     @task_api.route('/task', methods=['POST'])
-    @jwt_required
+    @jwt_required()
     def add_task():
         try:
             parameters = RequestValidator.validate(request, [TaskParameters.MILESTONE_ID.value,
@@ -51,7 +51,7 @@ def construct_blueprint(database):
         return jsonify({'success': True})
 
     @task_api.route('/task/<int:taskID>', methods=['DELETE'])
-    @jwt_required
+    @jwt_required()
     def delete_task(taskID):
         if not __task_exists(taskID):
             return jsonify({'success': False, 'msg': "No task with id '{}' existing".format(taskID)}), 400
@@ -60,7 +60,7 @@ def construct_blueprint(database):
         return jsonify({'success': True})
 
     @task_api.route('/task', methods=['PUT'])
-    @jwt_required
+    @jwt_required()
     def update_task():
         try:
             parameters = RequestValidator.validate(request, TaskParameters.get_values())

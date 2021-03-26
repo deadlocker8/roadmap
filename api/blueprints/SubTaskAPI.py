@@ -34,7 +34,7 @@ def construct_blueprint(database):
         return jsonify(database.get_sub_task(subTaskID))
 
     @subtask_api.route('/subtask', methods=['POST'])
-    @jwt_required
+    @jwt_required()
     def add_sub_task():
         try:
             parameters = RequestValidator.validate(request, [SubTaskParameters.TASK_ID.value,
@@ -51,7 +51,7 @@ def construct_blueprint(database):
         return jsonify({'success': True})
 
     @subtask_api.route('/subtask/<int:subTaskID>', methods=['DELETE'])
-    @jwt_required
+    @jwt_required()
     def delete_sub_task(subTaskID):
         if not __subtask_exists(subTaskID):
             return jsonify({'success': False, 'msg': "No sub task with id '{}' existing".format(subTaskID)}), 400
@@ -60,7 +60,7 @@ def construct_blueprint(database):
         return jsonify({'success': True})
 
     @subtask_api.route('/subtask', methods=['PUT'])
-    @jwt_required
+    @jwt_required()
     def update_sub_task():
         try:
             parameters = RequestValidator.validate(request, SubTaskParameters.get_values())
