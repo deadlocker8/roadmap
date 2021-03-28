@@ -179,6 +179,12 @@ function validateNewMilestoneForm()
         return false;
     }
 
+    if(isNaN(versionCode))
+    {
+        alert("Version Code should be a number!");
+        return false;
+    }
+
     if(isNull(versionName))
     {
         alert("Version Name shouldn't be empty!");
