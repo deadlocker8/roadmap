@@ -16,7 +16,7 @@ def construct_blueprint(urlBuilder):
         if not roadmap_ID or int(roadmap_ID) < 0:
             return render_template('error.html', message=LOCALIZATION['error_param_invalid'])
 
-        roadmap = requests.get(urlBuilder.build_url('roadmap', roadmap_ID)).json()
+        _, roadmap = ApiRequest.send_api_request(urlBuilder.build_url('roadmap', roadmap_ID), requests.get, {}, [])
         milestones = requests.get(urlBuilder.build_url('milestones', roadmap_ID)).json()
         return render_template('admin/milestones/overview.html', milestones=milestones, roadmap=roadmap)
 
