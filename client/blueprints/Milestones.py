@@ -1,3 +1,5 @@
+from datetime import datetime
+
 import requests
 from flask import Blueprint, render_template, redirect, url_for, request
 
@@ -8,6 +10,9 @@ from logic.Localization import LOCALIZATION
 
 def construct_blueprint(urlBuilder):
     milestones = Blueprint('admin_milestones', __name__)
+
+    DATE_FORMAT_API = '%d.%m.%Y'
+    DATE_FORMAT_INPUT_FIELD = '%Y-%m-%d'
 
     @milestones.route('/admin/milestones/overview', methods=['GET'])
     @require_api_token
@@ -53,9 +58,15 @@ def construct_blueprint(urlBuilder):
         milestone = requests.get(urlBuilder.build_url('milestone', ID)).json()
         if milestone['DueDate'] == '-':
             milestone['DueDate'] = ''
+        else:
+            milestone['DueDate'] = datetime.strptime(milestone['DueDate'], DATE_FORMAT_API).strftime(
+                DATE_FORMAT_INPUT_FIELD)
 
         if milestone['CompletionDate'] == '-':
             milestone['CompletionDate'] = ''
+        else:
+            milestone['DueDate'] = datetime.strptime(milestone['CompletionDate'], DATE_FORMAT_API).strftime(
+                DATE_FORMAT_INPUT_FIELD)
 
         return render_template('admin/milestones/edit.html',
                                title='Edit Milestone',
