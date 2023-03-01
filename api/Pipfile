@@ -12,7 +12,7 @@ name = "TheCodeLabs"
 python_version = "3"
 
 [packages]
-flask = "==2.2.2"
+flask = "==2.2.3"
 flask_jwt_extended = "==4.4.4"
 gevent = "==22.10.2"
 psycopg2 = "==2.9.5"
