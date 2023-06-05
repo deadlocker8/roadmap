@@ -13,7 +13,7 @@ python_version = "3"
 
 [packages]
 flask = "==2.3.2"
-flask_jwt_extended = "==4.4.4"
+flask_jwt_extended = "==4.5.2"
 gevent = "==22.10.2"
 psycopg2 = "==2.9.6"
 TheCodeLabs-BaseUtils = "*"
