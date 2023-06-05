@@ -12,7 +12,7 @@ name = "TheCodeLabs"
 python_version = "3"
 
 [packages]
-flask = "==2.2.3"
+flask = "==2.3.2"
 gevent = "==22.10.2"
 requests = "==2.28.2"
 TheCodeLabs-BaseUtils = "*"
