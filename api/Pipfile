@@ -16,8 +16,8 @@ flask = "==2.3.2"
 flask_jwt_extended = "==4.5.2"
 gevent = "==22.10.2"
 psycopg2 = "==2.9.6"
-TheCodeLabs-BaseUtils = "*"
-TheCodeLabs-FlaskUtils = "*"
+TheCodeLabs-BaseUtils = {version="*", index="TheCodeLabs"}
+TheCodeLabs-FlaskUtils = {version="*", index="TheCodeLabs"}
 pyyaml = "==6.0.0"
 
 [dev-packages]

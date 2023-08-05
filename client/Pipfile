@@ -15,5 +15,5 @@ python_version = "3"
 flask = "==2.3.2"
 gevent = "==22.10.2"
 requests = "==2.31.0"
-TheCodeLabs-BaseUtils = "*"
-TheCodeLabs-FlaskUtils = "*"
+TheCodeLabs-BaseUtils = {version="*", index="TheCodeLabs"}
+TheCodeLabs-FlaskUtils = {version="*", index="TheCodeLabs"}
