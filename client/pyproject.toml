@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "RoadmapClient"
+version = "1.11.0"
+description = "Allows you to create multiple roadmaps for your projects and displays them in a timeline"
+authors = ["deadlocker8"]
+
+[[tool.poetry.source]]
+name = "TheCodeLabs"
+url = "https://pypi.thecodelabs.de"
+priority = "explicit"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+thecodelabs-baseutils = {version = "*", source = "TheCodeLabs" }
+thecodelabs-flaskutils = {version = "*", source = "TheCodeLabs" }
+flask = "==2.3.3"
+gevent = "==23.7.0"
+requests = "==2.31.0"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
