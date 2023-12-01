@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "RoadmapClient"
-version = "1.12.0"
+version = "1.13.0"
 description = "Allows you to create multiple roadmaps for your projects and displays them in a timeline"
 authors = ["deadlocker8"]
 
