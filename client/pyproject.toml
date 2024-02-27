@@ -13,8 +13,8 @@ priority = "explicit"
 python = "^3.11"
 thecodelabs-baseutils = {version = "*", source = "TheCodeLabs" }
 thecodelabs-flaskutils = {version = "*", source = "TheCodeLabs" }
-flask = "==3.0.0"
-gevent = "==23.9.1"
+flask = "==3.0.2"
+gevent = "==24.2.1"
 requests = "==2.31.0"
 
 [tool.poetry.dev-dependencies]
