@@ -13,7 +13,7 @@ priority = "explicit"
 python = "^3.11"
 thecodelabs-baseutils = {version = "*", source = "TheCodeLabs" }
 thecodelabs-flaskutils = {version = "*", source = "TheCodeLabs" }
-flask = "==3.0.2"
+flask = "==3.0.3"
 flask_jwt_extended = "==4.6.0"
 gevent = "==24.2.1"
 psycopg2 = "==2.9.9"
