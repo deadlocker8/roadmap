@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "RoadmapApi"
-version = "2.22.0"
+version = "2.24.0"
 description = "Allows you to create multiple roadmaps for your projects and displays them in a timeline"
 authors = ["deadlocker8"]
 
@@ -13,10 +13,10 @@ priority = "explicit"
 python = "^3.11"
 thecodelabs-baseutils = {version = "*", source = "TheCodeLabs" }
 thecodelabs-flaskutils = {version = "*", source = "TheCodeLabs" }
-flask = "==3.0.3"
-flask_jwt_extended = "==4.6.0"
-gevent = "==24.2.1"
-psycopg2 = "==2.9.9"
+flask = "==3.1.0"
+flask_jwt_extended = "==4.7.1"
+gevent = "==24.11.1"
+psycopg2 = "==2.9.10"
 pyyaml = "==6.0.2"
 
 [tool.poetry.dev-dependencies]
