@@ -1,0 +1,29 @@
+FROM python:3.12-alpine AS poetry
+
+RUN apk update && apk upgrade && \
+    apk add curl gcc python3-dev libc-dev build-base linux-headers && \
+    rm -rf /var/cache/apk
+RUN curl https://install.python-poetry.org | python -
+
+COPY client/pyproject.toml /opt/RoadmapClient/pyproject.toml
+COPY client/poetry.lock /opt/RoadmapClient/poetry.lock
+COPY client/ /opt/RoadmapClient/src
+
+WORKDIR /opt/RoadmapClient
+RUN /root/.local/bin/poetry install --without dev --no-root
+RUN ln -s $($HOME/.local/share/pypoetry/venv/bin/poetry env info -p) /opt/RoadmapClient/venv
+
+FROM python:3.12-alpine
+
+RUN apk update && apk upgrade && \
+    rm -rf /var/cache/apk
+
+COPY client/ /opt/RoadmapClient/src
+COPY --from=poetry /opt/RoadmapClient/venv /opt/RoadmapClient/venv
+
+RUN adduser -D roadmapclient && chown -R roadmapclient:roadmapclient /opt/RoadmapClient
+USER roadmapclient
+
+WORKDIR /opt/RoadmapClient/src
+EXPOSE 8080
+CMD [ "/opt/RoadmapClient/venv/bin/python", "/opt/RoadmapClient/src/RoadmapClient.py"]

@@ -1,0 +1,30 @@
+FROM python:3.12-alpine AS poetry
+
+RUN apk update && apk upgrade && \
+    apk add curl gcc python3-dev libc-dev build-base linux-headers postgresql-dev && \
+    rm -rf /var/cache/apk
+RUN curl https://install.python-poetry.org | python -
+
+COPY api/pyproject.toml /opt/RoadmapApi/pyproject.toml
+COPY api/poetry.lock /opt/RoadmapApi/poetry.lock
+COPY api/ /opt/RoadmapApi/src
+
+WORKDIR /opt/RoadmapApi
+RUN /root/.local/bin/poetry install --without dev --no-root
+RUN ln -s $($HOME/.local/share/pypoetry/venv/bin/poetry env info -p) /opt/RoadmapApi/venv
+
+FROM python:3.12-alpine
+
+RUN apk update && apk upgrade && \
+    apk add postgresql-libs && \
+    rm -rf /var/cache/apk
+
+COPY api/ /opt/RoadmapApi/src
+COPY --from=poetry /opt/RoadmapApi/venv /opt/RoadmapApi/venv
+
+RUN adduser -D roadmapapi && chown -R roadmapapi:roadmapapi /opt/RoadmapApi
+USER roadmapapi
+
+WORKDIR /opt/RoadmapApi/src
+EXPOSE 8080
+CMD [ "/opt/RoadmapApi/venv/bin/python", "/opt/RoadmapApi/src/RoadmapAPIServer.py"]
