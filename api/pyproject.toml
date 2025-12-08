@@ -16,7 +16,7 @@ thecodelabs-flaskutils = {version = "*", source = "TheCodeLabs" }
 flask = "==3.1.2"
 flask_jwt_extended = "==4.7.1"
 gevent = "==25.9.1"
-psycopg2 = "==2.9.10"
+psycopg2 = "==2.9.11"
 pyyaml = "==6.0.3"
 
 [tool.poetry.dev-dependencies]
