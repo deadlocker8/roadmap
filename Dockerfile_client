@@ -10,7 +10,7 @@ COPY client/poetry.lock /opt/RoadmapClient/poetry.lock
 COPY client/ /opt/RoadmapClient/src
 
 WORKDIR /opt/RoadmapClient
-RUN /root/.local/bin/poetry install --without dev --no-root
+RUN /root/.local/bin/poetry install --no-root
 RUN ln -s $($HOME/.local/share/pypoetry/venv/bin/poetry env info -p) /opt/RoadmapClient/venv
 
 FROM python:3.13-alpine
