@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "RoadmapApi"
-version = "2.27.0"
+version = "2.28.0"
 description = "Allows you to create multiple roadmaps for your projects and displays them in a timeline"
 authors = ["deadlocker8"]
 
